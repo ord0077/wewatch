@@ -7,12 +7,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Project;
+use App\Models\Zone;
 class UserController extends Controller
 {
-    // public function __construct()
-	// {
-	// 	$this->middleware('auth:sanctum');
-	// }
+    public function __construct()
+	{
+		$this->middleware('auth:sanctum');
+	}
     public function index()
     {
         return User::whereNotIn('role_id', [1])->get();
@@ -25,7 +27,12 @@ class UserController extends Controller
             'email' => 'required|unique:users',
             'password' => 'required',
             'confirm_password' => 'required|same:password',
-            'role_id' => 'required|not_in:null'   
+            'role_id' => 'required',
+            // 'project_name' => 'required',
+            // 'project_logo' => 'required',
+            // 'location' => 'required',
+            // 'start_date' => 'required',
+            // 'end_date' => 'required'   
         ]);
         if ($validator->fails()) {
             return response()->json([ 
@@ -41,6 +48,22 @@ class UserController extends Controller
             'password'=>bcrypt($request->password)
         );        
         $create = User::create($fields);
+        // $p_fields = array(
+        //     'user_id'=>$create->id,
+        //     'project_name'=>$request->project_name,
+        //     'location'=>$request->location,
+        //     'start_date'=>$request->start_date,
+        //     'end_date'=>$request->end_date
+        // );
+        // if($request->hasFile('project_logo')){
+
+        //     $attach = $request->project_logo;
+            
+        //     $img = $attach->getClientOriginalName();
+        //     $attach->move(public_path('uploads/logos/'),$img);
+        //     $p_fields['project_logo'] = asset('uploads/logos/' . $img);
+        // }        
+        // $project = Project::create($p_fields);
         list($status,$data) = $create ? [ true , User::find($create->id) ] : [ false , ''];
         return ['success' => $status,'data' => $data];
     }
@@ -57,7 +80,7 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required',
             'confirm_password' => 'same:password',
-            'role_id' => 'required|not_in:null'  
+            'role_id' => 'required'  
         ]);
         if ($validator->fails()) {
             return response()->json([ 
