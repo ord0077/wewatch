@@ -6,6 +6,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CovidController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::resource('/role', RoleController::class);
+Route::resource('/covid', CovidController::class);
 Route::resource('/user', UserController::class);
 Route::resource('/project', ProjectController::class);
 Route::post('/login', [AuthController::class, 'login']);
