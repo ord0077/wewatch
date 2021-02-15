@@ -33,6 +33,7 @@ class UserController extends Controller
                 'errors' => $validator->errors() 
                 ]); 
         }
+        // avc
 
         $fields = array(
             'role_id'=>$request->role_id,
