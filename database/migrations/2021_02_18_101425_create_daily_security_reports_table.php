@@ -15,6 +15,7 @@ class CreateDailySecurityReportsTable extends Migration
     {
         Schema::create('daily_security_reports', function (Blueprint $table) {
             $table->id();
+            $table->integer('project_id');
             $table->integer('user_id');
             $table->string('daily_report_elements');
             $table->string('guard_organization');

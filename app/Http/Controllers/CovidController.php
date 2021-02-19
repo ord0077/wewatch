@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Covid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Exception;
 
 class CovidController extends Controller
 {
@@ -22,7 +23,10 @@ class CovidController extends Controller
     public function index()
     {
         return Covid::all();
+
     }
+
+   
 
     /**
      * Store a newly created resource in storage.
@@ -32,12 +36,16 @@ class CovidController extends Controller
      */
     public function store(Request $request)
     {
+        try {
+                  
+
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required',
-            'temperature' => 'required',
-            'staff_name' => 'required',
-            'company' => 'required',
-            'image' => 'required',
+                'user_id' => 'required',
+                'project_id' => 'required',
+                'temperature' => 'required',
+                'staff_name' => 'required',
+                'company' => 'required',
+                'image' => 'required',
             
         ]);
         if ($validator->fails()) {
@@ -53,6 +61,7 @@ class CovidController extends Controller
             'staff_name'=>$request->staff_name,
             'company'=>$request->company,
             'image'=>$request->image,
+            'project_id' => $request->project_id,
             'remarks'=>$request->remarks
         );
         
@@ -66,6 +75,13 @@ class CovidController extends Controller
 
         list($status,$data) = $covid ? [ true , Covid::find($covid->id) ] : [ false , ''];
         return ['success' => $status,'data' => $data];
+               
+
+        } catch (Exception $e) {
+
+             return response()->json($e->errorInfo[2] ?? 'unknown error');
+        }
+
    
     }
 

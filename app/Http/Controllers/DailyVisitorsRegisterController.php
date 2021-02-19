@@ -63,10 +63,9 @@ class DailyVisitorsRegisterController extends Controller
    
     public function destroy($id)
     {
-       $find = DVR::find($id);
-       return $find->delete() 
-       ? 
-       ['response_status' => true, 'message' => "Record has been deleted"] 
+       
+       return DVR::find($id)->delete() 
+       ? ['response_status' => true, 'message' => "Record has been deleted"] 
        : ['response_status' => false, 'message' => "Record has been deleted" ];
     }
 

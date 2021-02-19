@@ -15,6 +15,7 @@ class CreateCovidsTable extends Migration
     {
         Schema::create('covids', function (Blueprint $table) {
             $table->id();
+            $table->integer('project_id');
             $table->integer('user_id');
             $table->string('temperature');
             $table->string('staff_name');
