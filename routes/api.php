@@ -7,6 +7,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CovidController;
+use App\Http\Controllers\TrainingInductionController;
+use App\Http\Controllers\DailySecurityReportController;
+use App\Http\Controllers\DailyVisitorsRegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,16 +22,23 @@ use App\Http\Controllers\CovidController;
 |
 */
 
+
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::resource('/role', RoleController::class);
 Route::resource('/covid', CovidController::class);
+Route::resource('/traininginduction', TrainingInductionController::class);
+Route::apiResource('/dailysecurityreport', DailySecurityReportController::class);
+Route::apiResource('/dailyvisitorsregister', DailyVisitorsRegisterController::class);
 Route::resource('/user', UserController::class);
 Route::get('/get_users_by_id/{role_id}', [UserController::class,'get_users_by_id']);
 
 Route::post('change_password/{id}', [UserController::class, 'change_password']);
 Route::resource('/project', ProjectController::class);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/master/login', [AuthController::class, 'master_login']);
 Route::get('/me', [AuthController::class, 'me']);

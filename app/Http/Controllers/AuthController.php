@@ -35,7 +35,11 @@ class AuthController extends Controller
 
     public function login(Request $request){ 
 
+       
+
         $user = User::where('email', $request->email)->first();
+
+        // dd($user);
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
             
@@ -44,10 +48,28 @@ class AuthController extends Controller
 
             return response()->json([
                 'token' => $user->createToken('myApp')->plainTextToken,
-                'user'=> $user
+                'user'=> $user,
+                // 'user_type' => 'user'
                 ]);
         
-}
+    }
+
+    public function master_login(Request $request){ 
+
+        $user = User::where('email', $request->email)->where('role_id',1)->first();
+
+        if (! $user || ! Hash::check($request->password, $user->password)) {
+            
+            return response()->json(['error' => 'email or password is incorrect'], 422); 
+        }
+
+            return response()->json([
+                'token' => $user->createToken('myApp')->plainTextToken,
+                'user'=> $user,
+                'user_type' => 'master'
+                ]);
+        
+    }
 
 
 
