@@ -17,18 +17,17 @@ class ProjectController extends Controller
     
     public function index()
     {
-        return Project::all();
+         return Project::all();
     }
 
     public function store(Request $request)
     {
+        // return $request->user_id;
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
             'project_name' => 'required',
             'project_logo' => 'required',
             'location' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
             'zones' => 'required'   
         ]);
         if ($validator->fails()) {
@@ -41,6 +40,7 @@ class ProjectController extends Controller
         $fields = array(
             'user_id'=>$request->user_id,
             'project_name'=>$request->project_name,
+            'project_logo' => $request->project_logo,
             'location'=>$request->location,
             'start_date'=>$request->start_date,
             'end_date'=>$request->end_date
@@ -55,7 +55,7 @@ class ProjectController extends Controller
         $project = Project::create($fields);
         $zones = $request->zones;
         for($i = 1; $i<=$zones; $i++){
-            $z_fields = array('project_id'=>$project->id, 'zone_name'=>'zone_'.$i);
+            $z_fields = array('project_id'=>$project->id, 'zone_name'=>'Zone '.$i);
             $zone = Zone::create($z_fields);
         }
         list($status,$data) = $project ? [ true , Project::find($project->id) ] : [ false , ''];
@@ -74,6 +74,7 @@ class ProjectController extends Controller
 
     public function destroy($id)
     {
-        //
+        $find = Project::find($id);
+        return $find->delete() ? [ 'response_status' => true, 'message' => 'Project has been deleted' ] : [ 'response_status' => false, 'message' => 'Project cannot delete' ];
     }
 }

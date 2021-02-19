@@ -22,9 +22,13 @@ use App\Http\Controllers\CovidController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 Route::resource('/role', RoleController::class);
 Route::resource('/covid', CovidController::class);
 Route::resource('/user', UserController::class);
+Route::get('/get_users_by_id/{role_id}', [UserController::class,'get_users_by_id']);
+
+Route::post('change_password/{id}', [UserController::class, 'change_password']);
 Route::resource('/project', ProjectController::class);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/me', [AuthController::class, 'me']);

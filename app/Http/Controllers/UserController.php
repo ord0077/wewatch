@@ -46,7 +46,8 @@ class UserController extends Controller
             'role_id'=>$request->role_id,
             'name'=>$request->name,
             'email'=>$request->email,
-            'password'=>bcrypt($request->password)
+            'password'=>bcrypt($request->password),
+            'isactive' => $request->isActive
         );        
         $create = User::create($fields);
         // $p_fields = array(
@@ -75,6 +76,13 @@ class UserController extends Controller
         return $user?['success' => true,'data' => $user]:['success' => false,'data' => ''];
     }
 
+    public function get_users_by_id($role_id)
+    {
+       
+        $users = User::where('role_id',$role_id)->get();
+        return $users?['success' => true,'data' => $users]:['success' => false,'data' => ''];
+    }
+
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -93,7 +101,7 @@ class UserController extends Controller
         $fields = array(
             'name'=>$request->name, 
             'email' => $request->email,
-            'isactive' => $request->isactive?'1':'0',  
+            'isactive' => $request->isActive,  
             'role_id' => $request->role_id
         );
         if($request->password){
@@ -103,6 +111,20 @@ class UserController extends Controller
         $update = User::where('id', $id)->update($fields);
         list($status,$data) = $update ? [ true , User::find($id) ] : [ false , ''];
         return ['success' => $status,'data' => $data];
+    }
+
+    public function change_password(Request $request,$id)
+    {
+    $validator = Validator::make($request->all(), [ 
+    'change_password' => 'required'
+    ]); 
+    if ($validator->fails()) { 
+        return response()->json([ 'success' => false, 'errors' => $validator->errors() ]); 
+    }
+    $response = false;
+    $update = User::where('id', $id)->update(['password' => bcrypt($request->change_password)]);
+    $response = ($update) ?  true : false ;
+    return response()->json(['success' => $response] );
     }
 
     public function destroy($id)

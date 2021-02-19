@@ -13,7 +13,7 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        $array = array('Super Admin', 'Admin', 'Blink Manager', 'Wewatch Manager', 'User');
+        $array = array('Super Admin', 'project Admin', 'Blink Manager', 'Wewatch Manager', 'User','Client');
         foreach($array as $arr){
             \DB::table('roles')->insert([
                 'role' => $arr

@@ -11,11 +11,20 @@ class Project extends Model
     protected $guarded = [];
 
     protected $with = [
-        'user:id,name,email,role_id'
+        'user:id,name,email,role_id',
+        'zones:project_id,zone_name'
     ];
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class);
     }
+    public function zones()
+    {
+        return $this->hasMany(Zone::class);
+    }
+    protected $casts = [
+        // 'start_date' => 'datetime:d-M-y',
+        // 'end_date' => 'datetime:d-M-y',
+    ];
 }

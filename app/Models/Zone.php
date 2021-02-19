@@ -11,7 +11,7 @@ class Zone extends Model
     protected $guarded = [];
 
     protected $with = [
-        'project:id,project_name,project_logo,location,start_date,end_date'
+        // 'project:id,project_name,project_logo,location,start_date,end_date'
     ];
 
     public function project()

@@ -19,6 +19,9 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('secret'),
             'role_id' => 1
         ]);
+
+        $this->call([RoleSeeder::class]);
+
         // \App\Models\User::factory(10)->create();
     }
 }
