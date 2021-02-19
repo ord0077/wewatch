@@ -75,9 +75,9 @@ class CovidController extends Controller
      * @param  \App\Models\Covid  $covid
      * @return \Illuminate\Http\Response
      */
-    public function show(Covid $covid)
+    public function show($id)
     {
-        return Covid::find($covid->id);
+        return Covid::find($id);
     }
 
     /**
@@ -86,9 +86,9 @@ class CovidController extends Controller
      * @param  \App\Models\Covid  $covid
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Covid $covid)
+    public function destroy($id)
     {
-        $find = Covid::find($covid->id);
+        $find = Covid::find($id);
         return $find->delete() ? [ 'response_status' => true, 'message' => 'Record has been deleted' ] : [ 'response_status' => false, 'message' => 'Record cannot delete' ];
     }
 }
