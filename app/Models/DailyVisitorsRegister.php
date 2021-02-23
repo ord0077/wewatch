@@ -11,6 +11,7 @@ class DailyVisitorsRegister extends Model
     protected $fillable = [
 
             'user_id',
+            'project_id',
             'company_name',
             'driver_contact',
             'visit_reason',

@@ -9,6 +9,8 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Project;
 use App\Models\Zone;
+use Exception;
+
 class UserController extends Controller
 {
     public function __construct()
@@ -22,6 +24,9 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        try {
+            //code...
+       
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|unique:users',
@@ -46,9 +51,11 @@ class UserController extends Controller
             'role_id'=>$request->role_id,
             'name'=>$request->name,
             'email'=>$request->email,
-            'password'=>bcrypt($request->password),
+            'password'=> $request->password,
             'isactive' => $request->isActive
         );        
+
+    
         $create = User::create($fields);
         // $p_fields = array(
         //     'user_id'=>$create->id,
@@ -68,6 +75,10 @@ class UserController extends Controller
         // $project = Project::create($p_fields);
         list($status,$data) = $create ? [ true , User::find($create->id) ] : [ false , ''];
         return ['success' => $status,'data' => $data];
+
+    } catch (Exception $e) {
+        return response()->json($e->errorInfo[2] ?? 'unknown error');
+     }
     }
 
     public function show($id)
@@ -105,7 +116,7 @@ class UserController extends Controller
             'role_id' => $request->role_id
         );
         if($request->password){
-            $fields['password'] = bcrypt($request->password);
+            $fields['password'] = $request->password;
         }
         
         $update = User::where('id', $id)->update($fields);
@@ -122,7 +133,7 @@ class UserController extends Controller
         return response()->json([ 'success' => false, 'errors' => $validator->errors() ]); 
     }
     $response = false;
-    $update = User::where('id', $id)->update(['password' => bcrypt($request->change_password)]);
+    $update = User::where('id', $id)->update(['password' => $request->change_password]);
     $response = ($update) ?  true : false ;
     return response()->json(['success' => $response] );
     }

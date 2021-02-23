@@ -27,6 +27,7 @@ class DailyVisitorsRegisterController extends Controller
         $validator = Validator::make($request->all(),[
 
             'user_id' => 'required',
+            'project_id' => 'required',
             'company_name' => 'required',
             'driver_contact' => 'required',
             'visit_reason' => 'required',
@@ -41,6 +42,7 @@ class DailyVisitorsRegisterController extends Controller
        $fields = array(
 
             'user_id' => $request->user_id,
+            'project_id' => $request->project_id,
             'company_name' => $request->company_name,
             'driver_contact' => $request->driver_contact,
             'visit_reason' => $request->visit_reason,
@@ -63,10 +65,9 @@ class DailyVisitorsRegisterController extends Controller
    
     public function destroy($id)
     {
-       $find = DVR::find($id);
-       return $find->delete() 
-       ? 
-       ['response_status' => true, 'message' => "Record has been deleted"] 
+       
+       return DVR::find($id)->delete() 
+       ? ['response_status' => true, 'message' => "Record has been deleted"] 
        : ['response_status' => false, 'message' => "Record has been deleted" ];
     }
 

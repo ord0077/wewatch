@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDailyVisitorsRegistersTable extends Migration
+class CreateObservationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreateDailyVisitorsRegistersTable extends Migration
      */
     public function up()
     {
-        Schema::create('daily_visitors_registers', function (Blueprint $table) {
+        Schema::create('observations', function (Blueprint $table) {
+           
             $table->id();
             $table->integer('project_id');
             $table->integer('user_id');
-            $table->string('company_name');
-            $table->string('driver_contact');
-            $table->string('visit_reason');
-            $table->string('car_attachment');
-            $table->string('id_attachment');
+            $table->longText('observation_description')->nullable();
+            $table->string('action');
+            $table->string('attachments');
             $table->timestamps();
+
         });
     }
 
@@ -33,6 +33,6 @@ class CreateDailyVisitorsRegistersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('daily_visitors_registers');
+        Schema::dropIfExists('observations');
     }
 }

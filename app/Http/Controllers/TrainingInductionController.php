@@ -38,6 +38,7 @@ class TrainingInductionController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
+            'project_id' => 'required',
             'session_type' => 'required',
             'subject' => 'required',
             'no_attendees' => 'required',
@@ -55,6 +56,7 @@ class TrainingInductionController extends Controller
 
         $fields = array(
             'user_id'=>$request->user_id,
+            'project_id' => $request->project_id,
             'session_type'=>$request->session_type,
             'subject'=>$request->subject,
             'no_attendees'=>$request->no_attendees,

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -13,14 +14,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+       
+            
+       
+        
         \DB::table('users')->insert([
             'name' => 'Admin',
-            'email' => 'superadmin@gmail.com',
+            'email' => 'master@erp.com',
             'password' => Hash::make('secret'),
             'role_id' => 1
         ]);
 
-        $this->call([RoleSeeder::class]);
+       $this->call([RoleSeeder::class]);
 
         // \App\Models\User::factory(10)->create();
     }

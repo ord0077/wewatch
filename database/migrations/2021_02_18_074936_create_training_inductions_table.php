@@ -15,6 +15,7 @@ class CreateTrainingInductionsTable extends Migration
     {
         Schema::create('training_inductions', function (Blueprint $table) {
             $table->id();
+            $table->integer('project_id');
             $table->integer('user_id');
             $table->string('session_type');
             $table->string('subject');

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Role;
 
 class RoleSeeder extends Seeder
 {
@@ -13,12 +14,13 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        $array = array('Super Admin', 'project Admin', 'Blink Manager', 'Wewatch Manager', 'User','Client');
-        foreach($array as $arr){
-            \DB::table('roles')->insert([
-                'role' => $arr
-            ]);
-        }
-        
+        Role::insert([
+            ['role' => 'Super Admin'], 
+            ['role' => 'project Admin'], 
+            ['role' => 'Blink Manager'], 
+            ['role' => 'Wewatch Manager'],
+            ['role' =>  'User'],
+            ['role' => 'Client']
+        ]);
     }
 }
