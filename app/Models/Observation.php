@@ -11,6 +11,7 @@ class Observation extends Model
 
     public $fillable =[ 
 
+        'user_id',
         'project_id',
         'observation_description',
         'action',

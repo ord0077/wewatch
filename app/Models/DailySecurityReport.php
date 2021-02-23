@@ -11,6 +11,7 @@ class DailySecurityReport extends Model
     protected $fillable = [
             
             'user_id',
+            'project_id',
             'daily_report_elements',
             'guard_organization',
             'no_staff',

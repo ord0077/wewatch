@@ -32,9 +32,58 @@ class ObservationController extends Controller
      */
     public function store(Request $request)
     {
-        Validator::make($request->all(),[
+
+        try {
+
+       $validator = Validator::make($request->all(),[
                     
+            'user_id' => 'required',
+            'project_id' => 'required',
+            'action' => 'required',
+            'attachments' => 'required'
         ]);
+
+        if($validator->fails()){
+
+           return response()->json([
+               'success' => false, 
+           'error' => $validator->errors()]);
+        }
+
+           $fields= array(
+
+            'user_id' => $request->user_id,
+            'project_id' => $request->project_id,
+            'observation_description' => $request->observation_description,
+            'action' => $request->action,
+            'attachments' => $request->attachments
+            
+        );
+
+        if($request->hasfile('attachments'))
+        {
+            $attach=$request->attachments;
+            $img=$attach->getClientOriginalName();
+            $attach->move(public_path('uploads/obserations/'),$img);
+            $fields['attachments']=asset('uploads/obserations/'.$img);
+          
+        
+        }
+
+         $success = Observation::create($fields);
+        list($status,$data) = $success ? [true, Observation::find($success->id)] : [false, ''];
+
+         return ['success' => $status, 'data' => $data];
+
+         
+
+         } catch (Exception $e)
+
+         {
+            return response()->json($e->errorInfo[2] ?? 'unknown error');
+         }
+
+
     }
 
     /**
@@ -43,31 +92,23 @@ class ObservationController extends Controller
      * @param  \App\Models\Observation  $observation
      * @return \Illuminate\Http\Response
      */
-    public function show(Observation $observation)
+    public function show($id)
     {
-        //
+         return Observation::find($id);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Observation  $observation
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Observation $observation)
-    {
-        //
-    }
-
+   
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Observation  $observation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Observation $observation)
+    public function destroy($id)
     {
-        //
+        $find=Observation::find($id);
+       return  $find->delete()
+        ? ['response_status' => true, 'message' => "Record has been deleted"]
+        : ['response_status' => false, 'message' => "Record has not been deleted"];
     }
 }

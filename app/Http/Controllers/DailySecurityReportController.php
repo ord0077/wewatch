@@ -35,6 +35,7 @@ class DailySecurityReportController extends Controller
         $validator =Validator::make($request->all(),[
             
             'user_id' => 'required',
+            'project_id' => 'required',
             'daily_report_elements' => 'required',
             'guard_organization' => 'required',
             'no_staff' => 'required',
@@ -58,6 +59,7 @@ class DailySecurityReportController extends Controller
 
        $fields =array(
             'user_id' => $request->user_id,
+            'project_id' => $request->project_id,
             'daily_report_elements' => $request->daily_report_elements,
             'guard_organization' => $request->guard_organization,
             'no_staff' => $request->no_staff,
@@ -107,6 +109,8 @@ class DailySecurityReportController extends Controller
     public function destroy($id)
     {
         $find = DailySecurityReport::find($id); 
-      return $find->delete() ? ['response_status' => true, 'message' => "Record has been deleted"] : ['response_status' => false, 'message' => "Record has been deleted" ];
+      return $find->delete() 
+      ? ['response_status' => true, 'message' => "Record has been deleted"] 
+      : ['response_status' => false, 'message' => "Record has been deleted" ];
     }
 }
