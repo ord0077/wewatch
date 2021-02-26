@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestController;
+
+use App\Http\Controllers\AllocationController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
@@ -29,6 +32,10 @@ use App\Http\Controllers\ObservationController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::resource('/test', TestController::class);
+
+Route::resource('/allocation', AllocationController::class);
+
 
 Route::resource('/role', RoleController::class);
 Route::resource('/covid', CovidController::class);

@@ -19,6 +19,7 @@ class UserController extends Controller
 	}
     public function index()
     {
+    
         return User::whereNotIn('role_id', [1])->get();
     }
 
@@ -26,29 +27,25 @@ class UserController extends Controller
     {
         try {
             //code...
+
+            $arr_to_val = [
+                'name' => 'required',
+                'email' => 'required|unique:users',
+                'password' => 'required',
+                'confirm_password' => 'required|same:password',
+                'role_id' => 'required',
+            ];
+
+            $request->role_id !== 6 ?? $arr_to_val['admin'] = 'required';
        
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|unique:users',
-            'password' => 'required',
-            'confirm_password' => 'required|same:password',
-            'role_id' => 'required',
-            // 'project_name' => 'required',
-            // 'project_logo' => 'required',
-            // 'location' => 'required',
-            // 'start_date' => 'required',
-            // 'end_date' => 'required'   
-        ]);
+        $validator = Validator::make($request->all(), $arr_to_val);
         if ($validator->fails()) {
-            return response()->json([ 
-                'success' => false, 
-                'errors' => $validator->errors() 
-                ]); 
+            return response()->json([ 'success' => false, 'errors' => $validator->errors() ]); 
         }
-        // avc
 
         $fields = array(
             'role_id'=>$request->role_id,
+            'parent_id' => $request->admin,
             'name'=>$request->name,
             'email'=>$request->email,
             'password'=> $request->password,
@@ -57,22 +54,6 @@ class UserController extends Controller
 
     
         $create = User::create($fields);
-        // $p_fields = array(
-        //     'user_id'=>$create->id,
-        //     'project_name'=>$request->project_name,
-        //     'location'=>$request->location,
-        //     'start_date'=>$request->start_date,
-        //     'end_date'=>$request->end_date
-        // );
-        // if($request->hasFile('project_logo')){
-
-        //     $attach = $request->project_logo;
-            
-        //     $img = $attach->getClientOriginalName();
-        //     $attach->move(public_path('uploads/logos/'),$img);
-        //     $p_fields['project_logo'] = asset('uploads/logos/' . $img);
-        // }        
-        // $project = Project::create($p_fields);
         list($status,$data) = $create ? [ true , User::find($create->id) ] : [ false , ''];
         return ['success' => $status,'data' => $data];
 

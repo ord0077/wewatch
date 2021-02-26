@@ -44,12 +44,18 @@ class User extends Authenticatable
     ];
 
     protected $with = [
-        'role:id,role'
+        'role:id,role',
+        'admin:id,name'
     ];
 
     public function role()
     {
-        return $this->belongsTo('App\Models\Role');
+        return $this->belongsTo(Role::class);
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo('App\Models\User','parent_id');
     }
 
     public function getIsactiveAttribute($value)

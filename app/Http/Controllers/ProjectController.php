@@ -67,14 +67,12 @@ class ProjectController extends Controller
         //
     }
 
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
     public function destroy($id)
     {
         $find = Project::find($id);
+        Zone::where('project_id',$id)-delete();
+        
         return $find->delete() ? [ 'response_status' => true, 'message' => 'Project has been deleted' ] : [ 'response_status' => false, 'message' => 'Project cannot delete' ];
     }
 }

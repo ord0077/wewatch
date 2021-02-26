@@ -49,7 +49,7 @@ class AuthController extends Controller
             return response()->json([
                 'token' => $user->createToken('myApp')->plainTextToken,
                 'user'=> $user,
-                // 'user_type' => 'user'
+                'user_type' => $user->role->role ?? ''
                 ]);
         
     }
