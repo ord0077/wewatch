@@ -46,10 +46,11 @@ class AuthController extends Controller
             return response()->json(['error'=>'email or password is incorrect'], 422); 
         }
 
+         $user->user_type = $user->role->role ?? '';
+
             return response()->json([
                 'token' => $user->createToken('myApp')->plainTextToken,
-                'user'=> $user,
-                'user_type' => $user->role->role ?? ''
+                'user'=> $user
                 ]);
         
     }
