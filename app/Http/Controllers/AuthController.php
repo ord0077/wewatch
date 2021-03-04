@@ -38,26 +38,23 @@ class AuthController extends Controller
     public function login(Request $request){ 
 
         $user = User::where('email', $request->email)->first();
-
-        $entity = '';
-
-        if($user->role_id == 4) $entity = 'manager_ids';
-        else if ($user->role_id == 5) $entity = 'user_ids';
-
-        $allocations = Allocation::select($entity)->pluck($entity);
+        $allocations = [];
+      
+        if($user->role_id == 4) {
+            $allocations = Allocation::select('manager_ids')->pluck('manager_ids');
+        }
+        else if ($user->role_id == 5){
+            $allocations = Allocation::select('user_ids')->pluck('user_ids');
+        }
 
         $isAssigned = false;
       
-            foreach($allocations as $allocation){
+        foreach($allocations as $allocation){
 
-                $isAssigned = in_array($user->id,$allocation) ? true : false;
+            $isAssigned = in_array($user->id,$allocation) ? true : false;
 
-            }
-      
-
-
-        // dd($user);
-
+        }
+    
         if (! $user || ! Hash::check($request->password, $user->password)) {
             
             return response()->json(['error'=>'email or password is incorrect'], 422); 
