@@ -89,9 +89,20 @@ class AllocationController extends Controller
      * @param  \App\Models\Allocation  $allocation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Allocation $allocation)
+    public function update(Request $request, $id)
     {
-        //
+        $updated = Allocation::where('id',$id)->update([
+            'project_id'=>$request->project_id,
+            'user_ids'=> $request->user_ids,
+            'manager_ids' => $request->manager_ids
+        ]);
+
+        $allocation = Allocation::where('id',$id)->select('id','project_id','user_ids','manager_ids','created_at')->first();
+        $allocation->users =  $allocation->user_ids ? User::whereIn('id', $request->user_ids)->pluck('name') : [];
+        $allocation->managers =  $allocation->manager_ids ? User::whereIn('id', $request->manager_ids)->pluck('name') : [];
+            
+        list($status,$data) = $updated ? [ true , $allocation ] : [ false , ''];
+        return ['success' => $status,'data' => $allocation];
     }
 
     /**

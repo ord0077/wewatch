@@ -9,14 +9,27 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Project;
 use App\Models\Zone;
+use App\Models\Allocation;
 use Exception;
 
 class UserController extends Controller
 {
     public function __construct()
 	{
-		$this->middleware('auth:sanctum');
+		$this->middleware('auth:sanctum')->except('test');
 	}
+    public function test($id)
+    {
+
+        $allocations = Allocation::all()->pluck('manager_ids');
+
+        foreach($allocations as $allocation){
+
+                return ['isAssigned' => in_array($id,$allocation) ? true : false ];
+            
+        }
+
+    }
     public function index()
     {
     

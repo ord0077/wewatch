@@ -45,9 +45,12 @@ Route::apiResource('/dailyvisitorsregister', DailyVisitorsRegisterController::cl
 Route::apiResource('/observation', ObservationController::class);
 Route::resource('/user', UserController::class);
 Route::get('/get_users_by_id/{role_id}', [UserController::class,'get_users_by_id']);
+Route::get('/test_by_id/{role_id}', [UserController::class,'test']);
 
 Route::post('change_password/{id}', [UserController::class, 'change_password']);
 Route::resource('/project', ProjectController::class);
+Route::post('/update_project_logo/{id}', [ProjectController::class, 'update_project_logo']);
+
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/master/login', [AuthController::class, 'master_login']);
 Route::get('/me', [AuthController::class, 'me']);
