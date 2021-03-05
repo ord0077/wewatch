@@ -20,7 +20,8 @@ class RoleSeeder extends Seeder
             ['role' => 'Blink Manager'], 
             ['role' => 'Wewatch Manager'],
             ['role' =>  'User'],
-            ['role' => 'Client']
+            ['role' => 'Client'],
+            ['role' => 'Security Guard']
         ]);
     }
 }
