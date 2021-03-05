@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Observation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Exception;
 
 class ObservationController extends Controller
 {
@@ -62,8 +63,8 @@ class ObservationController extends Controller
 
         if($request->hasfile('attachments'))
         {
-            $attach=$request->attachments;
-            $img=$attach->getClientOriginalName();
+            $attach = $request->attachments;
+            $img = $attach->getClientOriginalName();
             $attach->move(public_path('uploads/obserations/'),$img);
             $fields['attachments']=asset('uploads/obserations/'.$img);
           
