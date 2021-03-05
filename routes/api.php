@@ -11,6 +11,8 @@ use App\Http\Controllers\TrainingInductionController;
 use App\Http\Controllers\DailySecurityReportController;
 use App\Http\Controllers\DailyVisitorsRegisterController;
 use App\Http\Controllers\ObservationController;
+use App\Http\Controllers\AccidentIncidentController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +38,11 @@ Route::resource('/traininginduction', TrainingInductionController::class);
 Route::apiResource('/dailysecurityreport', DailySecurityReportController::class);
 Route::apiResource('/dailyvisitorsregister', DailyVisitorsRegisterController::class);
 Route::apiResource('/observation', ObservationController::class);
+Route::apiResource('/accidentincident', AccidentIncidentController::class);
+
+
 Route::resource('/user', UserController::class);
+
 Route::get('/get_users_by_id/{role_id}', [UserController::class,'get_users_by_id']);
 
 Route::post('change_password/{id}', [UserController::class, 'change_password']);
