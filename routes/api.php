@@ -16,6 +16,8 @@ use App\Http\Controllers\DailyVisitorsRegisterController;
 use App\Http\Controllers\ObservationController;
 use App\Http\Controllers\AccidentIncidentController;
 
+use App\Http\Controllers\ReportController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +49,6 @@ Route::apiResource('/dailyvisitorsregister', DailyVisitorsRegisterController::cl
 Route::apiResource('/observation', ObservationController::class);
 Route::apiResource('/accidentincident', AccidentIncidentController::class);
 
-
 Route::resource('/user', UserController::class);
 
 Route::get('/get_users_by_id/{role_id}', [UserController::class,'get_users_by_id']);
@@ -60,3 +61,17 @@ Route::post('/update_project_logo/{id}', [ProjectController::class, 'update_proj
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/master/login', [AuthController::class, 'master_login']);
 Route::get('/me', [AuthController::class, 'me']);
+
+
+// Report Stats
+
+Route::get('all',[ReportController::class,'all']);
+Route::get('GetCovidCount',[ReportController::class,'GetCovidCount']);
+Route::get('GetAccidentIncidentCount',[ReportController::class,'GetAccidentIncidentCount']);
+Route::get('GetObservationCount',[ReportController::class,'GetObservationCount']);
+Route::get('GetTrainingInductionCount',[ReportController::class,'GetTrainingInductionCount']);
+Route::get('GetDailyHSEReportCount',[ReportController::class,'GetDailyHSEReportCount']);
+Route::get('GetDailySecurityReportCount',[ReportController::class,'GetDailySecurityReportCount']);
+Route::get('GetSiteVisiterRecordCount',[ReportController::class,'GetSiteVisiterRecordCount']);
+Route::get('GetDailyManHoursCount',[ReportController::class,'GetDailyManHoursCount']);
+Route::get('GetLostWorkHoursCount',[ReportController::class,'GetLostWorkHoursCount']);
