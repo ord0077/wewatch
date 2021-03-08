@@ -11,7 +11,7 @@ class DailyVisitorsRegisterController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum');
+        // $this->middleware('auth:sanctum');
 
     }
 
@@ -46,10 +46,44 @@ class DailyVisitorsRegisterController extends Controller
             'company_name' => $request->company_name,
             'driver_contact' => $request->driver_contact,
             'visit_reason' => $request->visit_reason,
-            'car_attachment' => $this->save_attachments($request,'car_attachment'),
-            'id_attachment' => $this->save_attachments($request,'id_attachment')
+            'car_attachment' => $request->car_attachment,
+            'id_attachment' =>$request->id_attachment
+
+            // 'car_attachment' => $this->save_attachments($request,'car_attachment'),
+            // 'id_attachment' => $this->save_attachments($request,'id_attachment') 
 
         );
+
+        
+
+        if($request->hasFile('car_attachment')){
+            $attach = $request->car_attachment;
+
+            $type = explode(",", $attach);
+            $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
+            
+            $ifp = fopen( public_path('uploads/dailyvisitorsregister/'.$filename), 'wb' ); 
+            fwrite( $ifp, base64_decode($type[1]));
+            fclose( $ifp );
+            $fields['car_attachment'] = asset('uploads/dailyvisitorsregister/'.$filename); 
+
+        }   
+        
+        if($request->hasFile('id_attachment')){
+            $attach = $request->car_attachment;
+
+            $type = explode(",", $attach);
+            $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
+            
+            $ifp = fopen( public_path('uploads/dailyvisitorsregister/'.$filename), 'wb' ); 
+            fwrite( $ifp, base64_decode($type[1]));
+            fclose( $ifp );
+            $fields['id_attachment'] = asset('uploads/dailyvisitorsregister/'.$filename); 
+
+        }   
+        // dd($fields);
+
+
         $success = DVR::create($fields);
 
             return [ 'success' => true, 'data' => DVR::find($success->id) ];
@@ -82,10 +116,16 @@ class DailyVisitorsRegisterController extends Controller
             
 
            $attach= $request->$file;
-           $img = $attach->getClientOriginalName();
-       
-           $attach->move(public_path('uploads/dailyvisitorsregister/'),$img);
-           $fields[$file] = asset('uploads/dailyvisitorsregister/'.$img);
+          
+
+           $type = explode(",", $attach);
+           $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
+           
+           $ifp = fopen( public_path('uploads/dailyvisitorsregister/'.$filename), 'wb' ); 
+           fwrite( $ifp, base64_decode($type[1]));
+           fclose( $ifp );
+        //    $fields['image'] = asset('uploads/covid/'.$filename); 
+           $fields[$file] = asset('uploads/dailyvisitorsregister/'.$filename);
 
            return $img;
 
