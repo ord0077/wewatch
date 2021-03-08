@@ -21,8 +21,7 @@ class CreateCovidsTable extends Migration
             $table->string('staff_name');
             $table->string('company');
             $table->text('remarks')->nullable();
-            $table->string('image');
-            
+            $table->longText('image')->nullable();
             $table->timestamps();
         });
     }
