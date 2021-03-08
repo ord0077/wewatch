@@ -25,6 +25,7 @@ class Allocation extends Model
     protected $casts = [
         'user_ids' => 'array',
         'manager_ids' => 'array',
+        'guard_ids' => 'array',
         'created_at' => 'datetime:d-M-y',
         'updated_at' => 'datetime:d-M-y'
     ];

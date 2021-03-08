@@ -47,6 +47,10 @@ class AuthController extends Controller
             $allocations = Allocation::select('user_ids')->pluck('user_ids');
         }
 
+        else if ($user->role_id == 7){
+            $allocations = Allocation::select('guard_ids')->pluck('guard_ids');
+        }
+
         $isAssigned = false;
       
         foreach($allocations as $allocation){
@@ -59,8 +63,12 @@ class AuthController extends Controller
             
             return response()->json(['error'=>'email or password is incorrect'], 422); 
         }
-        else if (!$isAssigned && ($user->role_id == 4 || $user->role_id == 5)){
+        else if (!$isAssigned && ($user->role_id == 4 || $user->role_id == 5 || $user->role_id == 7)){
             return response()->json(['error'=>'You are not assigned to any project by the Admin'], 422); 
+        }
+
+        else if (!$user->isactive){
+            return response()->json(['error'=>'Admin has blocked you. Please contact to your admin.'], 422); 
         }
 
          $user->user_type = $user->role->role ?? '';

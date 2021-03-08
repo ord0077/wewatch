@@ -39,9 +39,6 @@ class AllocationController extends Controller
         $validator = Validator::make($request->all(), [
             
             'project_id' => 'required',
-            'user_ids' => 'required',
-            'manager_ids' => 'required',       
-        
             ]);
         if ($validator->fails()) {
             return response()->json([ 
@@ -53,15 +50,16 @@ class AllocationController extends Controller
         $fields = array(
             'project_id'=>$request->project_id,
             'user_ids'=> $request->user_ids,
+            'guard_ids'=> $request->guard_ids,
             'manager_ids' => $request->manager_ids
         );
 
         $created = Allocation::create($fields);
 
-        $allocation = Allocation::where('id',$created->id)->select('id','project_id','user_ids','manager_ids','created_at')->first();
+        $allocation = Allocation::where('id',$created->id)->select('id','project_id','user_ids','manager_ids','guard_ids','created_at')->first();
         $allocation->users =  $allocation->user_ids ? User::whereIn('id', $request->user_ids)->pluck('name') : [];
         $allocation->managers =  $allocation->manager_ids ? User::whereIn('id', $request->manager_ids)->pluck('name') : [];
-            
+        $allocation->guard_ids = $allocation->guard_ids ? User::whereIn('id', $request->guard_ids)->pluck('name') : [];     
         list($status,$data) = $created ? [ true , $allocation ] : [ false , ''];
         return ['success' => $status,'data' => $allocation];
 
@@ -75,9 +73,10 @@ class AllocationController extends Controller
      */
     public function show($id)
     {
-        $allocation = Allocation::where('id',$id)->select('id','project_id','user_ids','manager_ids','created_at')->first();
+        $allocation = Allocation::where('id',$id)->select('id','project_id','user_ids','manager_ids','guard_ids','created_at')->first();
         $allocation->users =  $allocation->user_ids ? User::whereIn('id', $allocation->user_ids)->pluck('name') : [];
         $allocation->managers =  $allocation->manager_ids ? User::whereIn('id', $allocation->manager_ids)->pluck('name') : [];
+        $allocation->guards =  $allocation->guard_ids ? User::whereIn('id', $allocation->guard_ids)->pluck('name') : [];
             
         return $allocation;
     }
@@ -94,12 +93,14 @@ class AllocationController extends Controller
         $updated = Allocation::where('id',$id)->update([
             'project_id'=>$request->project_id,
             'user_ids'=> $request->user_ids,
+            'guard_ids'=> $request->guard_ids,
             'manager_ids' => $request->manager_ids
         ]);
 
-        $allocation = Allocation::where('id',$id)->select('id','project_id','user_ids','manager_ids','created_at')->first();
+        $allocation = Allocation::where('id',$id)->select('id','project_id','user_ids','manager_ids','guard_ids','created_at')->first();
         $allocation->users =  $allocation->user_ids ? User::whereIn('id', $request->user_ids)->pluck('name') : [];
         $allocation->managers =  $allocation->manager_ids ? User::whereIn('id', $request->manager_ids)->pluck('name') : [];
+        $allocation->guard_ids =  $allocation->guard_ids ? User::whereIn('id', $request->guard_ids)->pluck('name') : [];
             
         list($status,$data) = $updated ? [ true , $allocation ] : [ false , ''];
         return ['success' => $status,'data' => $allocation];
