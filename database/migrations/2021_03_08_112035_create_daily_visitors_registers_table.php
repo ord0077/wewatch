@@ -20,8 +20,8 @@ class CreateDailyVisitorsRegistersTable extends Migration
             $table->string('company_name');
             $table->string('driver_contact');
             $table->string('visit_reason');
-            $table->string('car_attachment');
-            $table->string('id_attachment');
+            $table->longText('car_attachment');
+            $table->longText('id_attachment');
             $table->timestamps();
         });
     }
