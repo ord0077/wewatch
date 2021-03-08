@@ -100,7 +100,8 @@ class AuthController extends Controller
 
 
     public function me(Request $request){
-        
+        $user = Auth::user();
+        $user->user_type = $user->role->role ?? '';
         return response()->json([ 'user' => Auth::user() ],200); 
 
     }
