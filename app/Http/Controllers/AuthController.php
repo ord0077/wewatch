@@ -40,14 +40,14 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
         $allocations = [];
       
-        if($user->role_id == 4) {
+        if($user && $user->role_id == 4) {
             $allocations = Allocation::select('manager_ids')->pluck('manager_ids');
         }
-        else if ($user->role_id == 5){
+        else if ($user && $user->role_id == 5){
             $allocations = Allocation::select('user_ids')->pluck('user_ids');
         }
 
-        else if ($user->role_id == 7){
+        else if ($user && $user->role_id == 7){
             $allocations = Allocation::select('guard_ids')->pluck('guard_ids');
         }
 

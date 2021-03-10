@@ -24,7 +24,7 @@ class AccidentIncidentController extends Controller
      */
     public function index()
     {
-        return AI::all();
+        return AI::orderBy('id', 'DESC')->get();
     }
 
     /**

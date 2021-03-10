@@ -26,7 +26,7 @@ class CreateDailySecurityReportsTable extends Migration
             $table->string('observations');
             $table->string('travel_security_updates');
             $table->longText('red_flag')->nullable();
-            $table->string('attachments');
+            $table->longText('attachments')->nullable();
             $table->timestamps();
 
         });

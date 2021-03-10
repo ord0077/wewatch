@@ -20,7 +20,8 @@ class CreateTrainingInductionsTable extends Migration
             $table->string('session_type');
             $table->string('subject');
             $table->integer('no_attendees');
-            $table->string('attachments');
+            $table->longText('attachments')->nullable();
+            
 
             $table->timestamps();
 

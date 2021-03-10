@@ -21,7 +21,8 @@ class DailySecurityReportController extends Controller
      */
     public function index()
     {
-       return DailySecurityReport::all();
+       return DailySecurityReport::orderBy('id', 'DESC')->get();
+       
     }
 
     /**

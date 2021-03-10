@@ -13,13 +13,7 @@ class RoleController extends Controller
 	}
     public function index()
     {
-        if(Auth::user()->role_id == 1){
-            $role = Role::all();
-        }
-        else{
-            $role = Role::wherenotIN('id',[1])->get();
-        }
-        return $role;
+        return Auth::user()->role_id == 1 ? Role::all() : Role::wherenotIN('id',[1])->get();
     }
 
     public function store(Request $request)

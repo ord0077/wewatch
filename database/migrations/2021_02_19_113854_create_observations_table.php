@@ -20,7 +20,7 @@ class CreateObservationsTable extends Migration
             $table->integer('user_id');
             $table->longText('observation_description')->nullable();
             $table->string('action');
-            $table->string('attachments');
+            $table->longText('attachments')->nullable();
             $table->timestamps();
 
         });

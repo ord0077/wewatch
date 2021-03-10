@@ -22,31 +22,7 @@ class CovidController extends Controller
 
     public function index()
     {
-        return Covid::all();
-
-
-          
-                // $img = Covid::find(1)->image;
-
-                // $type = explode(',',$img)[0];
-                // $file = explode(',',$img)[1];
-
-                // // return $file;
-
-                // $d = 'data:image/jpeg;base64,';
-
-                // return $d . $file;
-
-
-       
-
-
-
-
-
-
-
-
+        return Covid::orderBy('id', 'DESC')->get();
     }
 
    

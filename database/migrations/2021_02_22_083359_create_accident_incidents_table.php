@@ -27,7 +27,7 @@ class CreateAccidentIncidentsTable extends Migration
             $table->string('fatality')->nullable();
             $table->string('describe_incident')->nullable();
             $table->string('immediate_action')->nullable();
-            $table->string('attachment')->nullable();
+            $table->longText('attachment')->nullable();
             $table->timestamps();
         });
     }

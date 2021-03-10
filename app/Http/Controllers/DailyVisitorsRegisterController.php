@@ -18,7 +18,7 @@ class DailyVisitorsRegisterController extends Controller
   
     public function index()
     {
-        return DVR::all();
+        return DVR::orderBy('id', 'DESC')->get();
     }
 
   

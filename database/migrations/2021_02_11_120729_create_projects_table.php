@@ -17,7 +17,7 @@ class CreateProjectsTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->string('project_name');
-            $table->text('project_logo');
+            $table->longText('project_logo')->nullable();
             $table->string('location');
             $table->string('start_date');
             $table->string('end_date');

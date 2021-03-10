@@ -22,7 +22,7 @@ class ObservationController extends Controller
      */
     public function index()
     {
-         return Observation::all();
+         return Observation::orderBy('id', 'DESC')->get();
     }
 
     /**

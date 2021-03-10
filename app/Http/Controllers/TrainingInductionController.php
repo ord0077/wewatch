@@ -24,7 +24,7 @@ class TrainingInductionController extends Controller
 
     public function index()
     {
-        return TrainingInduction::all();
+        return TrainingInduction::orderBy('id', 'DESC')->get();
     }
 
 
