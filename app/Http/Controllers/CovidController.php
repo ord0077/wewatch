@@ -17,12 +17,35 @@ class CovidController extends Controller
 
     public function __construct()
 	{
-		$this->middleware('auth:sanctum');
+		// $this->middleware('auth:sanctum');
     }
 
     public function index()
     {
         return Covid::all();
+
+
+          
+                // $img = Covid::find(1)->image;
+
+                // $type = explode(',',$img)[0];
+                // $file = explode(',',$img)[1];
+
+                // // return $file;
+
+                // $d = 'data:image/jpeg;base64,';
+
+                // return $d . $file;
+
+
+       
+
+
+
+
+
+
+
 
     }
 

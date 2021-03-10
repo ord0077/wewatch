@@ -5,30 +5,29 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Covid;
+use App\Models\AccidentIncident;
+use App\Models\TrainingInduction;
+use App\Models\Observation;
 
 class ReportController extends Controller
 {
     public function GetCovidCount()
     {
-        return 1500;
         return Covid::all()->count();
     }
     public function GetAccidentIncidentCount()
     {
-        return 985;
-        return Covid::all()->count();
+        return AccidentIncident::all()->count();
     }
 
     public function GetTrainingInductionCount()
     {
-        return 199;
-        return Covid::all()->count();
+        return TrainingInduction::all()->count();
     }
 
     public function GetObservationCount()
     {
-        return 233;
-        return Covid::all()->count();
+        return Observation::all()->count();
     }
 
     public function GetDailyHSEReportCount()
