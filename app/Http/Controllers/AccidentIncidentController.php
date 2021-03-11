@@ -78,22 +78,22 @@ class AccidentIncidentController extends Controller
         'fatality' => $request->fatality,
         'describe_incident' => $request->describe_incident,
         'immediate_action' => $request->immediate_action,
-        'attachment' => $request->attachment
+        'attachment' => explode(',',$request->attachment)[1] ?? ''
             
             );
 
         
            
 
-            if($request->hasfile('attachment'))
-            {
-                $attach = $request->attachment;
-                $img = $attach->getClientOriginalName();
-                $attach->move(public_path('uploads/iccidentincident/'),$img);
-                $fields['attachment']=asset('uploads/iccidentincident/'.$img);
+            // if($request->hasfile('attachment'))
+            // {
+            //     $attach = $request->attachment;
+            //     $img = $attach->getClientOriginalName();
+            //     $attach->move(public_path('uploads/iccidentincident/'),$img);
+            //     $fields['attachment']=asset('uploads/iccidentincident/'.$img);
                 
 
-            }
+            // }
 
 
              $success= AI::create($fields);
