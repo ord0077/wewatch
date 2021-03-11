@@ -78,9 +78,8 @@ class AccidentIncidentController extends Controller
         'fatality' => $request->fatality,
         'describe_incident' => $request->describe_incident,
         'immediate_action' => $request->immediate_action,
-        'attachment' => explode(',',$request->attachment)[1] ?? ''
-            
-            );
+        'attachment' => $request->attachment            
+    );
 
         
            
@@ -129,7 +128,7 @@ class AccidentIncidentController extends Controller
     public function destroy($id)
     {
        $find = AI::find($id);
-      return $find->delete()
+       return $find->delete()
        ? ['response_status' => true, 'message' => "Record has been deleted"]
        : ['response_status' => false, 'message' => 'Record has not been  deleted'];
     }
