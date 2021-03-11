@@ -61,7 +61,7 @@ class CovidController extends Controller
             'company'=>$request->company,
             'project_id' => $request->project_id,
             'remarks'=>$request->remarks,
-            'image'=>   explode(',',$request->image)[1] ?? ''
+            'image'=>   $request->image
         );
             // $type = explode(",", $request->image);
             // $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
