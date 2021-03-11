@@ -59,30 +59,19 @@ class CovidController extends Controller
             'temperature'=>$request->temperature,
             'staff_name'=>$request->staff_name,
             'company'=>$request->company,
-            'image'=>$request->image,
             'project_id' => $request->project_id,
-            'remarks'=>$request->remarks
+            'remarks'=>$request->remarks,
+            'image'=>   explode(',',$request->image)[1] ?? ''
         );
-        
-        if($request->hasFile('image')){
-            $attach = $request->image;
-            
-            // $img = $attach->getClientOriginalName();
+            // $type = explode(",", $request->image);
+            // $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
+            // $ifp = fopen( public_path('uploads/covid/'.$filename), 'wb' ); 
+            // fwrite( $ifp, base64_decode($filename));
+            // fclose( $ifp );
+            // $fields['image'] = asset('uploads/covid/'.$filename); 
 
-            // $attach->move(public_path('uploads/covid/'),$img);
-            // $fields['image'] = asset('uploads/covid/' . $img);
-
-            $type = explode(",", $attach);
-            $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
-            
-            $ifp = fopen( public_path('uploads/covid/'.$filename), 'wb' ); 
-            fwrite( $ifp, base64_decode($type[1]));
-            fclose( $ifp );
-            $fields['image'] = asset('uploads/covid/'.$filename); 
-
-        }        
-
-
+      //  }        
+      
         $covid = Covid::create($fields);
 
         list($status,$data) = $covid ? [ true , Covid::find($covid->id) ] : [ false , ''];
