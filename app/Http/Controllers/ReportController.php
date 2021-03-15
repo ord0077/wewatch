@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Covid;
 use App\Models\AccidentIncident;
 use App\Models\TrainingInduction;
+use App\Models\DailyVisitorsRegister;
 use App\Models\Observation;
 
 class ReportController extends Controller
@@ -44,7 +45,7 @@ class ReportController extends Controller
 
     public function GetSiteVisiterRecordCount()
     {
-        return Covid::all()->count();
+        return DailyVisitorsRegister::all()->count();
     }
 
     public function GetDailyManHoursCount()
