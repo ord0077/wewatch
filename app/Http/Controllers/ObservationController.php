@@ -58,9 +58,7 @@ class ObservationController extends Controller
             'project_id' => $request->project_id,
             'observation_description' => $request->observation_description,
             'location' => $request->location,
-            'action' => $request->action,
-            'attachments' => $request->attachments
-            
+            'action' => $request->action            
         );
 
         if(!empty($request->attachments))
