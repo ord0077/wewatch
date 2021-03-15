@@ -30,15 +30,10 @@ class Observation extends Model
     }
 
     protected $casts = [
-        'reported_date' => 'datetime:d-M-y',
-        'reported_time' => 'datetime:h:i A',
+        // 'reported_date' => 'datetime:d-M-y',
+        // 'reported_time' => 'datetime:h:i A',
         'created_at' => 'datetime:d-M-y',
         'updated_at' => 'datetime:d-M-y'
     ];
-
-    public function getAttachmentsAttribute($value)
-    {
-        return $this->attributes['attachments'] =  "data:image/jpeg;base64," . $value;
-    }
 
 }

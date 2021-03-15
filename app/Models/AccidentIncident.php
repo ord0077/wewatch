@@ -40,15 +40,7 @@ class AccidentIncident extends Model
     }
 
     protected $casts = [
-        // 'reported_date' => 'datetime:d-M-y',
-        // 'reported_time' => 'datetime:h:i: A',
-        // 'created_at' => 'datetime:d-M-y--- h:i: A',
-        // 'updated_at' => 'datetime:d-M-y'
+        'created_at' => 'datetime:d-M-y'
     ];
-
-    public function getAttachmentAttribute($value)
-    {
-        return $this->attributes['attachment'] =  "data:image/jpeg;base64," . $value;
-    }
 
 }

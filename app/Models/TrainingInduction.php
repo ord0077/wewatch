@@ -30,9 +30,4 @@ class TrainingInduction extends Model
         'updated_at' => 'datetime:d-M-y'
     ];
 
-    public function getAttachmentsAttribute($value)
-    {
-        return $this->attributes['attachments'] =  "data:image/jpeg;base64," . $value;
-    }
-
 }

@@ -27,8 +27,4 @@ class Covid extends Model
         'updated_at' => 'datetime:d-M-y'
     ];
 
-    public function getImageAttribute($value)
-    {
-        return $this->attributes['image'] =  "data:image/jpeg;base64," . $value;
-    }
 }
