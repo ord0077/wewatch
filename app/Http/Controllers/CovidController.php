@@ -72,7 +72,9 @@ class CovidController extends Controller
             fwrite( $ifp, base64_decode($type[1]));
             fclose( $ifp );
             $fields['image'] = asset('uploads/covid/'.$filename);
-            
+            echo "<pre>";
+            print_r($fields);
+            die;            
       
         $covid = Covid::create($fields);
 
