@@ -53,10 +53,6 @@ class AccidentIncidentController extends Controller
         
         ]);
 
-
-
-       
-
         if($validator->fails()){
             return  ['success' => false,
             'error' =>  $validator->errors()];
@@ -78,23 +74,25 @@ class AccidentIncidentController extends Controller
         'fatality' => $request->fatality,
         'describe_incident' => $request->describe_incident,
         'immediate_action' => $request->immediate_action,
-        'attachment' => $request->attachment            
+        'attachment' => ''            
     );
 
         
            
 
-            // if($request->hasfile('attachment'))
-            // {
-            //     $attach = $request->attachment;
-            //     $img = $attach->getClientOriginalName();
-            //     $attach->move(public_path('uploads/iccidentincident/'),$img);
-            //     $fields['attachment']=asset('uploads/iccidentincident/'.$img);
-                
-
-            // }
-
-
+            if(!empty($request->attachment))
+            {
+                $type = explode(",", $request->attachment);
+                $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
+                if (!file_exists(public_path('uploads/accidentincident/'))) {
+                    mkdir(public_path('uploads/accidentincident/'), 0777, true);
+                }
+                $ifp = fopen( public_path('uploads/accidentincident/'.$filename), 'wb' ); 
+                fwrite( $ifp, base64_decode($type[1]));
+                fclose( $ifp );
+                $fields['attachment'] = asset('uploads/accidentincident/'.$filename);
+            }
+            
              $success= AI::create($fields);
           
            list($status,$data) = $success ? [true, AI::find($success->id)] : [false, ''];

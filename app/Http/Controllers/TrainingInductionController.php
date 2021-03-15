@@ -64,12 +64,18 @@ class TrainingInductionController extends Controller
             
         );
 
-        if($request->hasFile('attachments')){
-            $attach = $request->attachments;
-            $img = $attach->getClientOriginalName();
-            $attach->move(public_path('uploads/trainingInduction/'),$img);
-            $fields['attachments'] = asset('uploads/trainingInduction/' . $img);
-        }        
+        if(!empty($request->attachments))
+            {
+                $type = explode(",", $request->attachments);
+                $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
+                if (!file_exists(public_path('uploads/traininginduction/'))) {
+                    mkdir(public_path('uploads/traininginduction/'), 0777, true);
+                }
+                $ifp = fopen( public_path('uploads/traininginduction/'.$filename), 'wb' ); 
+                fwrite( $ifp, base64_decode($type[1]));
+                fclose( $ifp );
+                $fields['attachments'] = asset('uploads/traininginduction/'.$filename);
+            }    
         $ti = TrainingInduction::create($fields);
 
         list($status,$data) = $ti ? [ true , TrainingInduction::find($ti->id) ] : [ false , ''];

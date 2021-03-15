@@ -61,15 +61,18 @@ class ObservationController extends Controller
             
         );
 
-        if($request->hasfile('attachments'))
-        {
-            $attach = $request->attachments;
-            $img = $attach->getClientOriginalName();
-            $attach->move(public_path('uploads/obserations/'),$img);
-            $fields['attachments']=asset('uploads/obserations/'.$img);
-          
-        
-        }
+        if(!empty($request->attachments))
+            {
+                $type = explode(",", $request->attachments);
+                $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
+                if (!file_exists(public_path('uploads/observations/'))) {
+                    mkdir(public_path('uploads/observations/'), 0777, true);
+                }
+                $ifp = fopen( public_path('uploads/observations/'.$filename), 'wb' ); 
+                fwrite( $ifp, base64_decode($type[1]));
+                fclose( $ifp );
+                $fields['attachments'] = asset('uploads/observations/'.$filename);
+            }
 
          $success = Observation::create($fields);
         list($status,$data) = $success ? [true, Observation::find($success->id)] : [false, ''];
