@@ -42,7 +42,6 @@ class ObservationController extends Controller
             'project_id' => 'required',
             'action' => 'required',
             'location' => 'required',
-            'attachments' => 'required'
         ]);
 
         if($validator->fails()){
@@ -58,7 +57,9 @@ class ObservationController extends Controller
             'project_id' => $request->project_id,
             'observation_description' => $request->observation_description,
             'location' => $request->location,
-            'action' => $request->action            
+            'action' => $request->action,
+            'attachments' => $request->attachments
+            
         );
 
         if(!empty($request->attachments))
