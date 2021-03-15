@@ -44,7 +44,6 @@ class ReportController extends Controller
 
     public function GetSiteVisiterRecordCount()
     {
-        return 199;
         return Covid::all()->count();
     }
 
