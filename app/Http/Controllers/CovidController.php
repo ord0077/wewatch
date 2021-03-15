@@ -35,57 +35,58 @@ class CovidController extends Controller
      */
     public function store(Request $request)
     {
-        try {
+        echo "ok";
+        // try {
                   
 
-        $validator = Validator::make($request->all(), [
-                'user_id' => 'required',
-                'project_id' => 'required',
-                'temperature' => 'required',
-                'staff_name' => 'required',
-                'company' => 'required',
-                'image' => 'required',
+        // $validator = Validator::make($request->all(), [
+        //         'user_id' => 'required',
+        //         'project_id' => 'required',
+        //         'temperature' => 'required',
+        //         'staff_name' => 'required',
+        //         'company' => 'required',
+        //         'image' => 'required',
             
-        ]);
-        if ($validator->fails()) {
-            return response()->json([ 
-                'success' => false, 
-                'errors' => $validator->errors() 
-                ]); 
-        }
+        // ]);
+        // if ($validator->fails()) {
+        //     return response()->json([ 
+        //         'success' => false, 
+        //         'errors' => $validator->errors() 
+        //         ]); 
+        // }
 
-        $fields = array(
-            'user_id'=>$request->user_id,
-            'temperature'=>$request->temperature,
-            'staff_name'=>$request->staff_name,
-            'company'=>$request->company,
-            'project_id' => $request->project_id,
-            'remarks'=>$request->remarks,
-            'image'=>   ''
-        );
-            $type = explode(",", $request->image);
-            $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
-            if (!file_exists(public_path('uploads/covid/'))) {
-                mkdir(public_path('uploads/covid/'), 0777, true);
-            }
-            $ifp = fopen( public_path('uploads/covid/'.$filename), 'wb' ); 
-            fwrite( $ifp, base64_decode($type[1]));
-            fclose( $ifp );
-            $fields['image'] = asset('uploads/covid/'.$filename);
-            echo "<pre>";
-            print_r($fields);
-            die;            
+        // $fields = array(
+        //     'user_id'=>$request->user_id,
+        //     'temperature'=>$request->temperature,
+        //     'staff_name'=>$request->staff_name,
+        //     'company'=>$request->company,
+        //     'project_id' => $request->project_id,
+        //     'remarks'=>$request->remarks,
+        //     'image'=>   ''
+        // );
+        //     $type = explode(",", $request->image);
+        //     $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
+        //     if (!file_exists(public_path('uploads/covid/'))) {
+        //         mkdir(public_path('uploads/covid/'), 0777, true);
+        //     }
+        //     $ifp = fopen( public_path('uploads/covid/'.$filename), 'wb' ); 
+        //     fwrite( $ifp, base64_decode($type[1]));
+        //     fclose( $ifp );
+        //     $fields['image'] = asset('uploads/covid/'.$filename);
+        //     echo "<pre>";
+        //     print_r($fields);
+        //     die;            
       
-        $covid = Covid::create($fields);
+        // $covid = Covid::create($fields);
 
-        list($status,$data) = $covid ? [ true , Covid::find($covid->id) ] : [ false , ''];
-        return ['success' => $status,'data' => $data];
+        // list($status,$data) = $covid ? [ true , Covid::find($covid->id) ] : [ false , ''];
+        // return ['success' => $status,'data' => $data];
                
 
-        } catch (Exception $e) {
+        // } catch (Exception $e) {
 
-             return response()->json($e->errorInfo[2] ?? 'unknown error');
-        }
+        //      return response()->json($e->errorInfo[2] ?? 'unknown error');
+        // }
 
    
     }
