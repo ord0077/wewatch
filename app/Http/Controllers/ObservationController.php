@@ -41,6 +41,7 @@ class ObservationController extends Controller
             'user_id' => 'required',
             'project_id' => 'required',
             'action' => 'required',
+            'location' => 'required',
             'attachments' => 'required'
         ]);
 
@@ -56,6 +57,7 @@ class ObservationController extends Controller
             'user_id' => $request->user_id,
             'project_id' => $request->project_id,
             'observation_description' => $request->observation_description,
+            'location' => $request->location,
             'action' => $request->action,
             'attachments' => $request->attachments
             

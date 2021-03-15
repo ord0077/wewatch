@@ -15,6 +15,7 @@ class Observation extends Model
         'project_id',
         'observation_description',
         'action',
+        'location',
         'attachments'
     ];
 
