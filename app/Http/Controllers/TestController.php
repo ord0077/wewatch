@@ -13,6 +13,10 @@ class TestController extends Controller
 	// }
     public function index()
     {
+       
+            dump(['post_max_size'=> ini_get('post_max_size')]);
+            dump(['upload_max_filesize'=> ini_get('upload_max_filesize')]);
+            dump(ini_get_all());
             // return ['data' => $request->all()];
     }
 
