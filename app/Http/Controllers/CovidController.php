@@ -35,7 +35,7 @@ class CovidController extends Controller
      */
     public function store(Request $request)
     {
-        try {
+        //try {
                   
 
         $validator = Validator::make($request->all(), [
@@ -61,16 +61,18 @@ class CovidController extends Controller
             'company'=>$request->company,
             'project_id' => $request->project_id,
             'remarks'=>$request->remarks,
-            'image'=>   $request->image
+            'image'=>   ''
         );
-            // $type = explode(",", $request->image);
-            // $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
-            // $ifp = fopen( public_path('uploads/covid/'.$filename), 'wb' ); 
-            // fwrite( $ifp, base64_decode($filename));
-            // fclose( $ifp );
-            // $fields['image'] = asset('uploads/covid/'.$filename); 
-
-      //  }        
+            $type = explode(",", $request->image);
+            $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
+            if (!file_exists(public_path('uploads/covid/'))) {
+                mkdir(public_path('uploads/covid/'), 0777, true);
+            }
+            $ifp = fopen( public_path('uploads/covid/'.$filename), 'wb' ); 
+            fwrite( $ifp, base64_decode($type[1]));
+            fclose( $ifp );
+            $fields['image'] = asset('uploads/covid/'.$filename);
+            
       
         $covid = Covid::create($fields);
 
@@ -78,10 +80,10 @@ class CovidController extends Controller
         return ['success' => $status,'data' => $data];
                
 
-        } catch (Exception $e) {
+        // } catch (Exception $e) {
 
-             return response()->json($e->errorInfo[2] ?? 'unknown error');
-        }
+        //      return response()->json($e->errorInfo[2] ?? 'unknown error');
+        // }
 
    
     }
