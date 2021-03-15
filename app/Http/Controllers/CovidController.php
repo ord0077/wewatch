@@ -35,7 +35,7 @@ class CovidController extends Controller
      */
     public function store(Request $request)
     {
-        //try {
+        try {
                   
 
         $validator = Validator::make($request->all(), [
@@ -80,10 +80,10 @@ class CovidController extends Controller
         return ['success' => $status,'data' => $data];
                
 
-        // } catch (Exception $e) {
+        } catch (Exception $e) {
 
-        //      return response()->json($e->errorInfo[2] ?? 'unknown error');
-        // }
+             return response()->json($e->errorInfo[2] ?? 'unknown error');
+        }
 
    
     }
