@@ -36,33 +36,36 @@ class CovidController extends Controller
     public function store(Request $request)
     {
         try {
-              echo "try";    
+                  
 
-        // $validator = Validator::make($request->all(), [
-        //         'user_id' => 'required',
-        //         'project_id' => 'required',
-        //         'temperature' => 'required',
-        //         'staff_name' => 'required',
-        //         'company' => 'required',
-        //         'image' => 'required',
+        $validator = Validator::make($request->all(), [
+                'user_id' => 'required',
+                'project_id' => 'required',
+                'temperature' => 'required',
+                'staff_name' => 'required',
+                'company' => 'required',
+                'image' => 'required',
             
-        // ]);
-        // if ($validator->fails()) {
-        //     return response()->json([ 
-        //         'success' => false, 
-        //         'errors' => $validator->errors() 
-        //         ]); 
-        // }
+        ]);
+        if ($validator->fails()) {
+            return response()->json([ 
+                'success' => false, 
+                'errors' => $validator->errors() 
+                ]); 
+        }
 
-        // $fields = array(
-        //     'user_id'=>$request->user_id,
-        //     'temperature'=>$request->temperature,
-        //     'staff_name'=>$request->staff_name,
-        //     'company'=>$request->company,
-        //     'project_id' => $request->project_id,
-        //     'remarks'=>$request->remarks,
-        //     'image'=>   ''
-        // );
+        $fields = array(
+            'user_id'=>$request->user_id,
+            'temperature'=>$request->temperature,
+            'staff_name'=>$request->staff_name,
+            'company'=>$request->company,
+            'project_id' => $request->project_id,
+            'remarks'=>$request->remarks,
+            'image'=>   ''
+        );
+            echo "<pre>";
+            print_r($fields);
+            die;
         //     $type = explode(",", $request->image);
         //     $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
         //     if (!file_exists(public_path('uploads/covid/'))) {
@@ -83,8 +86,8 @@ class CovidController extends Controller
                
 
         } catch (Exception $e) {
-            echo "catch";
-             //return response()->json($e->errorInfo[2] ?? 'unknown error');
+
+             return response()->json($e->errorInfo[2] ?? 'unknown error');
         }
 
    
