@@ -121,13 +121,14 @@ class UserController extends Controller
     public function change_password(Request $request,$id)
     {
     $validator = Validator::make($request->all(), [ 
-    'change_password' => 'required'
+    'password' => 'required',
+    'confirm_password' => 'required|same:password',
     ]); 
     if ($validator->fails()) { 
         return response()->json([ 'success' => false, 'errors' => $validator->errors() ]); 
     }
     $response = false;
-    $update = User::where('id', $id)->update(['password' => $request->change_password]);
+    $update = User::where('id', $id)->update(['password' => \Hash::make($request->password)]);
     $response = ($update) ?  true : false ;
     return response()->json(['success' => $response] );
     }
