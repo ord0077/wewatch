@@ -20,6 +20,12 @@ class ProjectController extends Controller
          return Project::orderBy('id','desc')->get();
     }
 
+    public function projectbyuserid($id)
+    {
+         return Project::where('user_id',$id)->orderBy('id','desc')->get();
+    }
+    
+
     public function store(Request $request)
     {
        
