@@ -9,6 +9,7 @@ use App\Models\AccidentIncident;
 use App\Models\TrainingInduction;
 use App\Models\DailyVisitorsRegister;
 use App\Models\Observation;
+use App\Models\User;
 
 class ReportController extends Controller
 {
@@ -60,6 +61,23 @@ class ReportController extends Controller
         return Covid::all()->count();
     }
 
+    public function ProjectAdminCount()
+    {
+        return User::where('role_id',2)->get()->count();
+    }
+    public function WewatchManagerCount()
+    {
+        return User::where('role_id',4)->get()->count();
+    }
+    public function UserCount()
+    {
+        return User::where('role_id',5)->get()->count();
+    }
+    public function SecurityGuardCount()
+    {
+        return User::where('role_id',7)->get()->count();
+    }
+
     public function all()
     {
         return [
@@ -71,7 +89,11 @@ class ReportController extends Controller
             'GetDailySecurityReportCount' => $this->GetDailySecurityReportCount(),
             'GetSiteVisiterRecordCount' => $this->GetSiteVisiterRecordCount(),
             'GetDailyManHoursCount' => $this->GetDailyManHoursCount(),
-            'GetLostWorkHoursCount' => $this->GetLostWorkHoursCount()
+            'GetLostWorkHoursCount' => $this->GetLostWorkHoursCount(),
+            'ProjectAdminCount' => $this->ProjectAdminCount(),
+            'WewatchManagerCount' => $this->WewatchManagerCount(),
+            'UserCount' => $this->UserCount(),
+            'SecurityGuardCount' => $this->SecurityGuardCount()
             
         ];
     }

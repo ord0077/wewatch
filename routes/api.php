@@ -77,3 +77,7 @@ Route::get('GetDailySecurityReportCount',[ReportController::class,'GetDailySecur
 Route::get('GetSiteVisiterRecordCount',[ReportController::class,'GetSiteVisiterRecordCount']);
 Route::get('GetDailyManHoursCount',[ReportController::class,'GetDailyManHoursCount']);
 Route::get('GetLostWorkHoursCount',[ReportController::class,'GetLostWorkHoursCount']);
+Route::get('ProjectAdminCount',[ReportController::class,'ProjectAdminCount']);
+Route::get('WewatchManagerCount',[ReportController::class,'WewatchManagerCount']);
+Route::get('UserCount',[ReportController::class,'UserCount']);
+Route::get('SecurityGuardCount',[ReportController::class,'SecurityGuardCount']);
