@@ -10,6 +10,7 @@ use App\Models\TrainingInduction;
 use App\Models\DailyVisitorsRegister;
 use App\Models\Observation;
 use App\Models\User;
+use App\Models\Project;
 
 class ReportController extends Controller
 {
@@ -77,6 +78,10 @@ class ReportController extends Controller
     {
         return User::where('role_id',7)->get()->count();
     }
+    public function ProjectCount()
+    {
+        return Project::all()->count();
+    }
 
     public function all()
     {
@@ -93,7 +98,8 @@ class ReportController extends Controller
             'ProjectAdminCount' => $this->ProjectAdminCount(),
             'WewatchManagerCount' => $this->WewatchManagerCount(),
             'UserCount' => $this->UserCount(),
-            'SecurityGuardCount' => $this->SecurityGuardCount()
+            'SecurityGuardCount' => $this->SecurityGuardCount(),
+            'ProjectCount' => $this->ProjectCount()
             
         ];
     }
