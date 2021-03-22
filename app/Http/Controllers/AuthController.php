@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Allocation;
+use App\Models\Project;
 
 use Validator;
 class AuthController extends Controller
@@ -39,16 +40,20 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
         $allocations = [];
+        $project = '';
+
+        $project_id = 0;
       
         if($user && $user->role_id == 4) {
-            $allocations = Allocation::select('manager_ids')->pluck('manager_ids');
+            $allocations = Allocation::select('manager_ids','project_id')->pluck('manager_ids');
+            
         }
         else if ($user && $user->role_id == 5){
-            $allocations = Allocation::select('user_ids')->pluck('user_ids');
+            $allocations = Allocation::select('user_ids','project_id')->pluck('user_ids');
         }
 
         else if ($user && $user->role_id == 7){
-            $allocations = Allocation::select('guard_ids')->pluck('guard_ids');
+            $allocations = Allocation::select('guard_ids','project_id')->pluck('guard_ids');
         }
 
         $isAssigned = false;
@@ -56,6 +61,10 @@ class AuthController extends Controller
         foreach($allocations as $allocation){
 
             $isAssigned = in_array($user->id,$allocation) ? true : false;
+
+            if($isAssigned){
+                $project = Project::where('user_id',$user->id)->first();
+            }
 
         }
     
@@ -75,7 +84,9 @@ class AuthController extends Controller
 
             return response()->json([
                 'token' => $user->createToken('myApp')->plainTextToken,
-                'user'=> $user
+                'user'=> $user,
+                'project' => $project,
+                'user_id' => $user->id
                 ]);
         
     }
