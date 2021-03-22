@@ -82,3 +82,4 @@ Route::get('WewatchManagerCount',[ReportController::class,'WewatchManagerCount']
 Route::get('UserCount',[ReportController::class,'UserCount']);
 Route::get('SecurityGuardCount',[ReportController::class,'SecurityGuardCount']);
 Route::get('ProjectCount',[ReportController::class,'ProjectCount']);
+Route::get('count_by_project/{id}',[ReportController::class,'count_by_project']);

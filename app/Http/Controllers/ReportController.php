@@ -8,46 +8,81 @@ use App\Models\Covid;
 use App\Models\AccidentIncident;
 use App\Models\TrainingInduction;
 use App\Models\DailyVisitorsRegister;
+use App\Models\DailySecurityReport;
 use App\Models\Observation;
 use App\Models\User;
 use App\Models\Project;
 
 class ReportController extends Controller
 {
-    public function GetCovidCount()
+    public function GetCovidCount($id = null)
     {
-        return Covid::all()->count();
+        if(isset($id)){
+            return Covid::where('project_id', $id)->count();
+        }
+        else{
+            return Covid::all()->count();
+        }
     }
-    public function GetAccidentIncidentCount()
+    public function GetAccidentIncidentCount($id = null)
     {
-        return AccidentIncident::all()->count();
-    }
-
-    public function GetTrainingInductionCount()
-    {
-        return TrainingInduction::all()->count();
-    }
-
-    public function GetObservationCount()
-    {
-        return Observation::all()->count();
-    }
-
-    public function GetDailyHSEReportCount()
-    {
-        return 559;
-        return Covid::all()->count();
+        if(isset($id)){
+            return AccidentIncident::where('project_id', $id)->count();
+        }
+        else{
+            return AccidentIncident::all()->count();
+        }
     }
 
-    public function GetDailySecurityReportCount()
+    public function GetTrainingInductionCount($id = null)
     {
-        return 23;
-        return Covid::all()->count();
+        if(isset($id)){
+            return TrainingInduction::where('project_id', $id)->count();
+        }
+        else{
+            return TrainingInduction::all()->count();
+        }
     }
 
-    public function GetSiteVisiterRecordCount()
+    public function GetObservationCount($id = null)
     {
-        return DailyVisitorsRegister::all()->count();
+        if(isset($id)){
+            return Observation::where('project_id', $id)->count();
+        }
+        else{
+            return Observation::all()->count();
+        }
+    }
+
+    public function GetDailyHSEReportCount($id = null)
+    {
+        return 88;
+        if(isset($id)){
+            return Covid::where('project_id', $id)->count();
+        }
+        else{
+            return Covid::all()->count();
+        }
+    }
+
+    public function GetDailySecurityReportCount($id = null)
+    {
+        if(isset($id)){
+            return DailySecurityReport::where('project_id', $id)->count();
+        }
+        else{
+            return DailySecurityReport::all()->count();
+        }
+    }
+
+    public function GetSiteVisiterRecordCount($id = null)
+    {
+        if(isset($id)){
+            return DailyVisitorsRegister::where('project_id', $id)->count();
+        }
+        else{
+            return DailyVisitorsRegister::all()->count();
+        }
     }
 
     public function GetDailyManHoursCount()
@@ -101,6 +136,18 @@ class ReportController extends Controller
             'SecurityGuardCount' => $this->SecurityGuardCount(),
             'ProjectCount' => $this->ProjectCount()
             
+        ];
+    }
+    public function count_by_project($id)
+    {
+        return [
+            'GetCovidCount' => $this->GetCovidCount($id),
+            'GetAccidentIncidentCount' => $this->GetAccidentIncidentCount($id),
+            'GetObservationCount' => $this->GetObservationCount($id),
+            'GetTrainingInductionCount' => $this->GetTrainingInductionCount($id),
+            'GetDailyHSEReportCount' => $this->GetDailyHSEReportCount($id),
+            'GetDailySecurityReportCount' => $this->GetDailySecurityReportCount($id),
+            'GetSiteVisiterRecordCount' => $this->GetSiteVisiterRecordCount($id)            
         ];
     }
 }
