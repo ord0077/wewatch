@@ -63,6 +63,7 @@ class AuthController extends Controller
         }
 
         $project = [];
+        $isAssigned = false;
 
         foreach ($allocations as $allocation) {
 
