@@ -45,28 +45,41 @@ class AuthController extends Controller
         $project_id = 0;
       
         if($user && $user->role_id == 4) {
-            $allocations = Allocation::select('manager_ids','project_id')->pluck('manager_ids');
+            $allocations = Allocation::orderBy('id','desc')->select('id','manager_ids as member_ids','project_id')->get();
             
         }
         else if ($user && $user->role_id == 5){
-            $allocations = Allocation::select('user_ids','project_id')->pluck('user_ids');
+
+            $allocations = Allocation::orderBy('id','desc')->select('id','user_ids as member_ids','project_id')
+            ->take(1)->get();
+
         }
 
         else if ($user && $user->role_id == 7){
-            $allocations = Allocation::select('guard_ids','project_id')->pluck('guard_ids');
+
+            $allocations = Allocation::orderBy('id','desc')->select('id','guard_ids as member_ids','project_id')
+            ->take(1)->get();
+
         }
 
-        $isAssigned = false;
-      
-        foreach($allocations as $allocation){
+        $project = [];
 
-            $isAssigned = in_array($user->id,$allocation) ? true : false;
+        foreach ($allocations as $allocation) {
+
+            $mid = json_decode($allocation->member_ids);
+
+            $isAssigned = in_array($user->id,$mid) ? true : false;
 
             if($isAssigned){
-                $project = Project::where('user_id',$user->id)->first();
+                $project[] = Project::where('id',$allocation->project->id)->select('id as project_id','project_name')->first();
             }
 
         }
+
+        
+            
+        // echo "<pre>";
+
     
         if (! $user || ! Hash::check($request->password, $user->password)) {
             
@@ -93,7 +106,7 @@ class AuthController extends Controller
 
     public function master_login(Request $request){ 
 
-        $user = User::where('email', $request->email)->where('role_id',1)->first();
+        $user = User::where('email', $request->email)->whereIn('role_id',[1,2,4])->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
             
