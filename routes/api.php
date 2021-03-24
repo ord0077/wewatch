@@ -11,6 +11,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CovidController;
 use App\Http\Controllers\TrainingInductionController;
+use App\Http\Controllers\HSEController;
 use App\Http\Controllers\DailySecurityReportController;
 use App\Http\Controllers\DailyVisitorsRegisterController;
 use App\Http\Controllers\ObservationController;
