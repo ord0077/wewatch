@@ -70,17 +70,22 @@ class DailySecurityReportController extends Controller
             'observations' => $request->observations,
             'travel_security_updates' => $request->travel_security_updates,
             'red_flag' => $request->red_flag,
-            'attachments' => $request->attachments
+            'attachments' => ''
  
         );
 
-        if($request->hasFile('attachments'))
-        {
-           $attach = $request->attachments;
-           $img = $attach->getClientOriginalName();
-           $attach->move(public_path('uploads/dailysecurityreport/'),$img);
-           $fields['attachments']= asset('uploads/dailysecurityreport/'. $img);
-        }
+        if(!empty($request->attachments))
+            {
+                $type = explode(",", $request->attachments);
+                $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
+                if (!file_exists(public_path('uploads/dailysecurityreport/'))) {
+                    mkdir(public_path('uploads/dailysecurityreport/'), 0777, true);
+                }
+                $ifp = fopen( public_path('uploads/dailysecurityreport/'.$filename), 'wb' ); 
+                fwrite( $ifp, base64_decode($type[1]));
+                fclose( $ifp );
+                $fields['attachments'] = asset('uploads/dailysecurityreport/'.$filename);
+            }   
 
         $success = DailySecurityReport::create($fields);
 

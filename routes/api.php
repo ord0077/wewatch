@@ -44,6 +44,7 @@ Route::resource('/allocation', AllocationController::class);
 Route::resource('/role', RoleController::class);
 Route::resource('/covid', CovidController::class);
 Route::resource('/traininginduction', TrainingInductionController::class);
+Route::resource('/hsereport', HSEController::class);
 Route::apiResource('/dailysecurityreport', DailySecurityReportController::class);
 Route::apiResource('/dailyvisitorsregister', DailyVisitorsRegisterController::class);
 Route::apiResource('/observation', ObservationController::class);
