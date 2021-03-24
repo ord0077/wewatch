@@ -48,7 +48,7 @@ class HSEController extends Controller
             'subcontractors' => $request->subcontractors,
             'progress_activity' => $request->progress_activity,
             'session_attendees' => $request->session_attendees,
-            'attachments' => '',
+            'attachment' => '',
             'red_flag' => $request->red_flag,
             'incidents' => $request->incidents,
             'incidents_remarks' => $request->incidents_remarks,
