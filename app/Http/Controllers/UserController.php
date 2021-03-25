@@ -65,7 +65,6 @@ class UserController extends Controller
             'isactive' => $request->isActive
         );        
 
-    
         $create = User::create($fields);
         list($status,$data) = $create ? [ true , User::find($create->id) ] : [ false , ''];
         return ['success' => $status,'data' => $data];

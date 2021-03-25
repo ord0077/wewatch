@@ -64,14 +64,14 @@ class AuthController extends Controller
 
         $project = [];
         $isAssigned = false;
-
         foreach ($allocations as $allocation) {
 
             $mid = json_decode($allocation->member_ids);
 
-            $isAssigned = in_array($user->id,$mid) ? true : false;
+            $is = in_array($user->id,$mid) ? true : false;
 
-            if($isAssigned){
+            if($is){
+                $isAssigned = $is;
                 $project[] = Project::where('id',$allocation->project->id)->select('id as project_id','project_name')->first();
             }
 
