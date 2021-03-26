@@ -31,9 +31,9 @@ class ProjectController extends Controller
        
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
-            'project_name' => 'required',
-            'location' => 'required',
-            'zones' => 'required'   
+            'project_name' => 'required|unique:projects|max:100|min:3',
+            'location' => 'required|max:100|min:3',
+            'zones' => 'required|numeric|min:1|max:50'   
         ]);
 
         if(!$request->hasFile('project_logo')){
@@ -99,13 +99,24 @@ class ProjectController extends Controller
 
         public function update(Request $request,$id)
         {
-      
-            $validator = Validator::make($request->all(), [
+
+            $val_arr = [
                 'user_id' => 'required',
-                'project_name' => 'required',
-                'location' => 'required',
-                'zones' => 'required'   
-            ]);
+                'location' => 'required|max:100|min:3',
+                'zones' => 'required|numeric|min:1|max:50',
+            ];
+
+                $existing_project = Project::find($id) ?? '';
+
+                if($request->project_name !== $existing_project->project_name){
+
+                    $val_arr = [
+                        'project_name' => 'required|unique:projects|max:100|min:3',
+                    ];
+            }
+      
+            $validator = Validator::make($request->all(), $val_arr);
+            
             if ($validator->fails()) {
                 return response()->json([ 
                     'success' => false, 
