@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Project;
 use App\Models\Zone;
 use App\Models\User;
+use App\Models\Allocation;
+
 class ProjectController extends Controller
 {
     public function __construct()
@@ -23,6 +25,27 @@ class ProjectController extends Controller
     public function projectbyuserid($id)
     {
          return Project::where('user_id',$id)->orderBy('id','desc')->get();
+    }
+
+    public function projectbymanagerid($id)
+    {
+        $allocations = Allocation::orderBy('id','desc')->select('id','manager_ids as member_ids','project_id')->get();
+
+        $project = [];
+        $isAssigned = false;
+        foreach ($allocations as $allocation) {
+
+
+            $is = in_array($id,json_decode($allocation->member_ids)) ? true : false;
+
+            if($is){
+                $isAssigned = $is;
+                $project[] = Project::where('id',$allocation->project->id)->first();
+            }
+
+        }
+
+         return $project;
     }
     
 
