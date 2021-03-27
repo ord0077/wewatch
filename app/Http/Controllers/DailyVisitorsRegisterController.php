@@ -97,6 +97,66 @@ class DailyVisitorsRegisterController extends Controller
     }
 
    
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(),[
+
+            'user_id' => 'required',
+            'project_id' => 'required',
+            'company_name' => 'required',
+            'driver_contact' => 'required',
+            'visit_reason' => 'required'
+
+        ]);
+        if($validator->fails()){
+          return  ['success' => false,'error' =>  $validator->errors()];
+        }
+
+       $fields = array(
+
+            'user_id' => $request->user_id,
+            'project_id' => $request->project_id,
+            'company_name' => $request->company_name,
+            'driver_contact' => $request->driver_contact,
+            'visit_reason' => $request->visit_reason
+        );
+
+        
+        if($request->hasFile('car_attachment')){
+            $attach = $request->car_attachment;
+
+            $type = explode(",", $attach);
+            $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
+            
+            $ifp = fopen( public_path('uploads/dailyvisitorsregister/'.$filename), 'wb' ); 
+            fwrite( $ifp, base64_decode($type[1]));
+            fclose( $ifp );
+            $fields['car_attachment'] = asset('uploads/dailyvisitorsregister/'.$filename); 
+
+        }   
+        
+        if($request->hasFile('id_attachment')){
+            $attach = $request->car_attachment;
+
+            $type = explode(",", $attach);
+            $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
+            
+            $ifp = fopen( public_path('uploads/dailyvisitorsregister/'.$filename), 'wb' ); 
+            fwrite( $ifp, base64_decode($type[1]));
+            fclose( $ifp );
+            $fields['id_attachment'] = asset('uploads/dailyvisitorsregister/'.$filename); 
+
+        }   
+        // dd($fields);
+
+
+        $success = DVR::where('id', $id)->update($fields);
+
+            return [ 'success' => true, 'data' => DVR::find($id) ];
+
+        }
+
+
     public function destroy($id)
     {
        

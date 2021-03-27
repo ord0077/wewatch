@@ -103,6 +103,67 @@ class ObservationController extends Controller
     }
 
    
+
+    public function update(Request $request, $id)
+    {
+
+        try {
+
+       $validator = Validator::make($request->all(),[
+                    
+            'user_id' => 'required',
+            'project_id' => 'required',
+            'action' => 'required',
+            'location' => 'required',
+        ]);
+
+        if($validator->fails()){
+
+           return response()->json([
+               'success' => false, 
+           'error' => $validator->errors()]);
+        }
+
+           $fields= array(
+
+            'user_id' => $request->user_id,
+            'project_id' => $request->project_id,
+            'observation_description' => $request->observation_description,
+            'location' => $request->location,
+            'action' => $request->action
+            
+        );
+
+        if(!empty($request->attachments))
+            {
+                $type = explode(",", $request->attachments);
+                $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
+                if (!file_exists(public_path('uploads/observations/'))) {
+                    mkdir(public_path('uploads/observations/'), 0777, true);
+                }
+                $ifp = fopen( public_path('uploads/observations/'.$filename), 'wb' ); 
+                fwrite( $ifp, base64_decode($type[1]));
+                fclose( $ifp );
+                $fields['attachments'] = asset('uploads/observations/'.$filename);
+            }
+
+         $success = Observation::where('id', $id)->update($fields);
+        list($status,$data) = $success ? [true, Observation::find($id)] : [false, ''];
+
+         return ['success' => $status, 'data' => $data];
+
+         
+
+         } catch (Exception $e)
+
+         {
+            return response()->json($e->errorInfo[2] ?? 'unknown error');
+         }
+
+
+    }
+
+
     /**
      * Remove the specified resource from storage.
      *

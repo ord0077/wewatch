@@ -98,6 +98,59 @@ class CovidController extends Controller
         return Covid::find($id);
     }
 
+
+    public function update(Request $request, $id)
+    {
+        try {
+    
+        $validator = Validator::make($request->all(), [
+                'user_id' => 'required',
+                'project_id' => 'required',
+                'temperature' => 'required',
+                'staff_name' => 'required',
+                'company' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([ 
+                'success' => false, 
+                'errors' => $validator->errors() 
+                ]); 
+        }
+
+        $fields = array(
+            'user_id'=>$request->user_id,
+            'temperature'=>$request->temperature,
+            'staff_name'=>$request->staff_name,
+            'company'=>$request->company,
+            'project_id' => $request->project_id,
+            'remarks'=>$request->remarks,
+        );
+        if(!empty($request->image))
+        {
+            $type = explode(",", $request->image);
+            $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
+            if (!file_exists(public_path('uploads/covid/'))) {
+                mkdir(public_path('uploads/covid/'), 0777, true);
+            }
+            $ifp = fopen( public_path('uploads/covid/'.$filename), 'wb' ); 
+            fwrite( $ifp, base64_decode($type[1]));
+            fclose( $ifp );
+            $fields['image'] = asset('uploads/covid/'.$filename);
+        }              
+      
+        $covid = Covid::where('id', $id)->update($fields);
+
+        list($status,$data) = $covid ? [ true , Covid::find($id) ] : [ false , ''];
+        return ['success' => $status,'data' => $data];
+               
+
+        } catch (Exception $e) {
+
+             return response()->json($e->errorInfo[2] ?? 'unknown error');
+        }
+
+   
+    }
     /**
      * Remove the specified resource from storage.
      *

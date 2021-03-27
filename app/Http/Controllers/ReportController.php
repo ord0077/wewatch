@@ -12,17 +12,14 @@ use App\Models\DailySecurityReport;
 use App\Models\Observation;
 use App\Models\User;
 use App\Models\Project;
+use App\Models\HseReport;
 
 class ReportController extends Controller
 {
     public function GetCovidCount($id = null)
     {
-        if(isset($id)){
-            return Covid::where('project_id', $id)->count();
-        }
-        else{
-            return Covid::all()->count();
-        }
+        return $id ? Covid::where('project_id', $id)->count() : Covid::all()->count();
+       
     }
     public function GetAccidentIncidentCount($id = null)
     {
@@ -56,12 +53,12 @@ class ReportController extends Controller
 
     public function GetDailyHSEReportCount($id = null)
     {
-        return 88;
+        
         if(isset($id)){
-            return Covid::where('project_id', $id)->count();
+            return HseReport::where('project_id', $id)->count();
         }
         else{
-            return Covid::all()->count();
+            return HseReport::all()->count();
         }
     }
 
@@ -88,13 +85,13 @@ class ReportController extends Controller
     public function GetDailyManHoursCount()
     {
         return 125;
-        return Covid::all()->count();
+        
     }
 
     public function GetLostWorkHoursCount()
     {
         return 523;
-        return Covid::all()->count();
+        
     }
 
     public function ProjectAdminCount()

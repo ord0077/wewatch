@@ -116,7 +116,75 @@ class AccidentIncidentController extends Controller
     }
 
     
+    public function update(Request $request, $id)
+    {
+        try {
+           
+       
 
+            $validator = Validator::make($request->all(),[
+
+        'user_id' => 'required',
+        'project_id' => 'required',
+        'location' => 'required',
+        'reported_date' => 'required',
+        'reported_time' => 'required',
+        'category_incident' => 'required',
+        'type_injury' => 'required',
+        'type_incident' => 'required'
+        
+        
+        ]);
+
+        if($validator->fails()){
+            return  ['success' => false,
+            'error' =>  $validator->errors()];
+          }
+
+
+
+        $fields = array(
+
+        'user_id' => $request->user_id,
+        'project_id' => $request->project_id,
+        'location' => $request->location,
+        'reported_date' => $request->reported_date,
+        'reported_time' => $request->reported_time,
+        'category_incident' => $request->category_incident,
+        'type_injury' => $request->type_injury,
+        'type_incident' => $request->type_incident,
+        'other' => $request->other,
+        'fatality' => $request->fatality,
+        'describe_incident' => $request->describe_incident,
+        'immediate_action' => $request->immediate_action,            
+    );
+
+        
+           
+
+            if(!empty($request->attachment))
+            {
+                $type = explode(",", $request->attachment);
+                $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
+                if (!file_exists(public_path('uploads/accidentincident/'))) {
+                    mkdir(public_path('uploads/accidentincident/'), 0777, true);
+                }
+                $ifp = fopen( public_path('uploads/accidentincident/'.$filename), 'wb' ); 
+                fwrite( $ifp, base64_decode($type[1]));
+                fclose( $ifp );
+                $fields['attachment'] = asset('uploads/accidentincident/'.$filename);
+            }
+            
+             $success= AI::where('id', $id)->update($fields);
+          
+           list($status,$data) = $success ? [true, AI::find($id)] : [false, ''];
+           return ['success' => $status,'data' => $data];
+
+         } catch (Exception $e) {
+             
+            return response()->json($e->errorInfo ?? 'unknown error');
+        }
+    }
     /**
      * Remove the specified resource from storage.
      *

@@ -105,7 +105,65 @@ class DailySecurityReportController extends Controller
        return  DailySecurityReport::find($id);
     }
 
+    public function update(Request $request, $id)
+    {
+        $validator =Validator::make($request->all(),[
+            
+            'user_id' => 'required',
+            'project_id' => 'required',
+            'daily_report_elements' => 'required',
+            'guard_organization' => 'required',
+            'no_staff' => 'required',
+            'no_incidents_daily' => 'required',
+            'no_visitors' => 'required',
+            'inspections' => 'required',
+            'observations' => 'required',
+            'travel_security_updates' => 'required'
 
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+
+            ]);
+
+        }
+
+       $fields =array(
+            'user_id' => $request->user_id,
+            'project_id' => $request->project_id,
+            'daily_report_elements' => $request->daily_report_elements,
+            'guard_organization' => $request->guard_organization,
+            'no_staff' => $request->no_staff,
+            'no_incidents_daily' => $request->no_incidents_daily,
+            'no_visitors' => $request->no_visitors,
+            'inspections' => $request->inspections,
+            'observations' => $request->observations,
+            'travel_security_updates' => $request->travel_security_updates,
+            'red_flag' => $request->red_flag
+        );
+
+        if(!empty($request->attachments))
+            {
+                $type = explode(",", $request->attachments);
+                $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
+                if (!file_exists(public_path('uploads/dailysecurityreport/'))) {
+                    mkdir(public_path('uploads/dailysecurityreport/'), 0777, true);
+                }
+                $ifp = fopen( public_path('uploads/dailysecurityreport/'.$filename), 'wb' ); 
+                fwrite( $ifp, base64_decode($type[1]));
+                fclose( $ifp );
+                $fields['attachments'] = asset('uploads/dailysecurityreport/'.$filename);
+            }   
+
+        $success = DailySecurityReport::where('id', $id)->update($fields);
+
+       list($status,$data) = $success ? [true, DailySecurityReport::find($id)] : [false, ''];
+       return ['success' => $status,'data' => $data];
+
+    }
     /**
      * Remove the specified resource from storage.
      *
