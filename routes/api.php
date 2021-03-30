@@ -50,6 +50,7 @@ Route::apiResource('/dailysecurityreport', DailySecurityReportController::class)
 Route::apiResource('/dailyvisitorsregister', DailyVisitorsRegisterController::class);
 Route::apiResource('/observation', ObservationController::class);
 Route::apiResource('/accidentincident', AccidentIncidentController::class);
+Route::post('/accidentincident/{id}', [AccidentIncidentController::class, 'update']);
 
 Route::resource('/user', UserController::class);
 
