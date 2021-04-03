@@ -60,6 +60,7 @@ Route::get('/test_by_id/{role_id}', [UserController::class,'test']);
 
 Route::post('change_password/{id}', [UserController::class, 'change_password']);
 Route::resource('/project', ProjectController::class);
+Route::get('/CheckProjectWithAllocation', [ProjectController::class, 'CheckProjectWithAllocation']);
 Route::post('/update_project_logo/{id}', [ProjectController::class, 'update_project_logo']);
 Route::get('/projectbyuserid/{id}', [ProjectController::class, 'projectbyuserid']);
 Route::get('/projectbymanagerid/{id}', [ProjectController::class, 'projectbymanagerid']);

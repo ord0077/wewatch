@@ -47,6 +47,16 @@ class ProjectController extends Controller
 
          return $project;
     }
+
+    public function CheckProjectWithAllocation()
+    {
+
+        return Project::without('user','zones')
+                    ->select('id','project_name')
+                    ->whereNotIn('id', Allocation::distinct('project_id')->pluck('project_id'))
+                    ->get();
+
+    }
     
 
     public function store(Request $request)
