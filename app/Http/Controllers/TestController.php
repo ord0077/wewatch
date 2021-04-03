@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TestMail;
 class TestController extends Controller
 {
     // public function __construct()
@@ -51,5 +52,10 @@ class TestController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function send_email(Request $request){
+
+        Mail::to('aizaz@gmail.com')->send(new TestMail("ok"));
     }
 }
