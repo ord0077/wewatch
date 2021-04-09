@@ -16,6 +16,7 @@ use App\Http\Controllers\DailySecurityReportController;
 use App\Http\Controllers\DailyVisitorsRegisterController;
 use App\Http\Controllers\ObservationController;
 use App\Http\Controllers\AccidentIncidentController;
+use App\Http\Controllers\DailyHseReportController;
 
 use App\Http\Controllers\ReportController;
 
@@ -51,6 +52,8 @@ Route::apiResource('/dailysecurityreport', DailySecurityReportController::class)
 Route::apiResource('/dailyvisitorsregister', DailyVisitorsRegisterController::class);
 Route::apiResource('/observation', ObservationController::class);
 Route::apiResource('/accidentincident', AccidentIncidentController::class);
+Route::apiResource('/dailyhsereport', DailyHseReportController::class);
+
 Route::post('/accidentincident/{id}', [AccidentIncidentController::class, 'update']);
 
 Route::resource('/user', UserController::class);
