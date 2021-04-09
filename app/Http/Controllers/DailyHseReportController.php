@@ -154,7 +154,7 @@ class DailyHseReportController extends Controller
 
             DB::commit();
 
-            list($status,$data) = $success ? [true, $success] : [false, ''];
+            list($status,$data) = $success ? [true, $this->show($success->id)] : [false, ''];
             return ['success' => $status,'data' => $data];
             // all good
             } catch (Exception $e) {

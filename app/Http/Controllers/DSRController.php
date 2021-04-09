@@ -100,10 +100,11 @@ class DSRController extends Controller
             DB::table('project_details')->insert($pfields); 
             DB::table('near_miss_reportings')->insert($nmrfields);  
 
+            DB::commit();
+            
             list($status,$data) = $success ? [true, $this->show($success->id)] : [false, ''];
             return ['success' => $status,'data' => $data];
 
-            DB::commit();
             // all good
             } catch (Exception $e) {
               DB::rollback();
