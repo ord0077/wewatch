@@ -126,34 +126,41 @@ class DailyHseReportController extends Controller
             'covid_compliance_remarks' => $request->covid_compliance_remarks
         );
 
-
-            DB::beginTransaction();
-
-            try {
-            
-
             DB::table('bulid_activities')->insert($bafields);   
             DB::table('project_health_compliances')->insert($phcfields);    
             DB::table('project_details')->insert($pfields);   
             DB::table('hazard_identifies')->insert($hifields);   
             DB::table('near_miss_reportings')->insert($nmrfields);   
             DB::table('covid_compliances')->insert($ccfields);   
-           // $id = DB::table('d_h_r_s')->insertGetId($hsefields);   
+
+
+        //     DB::beginTransaction();
+
+        //     try {
+            
+
+        //     DB::table('bulid_activities')->insert($bafields);   
+        //     DB::table('project_health_compliances')->insert($phcfields);    
+        //     DB::table('project_details')->insert($pfields);   
+        //     DB::table('hazard_identifies')->insert($hifields);   
+        //     DB::table('near_miss_reportings')->insert($nmrfields);   
+        //     DB::table('covid_compliances')->insert($ccfields);   
+        //    // $id = DB::table('d_h_r_s')->insertGetId($hsefields);   
         
           
-            list($status,$data) = $success ? [true, $this->show($success->id)] : [false, ''];
+            list($status,$data) = $success ? [true, $success] : [false, ''];
             return ['success' => $status,'data' => $data];
 
-            DB::commit();
-            // all good
-            } catch (Exception $e) {
-              DB::rollback();
-            // something went wrong
-            return response()->json($e->errorInfo ?? 'unknown error');
-            }
+        //     DB::commit();
+        //     // all good
+        //     } catch (Exception $e) {
+        //       DB::rollback();
+        //     // something went wrong
+        //     return response()->json($e->errorInfo ?? 'unknown error');
+        //     }
 
 
-        // }
+    
       
        
 
