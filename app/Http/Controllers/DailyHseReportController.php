@@ -2,78 +2,71 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DailyHseReport as DHR;
+use App\Models\DHR;
 use App\Models\ProjectDetail as PD;
 use App\Models\BulidActivity as BA;
 use App\Models\ProjectHealthCompliance as PHC;
 use App\Models\HazardIdentify as HI;
 use App\Models\NearMissReporting as NMR;
 use App\Models\CovidCompliance as CC;
+use App\Models\Project as P;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Exception;
+use DB;
 
 class DailyHseReportController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+  
     public function index()
     {
-        return DHR::orderBy('id', 'DESC')
-        // ->with(['projectdetail'])
-        ->with(['project','projectdetail','bulidactivity','projecthealthcompliance','hazardidentify','nearmissreporting','covidcompliance'])
-        // ->select('id')
-        ->get();
+         return DHR::orderBy('id', 'DESC')  
+            ->with([
+                'project',
+                'projectdetail',
+                'bulidactivity',
+                'projecthealthcompliance',
+                'hazardidentify',
+                'nearmissreporting',
+                'covidcompliance'
+                ])
+            ->get();     
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        try {
+      
+            $validator = Validator::make($request->all(),[
 
+                'project_id' => 'required',
+                'user_id' => 'required',
+                'date' => 'required'
 
-       $validator = Validator::make($request->all(),[
+            ]);
 
-        'project_id' => 'required',
-        'user_id' => 'required',
-        'date' => 'required'
+            if($validator->fails()){ 
+                    return  ['success' => false, 'error' =>  $validator->errors()];
+            }
 
-       ]);
+            $hsefields = array(
 
-       if($validator->fails()){
-        return  ['success' => false,
-        'error' =>  $validator->errors()];
-      }
-
-
-
-    $hsefields = array(
-
-        'project_id' => $request->project_id,
-        'user_id' => $request->user_id,
-        'date' => $request->date,
-        'description_confidential' => $request->description_confidential,
-        'daily_situation_summary' => $request->daily_situation_summary,
-        'project_key_meeting' => $request->project_key_meeting,
-        'toolbox_talk' => $request->toolbox_talk,
-        'procurement_request' => $request->procurement_request,
-        'red_flag' => $request->red_flag,
-     
-        );
+                'project_id' => $request->project_id,
+                'user_id' => $request->user_id,
+                'date' => $request->date,
+                'description_confidential' => $request->description_confidential,
+                'daily_situation_summary' => $request->daily_situation_summary,
+                'project_key_meeting' => $request->project_key_meeting,
+                'toolbox_talk' => $request->toolbox_talk,
+                'procurement_request' => $request->procurement_request,
+                'red_flag' => $request->red_flag,
+            
+                );
 
         $success = DHR::create($hsefields);
 
         $pfields = array(
-            'daily_hse_report_id' => $success->id,
+            'd_h_r_id' => $success->id,
             'weather' => $request->weather,
             'wind_strength' => $request->wind_strength,
             'weather_wind_remarks' => $request->weather_wind_remarks,  
@@ -93,7 +86,7 @@ class DailyHseReportController extends Controller
 
         $bafields = array(
 
-            'daily_hse_report_id' => $success->id,
+            'd_h_r_id' => $success->id,
            'activites' => $request->activites,
             'occurrence' => $request->occurrence,
            'remarks' => $request->remarks
@@ -103,7 +96,7 @@ class DailyHseReportController extends Controller
 
         $phcfields = array(
 
-            'daily_hse_report_id' => $success->id,
+            'd_h_r_id' => $success->id,
             'project_health_activites' => $request->project_health_activites,
            'project_health_occurrence' =>  $request->project_health_occurrence,
             'project_health_remarks' =>  $request->project_health_remarks
@@ -111,7 +104,7 @@ class DailyHseReportController extends Controller
 
         $hifields =array(
 
-           'daily_hse_report_id' => $success->id,
+           'd_h_r_id' => $success->id,
          'hazard_identify_activites' => $request->hazard_identify_activites,
            'hazard_identify_occurrence' => $request->hazard_identify_occurrence,
            'hazard_identify_remarks' => $request->hazard_identify_remarks
@@ -119,7 +112,7 @@ class DailyHseReportController extends Controller
 
         $nmrfields =array(
 
-           'daily_hse_report_id' => $success->id,
+           'd_h_r_id' => $success->id,
            'near_miss_activites' => $request->near_miss_activites,
             'near_miss_occurrence' => $request->near_miss_occurrence,
             'near_miss_remarks' => $request->near_miss_remarks
@@ -127,78 +120,60 @@ class DailyHseReportController extends Controller
 
         $ccfields = array(
 
-           'daily_hse_report_id' => $success->id,
-           'covid_compliance_activites' => $request->covid_compliance_activites,
+            'd_h_r_id' => $success->id,
+            'covid_compliance_activites' => $request->covid_compliance_activites,
             'covid_compliance_occurrence' => $request->covid_compliance_occurrence, 
             'covid_compliance_remarks' => $request->covid_compliance_remarks
         );
 
 
+            DB::beginTransaction();
 
-        //    list($status,$data) = $success ? [true, DHR::find($success->id)] : [false, ''];
-        //    return ['success' => $status,'data' => $data];
+            try {
+            
 
-        $pd = PD::create($pfields);
-
-        $ba = BA::create($bafields);
-
-        $phc = PHC::create($phcfields); 
-
-        $hi = HI::create($hifields);
-
-        $nmr = NMR::create($nmrfields);
-
-        $cc = CC::create($ccfields);
+            DB::table('bulid_activities')->insert($bafields);   
+            DB::table('project_health_compliances')->insert($phcfields);    
+            DB::table('project_details')->insert($pfields);   
+            DB::table('hazard_identifies')->insert($hifields);   
+            DB::table('near_miss_reportings')->insert($nmrfields);   
+            DB::table('covid_compliances')->insert($ccfields);   
+           // $id = DB::table('d_h_r_s')->insertGetId($hsefields);   
+        
           
-        //    list($status,$data) = $success ? [true, DHR::find($cc->id)] : [false, ''];
-        //    return ['success' => $status,'data' => $data];
+            list($status,$data) = $success ? [true, $this->show($success->id)] : [false, ''];
+            return ['success' => $status,'data' => $data];
 
-        } catch (Exception $e) {
-             
+            DB::commit();
+            // all good
+            } catch (Exception $e) {
+              DB::rollback();
+            // something went wrong
             return response()->json($e->errorInfo ?? 'unknown error');
-        }
+            }
 
+
+        // }
+      
        
 
-      
-        $success= DHR::create($hsefields);
-          
-           list($status,$data) = $success ? [true, DHR::find($success->id)] : [false, ''];
-           return ['success' => $status,'data' => $data];
-        
-
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\DailyHseReport  $dailyHseReport
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        return DHR::with(['project','projectdetail','bulidactivity','projecthealthcompliance','hazardidentify','nearmissreporting','covidcompliance'])
-        ->find($id);
+
+        return DHR::with([
+            'project',
+            'projectdetail',
+            'bulidactivity',
+            'projecthealthcompliance',
+            'hazardidentify',
+            'nearmissreporting',
+            'covidcompliance'
+            ])
+            ->find($id);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\DailyHseReport  $dailyHseReport
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, DailyHseReport $dailyHseReport)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\DailyHseReport  $dailyHseReport
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         return DHR::find($id)->delete() 

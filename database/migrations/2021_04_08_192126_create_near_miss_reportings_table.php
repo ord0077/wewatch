@@ -15,11 +15,11 @@ class CreateNearMissReportingsTable extends Migration
     {
         Schema::create('near_miss_reportings', function (Blueprint $table) {
             $table->id();
-            $table->integer('daily_hse_report_id');
+            $table->integer('d_h_r_id')->nullable();
+            $table->integer('d_s_r_id')->nullable();
             $table->string('near_miss_activites');
             $table->boolean('near_miss_occurrence');
             $table->string('near_miss_remarks')->nullable();
-            $table->timestamps();
         });
     }
 

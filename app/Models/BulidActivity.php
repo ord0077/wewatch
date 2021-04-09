@@ -9,4 +9,6 @@ class BulidActivity extends Model
 {
     protected $guarded = [];
     use HasFactory;
+    
+
 }

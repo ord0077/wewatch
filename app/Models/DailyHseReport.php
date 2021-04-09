@@ -9,14 +9,13 @@ use App\Models\ProjectDetail;
 
 class DailyHseReport extends Model
 {
-    use HasFactory;
+     use HasFactory;
      protected $guarded = [];
 
 
      protected $with = [
 
-//   'project:id,project_name',
-    //  'projectdetail:id,daily_hse_report_id,weather,wind_strength,weather_wind_remarks,design_build_time,daily_operation_man_hour,design_time_hour_remarks,contractors,staff_numbers,shift_pattern,daily_man_hours,type_contractors,total_man_days,total_man_hours,total_lost_work_hours'  
+        //  'project:id,project_name',
      ];
 
   

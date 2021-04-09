@@ -15,11 +15,11 @@ class CreateHazardIdentifiesTable extends Migration
     {
         Schema::create('hazard_identifies', function (Blueprint $table) {
             $table->id();
-            $table->integer('daily_hse_report_id');
+            $table->integer('d_h_r_id')->nullable();
+            $table->integer('d_s_r_id')->nullable();
             $table->string('hazard_identify_activites');
             $table->boolean('hazard_identify_occurrence');
             $table->string('hazard_identify_remarks')->nullable();
-            $table->timestamps();
         });
     }
 

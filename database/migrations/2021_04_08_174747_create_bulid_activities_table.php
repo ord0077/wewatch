@@ -15,11 +15,11 @@ class CreateBulidActivitiesTable extends Migration
     {
         Schema::create('bulid_activities', function (Blueprint $table) {
             $table->id();
-            $table->integer('daily_hse_report_id');
+            $table->integer('d_h_r_id')->nullable();
+            $table->integer('d_s_r_id')->nullable();
             $table->string('activites');
             $table->boolean('occurrence');
             $table->string('remarks')->nullable();
-            $table->timestamps();
         });
     }
 

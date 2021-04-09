@@ -16,7 +16,8 @@ class ProjectDetails extends Migration
         Schema::create('project_details', function (Blueprint $table) {
             $table->id();
            
-            $table->integer('daily_hse_report_id');
+            $table->integer('d_h_r_id')->nullable();
+            $table->integer('d_s_r_id')->nullable();
             $table->string('weather');
             $table->string('wind_strength');
             $table->string('weather_wind_remarks')->nullable();
@@ -31,9 +32,6 @@ class ProjectDetails extends Migration
             $table->integer('total_man_days');
             $table->integer('total_man_hours');
             $table->integer('total_lost_work_hours');
-
-
-            $table->timestamps();
         });
     }
 

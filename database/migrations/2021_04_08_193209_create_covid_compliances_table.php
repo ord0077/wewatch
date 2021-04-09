@@ -15,11 +15,11 @@ class CreateCovidCompliancesTable extends Migration
     {
         Schema::create('covid_compliances', function (Blueprint $table) {
             $table->id();
-            $table->integer('daily_hse_report_id');
+            $table->integer('d_h_r_id')->nullable();
+            $table->integer('d_s_r_id')->nullable();
             $table->string('covid_compliance_activites');
             $table->boolean('covid_compliance_occurrence');
             $table->string('covid_compliance_remarks')->nullable();
-            $table->timestamps();
         });
     }
 

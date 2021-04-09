@@ -15,11 +15,11 @@ class CreateProjectHealthCompliancesTable extends Migration
     {
         Schema::create('project_health_compliances', function (Blueprint $table) {
             $table->id();
-            $table->integer('daily_hse_report_id');
+            $table->integer('d_h_r_id')->nullable();
+            $table->integer('d_s_r_id')->nullable();
             $table->string('project_health_activites');
             $table->boolean('project_health_occurrence');
             $table->string('project_health_remarks')->nullable();
-            $table->timestamps();
         });
     }
 

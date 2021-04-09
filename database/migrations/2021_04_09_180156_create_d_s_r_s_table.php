@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDailyHseReportsTable extends Migration
+class CreateDSRSTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class CreateDailyHseReportsTable extends Migration
      */
     public function up()
     {
-        Schema::create('daily_hse_reports', function (Blueprint $table) {
+        Schema::create('d_s_r_s', function (Blueprint $table) {
             $table->id();
+         
             $table->integer('project_id');
             $table->integer('user_id');
             $table->string('date');
@@ -23,9 +24,12 @@ class CreateDailyHseReportsTable extends Migration
             $table->longText('project_key_meeting')->nullable();
             $table->longText('toolbox_talk')->nullable();
             $table->longText('procurement_request')->nullable();
+            $table->longText('security_management_plan')->nullable();
+            $table->longText('country_travel_security')->nullable();
+            $table->longText('significant_acts_terrorism')->nullable();
+
             $table->longText('red_flag')->nullable();
-
-
+            
 
             $table->timestamps();
         });
@@ -38,6 +42,6 @@ class CreateDailyHseReportsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('daily_hse_reports');
+        Schema::dropIfExists('d_s_r_s');
     }
 }
