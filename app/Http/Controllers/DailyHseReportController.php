@@ -150,10 +150,12 @@ class DailyHseReportController extends Controller
            // $id = DB::table('d_h_r_s')->insertGetId($hsefields);   
         
           
-            list($status,$data) = $success ? [true, $success] : [false, ''];
-            return ['success' => $status,'data' => $data];
+         
 
             DB::commit();
+
+            list($status,$data) = $success ? [true, $success] : [false, ''];
+            return ['success' => $status,'data' => $data];
             // all good
             } catch (Exception $e) {
               DB::rollback();
