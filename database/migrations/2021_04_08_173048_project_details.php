@@ -25,9 +25,7 @@ class ProjectDetails extends Migration
             $table->string('daily_operation_man_hour');
             $table->string('design_time_hour_remarks')->nullable();
             $table->string('contractors');
-            $table->integer('staff_numbers');
-            $table->integer('shift_pattern');
-            $table->integer('daily_man_hours');
+           
             $table->string('type_contractors');
             $table->integer('total_man_days');
             $table->integer('total_man_hours');
