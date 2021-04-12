@@ -14,7 +14,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Exception;
 use DB;
-
+use Mail;
+use PDF;
+use App\Mail\sendmail;
 class DailyHseReportController extends Controller
 {
   
@@ -36,7 +38,7 @@ class DailyHseReportController extends Controller
 
     public function store(Request $request)
     {
-      
+
             $validator = Validator::make($request->all(),[
 
                 'project_id' => 'required',
@@ -149,7 +151,16 @@ class DailyHseReportController extends Controller
             DB::table('covid_compliances')->insert($ccfields);   
            // $id = DB::table('d_h_r_s')->insertGetId($hsefields);   
         
-          
+           $data = ['hse'=> $this->show($success->id)];
+           $subject = 'Daily HSE Report';
+           $view = 'emails.dailyhse';
+           $pdf = PDF::loadView('emails.dailyhsepdf', $data);
+           $pdfname = 'dailyhsereport.pdf';
+           $to = 'john@example.com';
+           $cc = '';
+           $bcc = '';
+           $this->send_email($to,$cc,$bcc,$subject,$data,$view,$pdf,$pdfname);
+           //Mail::to('john@example.com')->send(new sendmail($subject,$data,$view,$pdf,$pdfname));
          
 
             DB::commit();
@@ -190,5 +201,8 @@ class DailyHseReportController extends Controller
         return DHR::find($id)->delete() 
        ? ['response_status' => true, 'message' => "Record has been deleted"] 
        : ['response_status' => false, 'message' => "Record has been deleted" ];
+    }
+    public function send_email($to=null,$cc=null,$bcc=null,$subject=null,$data=null,$view=null,$pdf=null,$pdfname=null){
+        Mail::to($to)->send(new sendmail($subject,$data,$view,$pdf,$pdfname));
     }
 }

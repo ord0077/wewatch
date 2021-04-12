@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Exception;
 use DB;
-
+use Mail;
+use PDF;
+use App\Mail\sendmail;
 class DSRController extends Controller
 {
   
@@ -100,6 +102,16 @@ class DSRController extends Controller
             DB::table('project_details')->insert($pfields); 
             DB::table('near_miss_reportings')->insert($nmrfields);  
 
+
+           $data = ['security'=> $this->show($success->id)];
+           $subject = 'Daily Security Report';
+           $view = 'emails.dailysecurity';
+           $pdf = PDF::loadView('emails.dailysecuritypdf', $data);
+           $pdfname = 'dailysecurityreport.pdf';
+           $to = 'john@example.com';
+           $cc = '';
+           $bcc = '';
+           $this->send_email($to,$cc,$bcc,$subject,$data,$view,$pdf,$pdfname);
             DB::commit();
             
             list($status,$data) = $success ? [true, $this->show($success->id)] : [false, ''];
@@ -136,5 +148,9 @@ class DSRController extends Controller
         return DSR::find($id)->delete() 
        ? ['response_status' => true, 'message' => "Record has been deleted"] 
        : ['response_status' => false, 'message' => "Record has been deleted" ];
+    }
+
+    public function send_email($to=null,$cc=null,$bcc=null,$subject=null,$data=null,$view=null,$pdf=null,$pdfname=null){
+        Mail::to($to)->send(new sendmail($subject,$data,$view,$pdf,$pdfname));
     }
 }
