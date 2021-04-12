@@ -43,6 +43,10 @@ class DSRController extends Controller
                     return  ['success' => false, 'error' =>  $validator->errors()];
             }
 
+            DB::beginTransaction();
+
+            try {
+
             $hsefields = array(
 
                 'project_id' => $request->project_id,
@@ -62,45 +66,41 @@ class DSRController extends Controller
 
         $success = DSR::create($hsefields);
 
-        $pfields = array(
-                'd_s_r_id' => $success->id,
-                'weather' => $request->weather,
-                'wind_strength' => $request->wind_strength,
-                'weather_wind_remarks' => $request->weather_wind_remarks,  
-                'design_build_time' => $request->design_build_time,
-                'daily_operation_man_hour' => $request->daily_operation_man_hour,
-                'design_time_hour_remarks' => $request->design_time_hour_remarks,
-                'contractors' => $request->contractors,
-                'staff_numbers' => $request->staff_numbers,
-                'shift_pattern' => $request->shift_pattern,
-                'daily_man_hours' => $request->daily_man_hours,
-                'type_contractors' => $request->type_contractors,
-                'total_man_days' => $request->total_man_days,
-                'total_man_hours' => $request->total_man_hours,
-                'total_lost_work_hours' => $request->total_lost_work_hours
-
-        );
-
-        $nmrfields =array(
-
-            'd_s_r_id' => $success->id,
-            'near_miss_activites' => $request->near_miss_activites,
-            'near_miss_occurrence' => $request->near_miss_occurrence,
-            'near_miss_remarks' => $request->near_miss_remarks
-
-        );
-
-
-
-            DB::beginTransaction();
-
-            try {
+          
             
+                        $pfields = array(
+                                'd_s_r_id' => $success->id,
+                                'weather' => $request->weather,
+                                'wind_strength' => $request->wind_strength,
+                                'weather_wind_remarks' => $request->weather_wind_remarks,  
+                                'design_build_time' => $request->design_build_time,
+                                'daily_operation_man_hour' => $request->daily_operation_man_hour,
+                                'design_time_hour_remarks' => $request->design_time_hour_remarks,
+                                'contractors' => json_encode($request->contractors),
+                                'type_contractors' => json_encode($request->type_contractors),
+                                'total_man_days' => $request->total_man_days,
+                                'total_man_hours' => $request->total_man_hours,
+                                'total_lost_work_hours' => $request->total_lost_work_hours
 
-         
+                                );            
+                        DB::table('project_details')->insert($pfields); 
+
+                        $near_miss_activities = $request->near_miss_activities;
+                        foreach($near_miss_activities as $near_miss_activity){
+                        $nmrfields =array(
+                                'd_s_r_id' => $success->id,
+                                'near_miss_activites' => $near_miss_activity["near_miss_activites"],
+                                'near_miss_occurrence' => $near_miss_activity["near_miss_occurrence"],
+                                'near_miss_remarks' => $near_miss_activity["near_miss_remarks"]
+                                 );
+
+                        DB::table('near_miss_reportings')->insert($nmrfields);  
+                        }
+        
                
-            DB::table('project_details')->insert($pfields); 
-            DB::table('near_miss_reportings')->insert($nmrfields);  
+
+          
+
 
 
            $data = ['security'=> $this->show($success->id)];

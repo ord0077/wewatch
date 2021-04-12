@@ -12,7 +12,10 @@ class ProjectDetail extends Model
     protected $guarded = [];
 
 
-
+    protected $casts = [
+        'contractors' => 'array',
+        'type_contractors' => 'array'
+    ];
   
     
 }

@@ -90,65 +90,83 @@ class DailyHseReportController extends Controller
                 'design_build_time' => $request->design_build_time,
                 'daily_operation_man_hour' => $request->daily_operation_man_hour,
                 'design_time_hour_remarks' => $request->design_time_hour_remarks,
-                'contractors' => $request->contractors,
-                'staff_numbers' => $request->staff_numbers,
-                'shift_pattern' => $request->shift_pattern,
-                'daily_man_hours' => $request->daily_man_hours,
-                'type_contractors' => $request->type_contractors,
+                'contractors' => json_encode($request->contractors),
+                'type_contractors' => json_encode($request->type_contractors),
                 'total_man_days' => $request->total_man_days,
                 'total_man_hours' => $request->total_man_hours,
                 'total_lost_work_hours' => $request->total_lost_work_hours
     
-            );
+            );            
+          DB::table('project_details')->insert($pfields); 
     
-            $bafields = array(
-    
-                'd_h_r_id' => $success->id,
-               'activites' => $request->activites,
-                'occurrence' => $request->occurrence,
-               'remarks' => $request->remarks
-    
-    
-            );
-    
-            $phcfields = array(
-    
-                'd_h_r_id' => $success->id,
-                'project_health_activites' => $request->project_health_activites,
-               'project_health_occurrence' =>  $request->project_health_occurrence,
-                'project_health_remarks' =>  $request->project_health_remarks
-            );
-    
-            $hifields =array(
-    
-               'd_h_r_id' => $success->id,
-             'hazard_identify_activites' => $request->hazard_identify_activites,
-               'hazard_identify_occurrence' => $request->hazard_identify_occurrence,
-               'hazard_identify_remarks' => $request->hazard_identify_remarks
-            );
-    
-            $nmrfields =array(
-    
-               'd_h_r_id' => $success->id,
-               'near_miss_activites' => $request->near_miss_activites,
-                'near_miss_occurrence' => $request->near_miss_occurrence,
-                'near_miss_remarks' => $request->near_miss_remarks
-            );
-    
-            $ccfields = array(
-    
-                'd_h_r_id' => $success->id,
-                'covid_compliance_activites' => $request->covid_compliance_activites,
-                'covid_compliance_occurrence' => $request->covid_compliance_occurrence, 
-                'covid_compliance_remarks' => $request->covid_compliance_remarks
-            );
+          
+            $buildacts = $request->build_activities;
+            foreach($buildacts as $build){
+                $bafields = array(
+                    'd_h_r_id' => $success->id,
+                   'activites' => $build["activites"],
+                    'occurrence' => $build["occurrence"],
+                   'remarks' => $build["remarks"]
+                );
+                DB::table('bulid_activities')->insert($bafields);
+            }
+            
+            $project_healths = $request->project_health;
+            foreach($project_healths as $project_health){
+                $phcfields = array(
+                    'd_h_r_id' => $success->id,
+                    'project_health_activites' => $project_health["project_health_activites"],
+                   'project_health_occurrence' =>  $project_health["project_health_occurrence"],
+                    'project_health_remarks' =>  $project_health["project_health_remarks"]
+                );
+                  DB::table('project_health_compliances')->insert($phcfields);
+            }
 
-            DB::table('bulid_activities')->insert($bafields);   
-            DB::table('project_health_compliances')->insert($phcfields);    
-            DB::table('project_details')->insert($pfields);   
-            DB::table('hazard_identifies')->insert($hifields);   
-            DB::table('near_miss_reportings')->insert($nmrfields);   
-            DB::table('covid_compliances')->insert($ccfields);   
+          
+            $hazard_identifies = $request->hazard_identify;
+            foreach($hazard_identifies as $hazard_identify){
+                $hifields =array(
+                    'd_h_r_id' => $success->id,
+                    'hazard_identify_activites' => $hazard_identify["hazard_identify_activites"],
+                    'hazard_identify_occurrence' => $hazard_identify["hazard_identify_occurrence"],
+                    'hazard_identify_remarks' => $hazard_identify["hazard_identify_remarks"]
+                    ); 
+                   
+                DB::table('hazard_identifies')->insert($hifields);  
+            }    
+
+         
+
+            $near_miss_activities = $request->near_miss_activities;
+            foreach($near_miss_activities as $near_miss_activity){
+            $nmrfields =array(
+                'd_h_r_id' => $success->id,
+                'near_miss_activites' => $near_miss_activity["near_miss_activites"],
+                 'near_miss_occurrence' => $near_miss_activity["near_miss_occurrence"],
+                 'near_miss_remarks' => $near_miss_activity["near_miss_remarks"]
+             );
+          
+            DB::table('near_miss_reportings')->insert($nmrfields);  
+            }
+
+           
+
+            $covid_compliances = $request->covid_compliance;
+            foreach($covid_compliances as $covid_compliance){
+                $ccfields = array(
+    
+                    'd_h_r_id' => $success->id,
+                    'covid_compliance_activites' => $covid_compliance["covid_compliance_activites"],
+                    'covid_compliance_occurrence' => $covid_compliance["covid_compliance_occurrence"], 
+                    'covid_compliance_remarks' => $covid_compliance["covid_compliance_remarks"]
+                );
+              
+                DB::table('covid_compliances')->insert($ccfields);   
+            }
+
+           
+          
+
            // $id = DB::table('d_h_r_s')->insertGetId($hsefields);   
         
            $data = ['hse'=> $this->show($success->id)];
@@ -167,10 +185,10 @@ class DailyHseReportController extends Controller
 
             list($status,$data) = $success ? [true, $this->show($success->id)] : [false, ''];
             return ['success' => $status,'data' => $data];
-            // all good
-            } catch (Exception $e) {
-              DB::rollback();
-            // something went wrong
+           // all good
+          } catch (Exception $e) {
+               DB::rollback();
+            // // something went wrong
             return response()->json($e->errorInfo ?? 'unknown error');
             }
 
