@@ -195,7 +195,7 @@ class DailyHseReportController extends Controller
     public function show($id)
     {
 
-        return DHR::with([
+        $data = DHR::with([
             'project',
             'projectdetail',
             'bulidactivity',
@@ -205,6 +205,8 @@ class DailyHseReportController extends Controller
             'covidcompliance'
             ])
             ->find($id);
+        return $data;    
+        
     }
 
     public function destroy($id)

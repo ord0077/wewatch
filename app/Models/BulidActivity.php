@@ -10,5 +10,8 @@ class BulidActivity extends Model
     protected $guarded = [];
     use HasFactory;
     
-
+    public function getOccurenceAttribute($value)
+    {
+        return $value == 1?"Yes":"No";
+    }
 }

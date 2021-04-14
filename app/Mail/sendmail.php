@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class sendmail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $data;
+    public $hse;
     public $subject;
     public $view;
     public $pdf;
@@ -22,7 +22,7 @@ class sendmail extends Mailable
      */
     public function __construct($subject,$data,$view,$pdf,$pdfname)
     {
-        $this->data = $data;
+        $this->hse = $data;
         $this->subject = $subject;
         $this->view = $view;
         $this->pdf = $pdf;

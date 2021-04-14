@@ -40,26 +40,26 @@ h3 {
 }
 </style>
 <body>
+
     <div class="main">
     <table style="width:100%;" colspan="0" rowspan="0">
         <tr>
-            <td style="width:50%;"><img src="{{ url('/assets/wewatch_logo.png') }}" width="350px"></td>
-            <td><img src="{{ url('/assets/Logo1.jpg') }}" width="200px"></td>
-            <td><img src="{{ url('/assets/Logo2.jpg') }}" width="200px"></td>
-            <td><img src="{{ url('/assets/Logo3.jpg') }}" width="200px"></td>
+            <td style="width:50%;"><img src="{{ url('/assets/wewatch_logo.png') }}" width="250px"></td>
+            <td style="width:16%;"><img src="{{ url('/assets/Logo1.jpg') }}" width="100px"></td>
+            <td style="width:16%;"><img src="{{ url('/assets/Logo2.jpg') }}" width="100px"></td>
+            <td style="width:16%;"><img src="{{ url('/assets/Logo3.jpg') }}" width="100px"></td>
         </tr>
     </table>
         <h1 style="text-align:center;">Daily HSE Report</h1>
         <h3 class="color-red">EVENT/PROJECT NAME</h3>
-        <h4>02 FEBRUARY 2021</h4>
+        <h3>{{ $hse->project->project_name }}</h3>
+        <h4>{{ $hse->date }}</h4>
         <br>
-        <p>Dissemination and Confidentially</p>
-        <p>This Daily Safety and Security Report should be treated as a commercially sensitive document. Blink Experience should limit and control distribution of this sensitive document and ensure that the original and approved copies are stored in a secure location, in accordance with ISO quality management systems standards and company standard operating procedures (SOPs).</p>
+        <p>{{ $hse->description_confidential }}</p>
         <p class="color-red">Confidential</p>
         <br>
-        <h3><b>1. Daily Situation Summary</b> <span class="color-red">(Combined QHSSE)</span></h3>
-        <p>1.1 Head of Security arrived in Al Qaisumah in the last 24hrs, however Operations Manager requested he return to Riyadh at short notice to support a potential Ministry of Health visit, all passed with no concerns. After speaking with the client relations senior manager, security guards were observed conducting their role of access control. Follow up meeting with Flow Solutions Project Manager (Mahmoud El Sheikh), he was successful in receiving some electrical components for the generators located at KASC. He is also expecting the full delivery of the missing fire extinguishers and spill kits tomorrow, he was also reminded to change the few fire extinguishers that were showing out of date inspections. He is still on track for a more detailed inspection on the 28 Dec 2020 by the Head of Security. The Project Manager (Mahmoud El Sheikh) remains extremely proactive and eager to fulfil his supplier deliverables.</p>
-        <p>1.2 Head of Security to conduct another safety inspection on the 28 Dec 2020 with Flow Solutions prior to operational phase. Flow Solutions are only responsible for the Start/Finish location and not any of the bivouac sites.</p>
+        <h3><b>1. Daily Situation Summary</b></h3>
+        <p>{{ $hse->daily_situation_summary }}</p>
         <br>
         <h3><b>2. Event / Project Details</b></h3>
         <table class="primary-table" colspan="0" rowspan="0">
@@ -69,9 +69,9 @@ h3 {
                 <th>Remarks</th>
             </tr>
             <tr>
-                <td>Sunny 25 Degrees</td>
-                <td>12 kph</td>
-                <td>Rain forecast for the next working day.</td>   
+                <td>{{ $hse->projectdetail[0]->weather }}</td>
+                <td>{{ $hse->projectdetail[0]->wind_strength }}</td>
+                <td>{{ $hse->projectdetail[0]->weather_wind_remarks }}</td>   
             </tr>
         </table>
 
@@ -82,9 +82,9 @@ h3 {
                 <th>Remarks</th>
             </tr>
             <tr>
-                <td>08:00 - 08:00hrs</td>
-                <td>12/24hrs</td>
-                <td>Two x shifts, day and night operations.</td>   
+                <td>{{ $hse->projectdetail[0]->design_build_time }}</td>
+                <td>{{ $hse->projectdetail[0]->daily_operation_man_hour }}</td>
+                <td>{{ $hse->projectdetail[0]->design_time_hour_remarks }}</td>   
             </tr>
         </table>
 
@@ -95,12 +95,16 @@ h3 {
                 <th>Shift Pattern</th>
                 <th>Daily man-hours</th>
             </tr>
+            @isset($hse->projectdetail[0]->contractors)
+            @foreach($hse->projectdetail[0]->contractors as $cnotr)
             <tr>
-                <td>Mara LCC</td>
-                <td>20</td>
-                <td>12</td>
-                <td>240</td>   
+                <td>{{ $cnotr['contractors'] }}</td>
+                <td>{{ $cnotr['staff_numbers'] }}</td>
+                <td>{{ $cnotr['shift_pattern'] }}</td>
+                <td>{{ $cnotr['daily_man_hours'] }}</td>   
             </tr>
+            @endforeach
+            @endisset
         </table>
 
         <table class="primary-table top-margin-20" colspan="0" rowspan="0">
@@ -109,74 +113,83 @@ h3 {
                 <th>Staff Numbers</th>
                 <th>Shift Pattern</th>
             </tr>
+            @isset($hse->projectdetail[0]->type_contractors)
+            @foreach($hse->projectdetail[0]->type_contractors as $typecnotr)
             <tr>
-                <td>Office Management</td>
-                <td>18</td>
-                <td>Day Shift Only</td>   
+                <td>{{ $typecnotr['type_contractors'] }}</td>
+                <td>{{ $typecnotr['staff_numbers'] }}</td>
+                <td>{{ $typecnotr['shift_pattern'] }}</td>   
             </tr>
+            @endforeach
+            @endisset
             <tr>
                 <td></td>
                 <td>TOTAL man-days</td>
-                <td>313</td>   
+                <td>{{ $hse->projectdetail[0]->total_man_days }}</td>   
             </tr>
             <tr>
                 <td></td>
                 <td>Total man-hours</td>
-                <td>5000</td>   
+                <td>{{ $hse->projectdetail[0]->total_man_hours }}</td>   
             </tr>
             <tr>
                 <td></td>
                 <td>Total lost work hours</td>
-                <td>-20</td>   
+                <td>{{ $hse->projectdetail[0]->total_lost_work_hours }}</td>   
             </tr>
         </table>
         <h3><b>3. Event / Project Key Meetings and Action Points</b></h3>
-        <p>3.1 Nothing to report.</p>
+        <p>{{ $hse->project_key_meeting }}</p>
         <p class="color-red">Confidential</p>
         <p>Prepared by WeWatch FZ LLC</p>
         <br>
-        <h3><b>4. Design/Build Activities in Progress  <span class="color-red">(List the activities) (HSE)</span></b></h3>
+        <h3><b>4. Design/Build Activities in Progress</span></b></h3>
         <table class="primary-table" colspan="0" rowspan="0">
             <tr>
                 <th>Occurence</th>
                 <th>Yes or No</th>
                 <th>Remarks</th>
             </tr>
+            @foreach($hse->bulidactivity as $build)
             <tr>
-                <td>Scaffolding Construction</td>
-                <td></td>
-                <td></td>   
+                <td>{{ $build->activites }}</td>
+                <td>{{ $build->occurrence }}</td>
+                <td>{{ $build->remarks }}</td>   
             </tr>
+            @endforeach
         </table>
         <h3><b>5. Toolbox Talk / HSE / Security Inductions</b></h3>
-        <p>5.1 Nothing to Report</p>
-        <p class="color-red">5.2 If Toolbox talk or on-site induction training was conducted, please use correct forms and acquire signatures for all attendees and name of person delivering talk or training.</p>
+        <p>{{ $hse->toolbox_talk }}</p>
         <br>
-        <h3><b>6. Event/Project Health, Safety and Environmental Compliance <span class="color-red">(HSE)</span></b></h3>
+        <h3><b>6. Event/Project Health, Safety and Environmental Compliance</b></h3>
         <table class="primary-table" colspan="0" rowspan="0">
             <tr>
                 <th>Occurence</th>
                 <th>Yes or No</th>
                 <th>Remarks</th>
             </tr>
+            @foreach($hse->projecthealthcompliance as $health)
             <tr>
-                <td>Any safety non-compliance violations</td>
-                <td></td>
-                <td></td>   
+                <td>{{ $health->project_health_activites }}</td>
+                <td>{{ $health->project_health_occurrence }}</td>
+                <td>{{ $health->project_health_remarks }}</td>   
             </tr>
+            @endforeach
         </table>
-        <h3><b>7. New Hazard Identified <span class="color-red">(HSE)</span></b></h3>
+        <h3><b>7. New Hazard Identified</span></b></h3>
         <table class="primary-table" colspan="0" rowspan="0">
             <tr>
                 <th>Add to Event / Project Risk Assessment</th>
                 <th>Yes or No</th>
                 <th>Corrective Actions</th>
             </tr>
+            @foreach($hse->hazardidentify as $hazard)
             <tr>
-                <td>Trailing wires from handheld electrical tools</td>
-                <td>YES</td>
-                <td>Additional sockets fitted to reduce trailing wires and extension leads.</td>   
+                <td>{{ $hazard->hazard_identify_activites }}</td>
+                <td>{{ $hazard->hazard_identify_occurrence }}</td>
+                <td>{{ $hazard->hazard_identify_remarks }}</td>   
             </tr>
+            @endforeach
         </table>
         <h3><b>8. Incident / Accident or Near Miss Reporting</b></h3>
         <table class="primary-table" colspan="0" rowspan="0">
@@ -185,33 +198,37 @@ h3 {
                 <th>Yes or No</th>
                 <th>Remarks</th>
             </tr>
+            @foreach($hse->nearmissreporting as $nearmiss)
             <tr>
-                <td>Near Miss Incidents</td>
-                <td>YES</td>
-                <td>Near Miss Report Submitted to QHSSE Director and Project Manager.</td>   
+                <td>{{ $nearmiss->near_miss_activites }}</td>
+                <td>{{ $nearmiss->near_miss_occurrence }}</td>
+                <td>{{ $nearmiss->near_miss_remarks }}</td>   
             </tr>
+            @endforeach
         </table>
         <p class="color-red">Confidential</p>
         <p>Prepared by WeWatch FZ LLC</p>
         <br>
-        <h3><b>9. COVID-19 Mitigation Compliance <span class="color-red">(HSE)</span></b></h3>
+        <h3><b>9. COVID-19 Mitigation Compliance</b></h3>
         <table class="primary-table" colspan="0" rowspan="0">
             <tr>
                 <th>Occurence</th>
                 <th>Yes or No</th>
                 <th>Remarks</th>
             </tr>
+            @foreach($hse->covidcompliance as $covid)
             <tr>
-                <td>Face Mask Compliance</td>
-                <td>NO</td>
-                <td>Washrooms require hand sanitiser stations to placed outside.</td>   
+                <td>{{ $covid->covid_compliance_activites }}</td>
+                <td>{{ $covid->covid_compliance_occurrence }}</td>
+                <td>{{ $covid->covid_compliance_remarks }}</td>   
             </tr>
+            @endforeach
         </table>
-        <h3><b>10. Procurement Request <span class="color-red">(Operational HSE or Security Equipment Requirement)</span></b></h3>
-        <p>10.1 Nothing to report.</p>
+        <h3><b>10. Procurement Request</b></h3>
+        <p>{{ $hse->procurement_request }}</p>
         <br>
         <h3><b>11. Red Flag</b></h3>
-        <p>11.1 Nothing to report.</p>
+        <p>{{ $hse->red_flag }}</p>
         <p class="color-red">Confidential</p>
         <p>Prepared by WeWatch FZ LLC</p>
         <br><br>
