@@ -39,6 +39,7 @@ class DailyHseReportController extends Controller
     public function store(Request $request)
     {
 
+       
             $validator = Validator::make($request->all(),[
 
                 'project_id' => 'required',
@@ -79,6 +80,8 @@ class DailyHseReportController extends Controller
                     'red_flag' => $request->red_flag,
                 
                     );
+
+                    
     
             $success = DHR::create($hsefields);
     
@@ -96,7 +99,8 @@ class DailyHseReportController extends Controller
                 'total_man_hours' => $request->total_man_hours,
                 'total_lost_work_hours' => $request->total_lost_work_hours
     
-            );            
+            );    
+                    
           DB::table('project_details')->insert($pfields); 
     
           
@@ -169,19 +173,15 @@ class DailyHseReportController extends Controller
 
            // $id = DB::table('d_h_r_s')->insertGetId($hsefields);   
         
-           $data = ['hse'=> $this->show($success->id)];
-           $subject = 'Daily HSE Report';
-           $view = 'emails.dailyhse';
+           $data = ['hse'=> $this->show($success->id)]; 
            $pdf = PDF::loadView('emails.dailyhsepdf', $data);
-           $pdfname = 'dailyhsereport.pdf';
-           //$to = 'john@example.com';
-           $sendto = array('john@example.com','abc@gmail.com');
+           $sendto = $request->emails;
+           //$sendto = array((object)array("email"=>"ali@gmail.com"),(object)array("email"=>"john@gmail.com"));
            $cc = '';
            $bcc = '';
            foreach($sendto as $to){
-            $this->send_email($to,$cc,$bcc,$subject,$data,$view,$pdf,$pdfname);
+             $this->send_email($to->email,$cc,$bcc,$data,$pdf);
            }
-           
 
             DB::commit();
 
@@ -191,8 +191,7 @@ class DailyHseReportController extends Controller
           } catch (Exception $e) {
                DB::rollback();
             // // something went wrong
-            return response()->json($e);
-            return response()->json($e->errorInfo ?? 'unknown error');
+            return response()->json($e ?? 'unknown error');
             }
 
 
@@ -205,30 +204,30 @@ class DailyHseReportController extends Controller
     public function show($id)
     {
 
-        // return DHR::with([
-        //     'project',
-        //     'projectdetail',
-        //     'bulidactivity',
-        //     'projecthealthcompliance',
-        //     'hazardidentify',
-        //     'nearmissreporting',
-        //     'covidcompliance'
-        //     ])
-        //     ->find($id);
-        $data = DHR::with([
-                'project',
-                'projectdetail',
-                'bulidactivity',
-                'projecthealthcompliance',
-                'hazardidentify',
-                'nearmissreporting',
-                'covidcompliance'
-                ])
-                ->find($id);
+        return DHR::with([
+            'project',
+            'projectdetail',
+            'bulidactivity',
+            'projecthealthcompliance',
+            'hazardidentify',
+            'nearmissreporting',
+            'covidcompliance'
+            ])
+            ->find($id);
+        // $data = DHR::with([
+        //         'project',
+        //         'projectdetail',
+        //         'bulidactivity',
+        //         'projecthealthcompliance',
+        //         'hazardidentify',
+        //         'nearmissreporting',
+        //         'covidcompliance'
+        //         ])
+        //         ->find($id);
 
-        //return view('emails.dailyhsepdf', ['hse'=>$data]);    
-        $pdf = PDF::loadView('emails.dailyhsepdf', ['hse'=>$data]);
-        return $pdf->download('dailyhsepdf.pdf');
+        // //return view('emails.dailyhsepdf', ['hse'=>$data]);    
+        // $pdf = PDF::loadView('emails.dailyhsepdf', ['hse'=>$data]);
+        // return $pdf->download('dailyhsepdf.pdf');
     }
 
     public function destroy($id)
@@ -237,7 +236,12 @@ class DailyHseReportController extends Controller
        ? ['response_status' => true, 'message' => "Record has been deleted"] 
        : ['response_status' => false, 'message' => "Record has been deleted" ];
     }
-    public function send_email($to=null,$cc=null,$bcc=null,$subject=null,$data=null,$view=null,$pdf=null,$pdfname=null){
-        Mail::to($to)->send(new sendmail($subject,$data,$view,$pdf,$pdfname));
+    public function send_email($to=null,$cc=null,$bcc=null,$data=null,$pdf=null){
+     
+            $subject = 'Daily HSE Report';
+            $view = 'emails.dailyhse';
+            $pdfname = 'dailyhsereport.pdf';
+            return Mail::to($to)->send(new sendmail($subject,$data,$view,$pdf,$pdfname));
+
     }
 }
