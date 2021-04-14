@@ -63,7 +63,7 @@ class DailyHseReportController extends Controller
 
             DB::beginTransaction();
 
-            try {
+             try {
             
 
                 $hsefields = array(
@@ -191,6 +191,7 @@ class DailyHseReportController extends Controller
           } catch (Exception $e) {
                DB::rollback();
             // // something went wrong
+            return response()->json($e);
             return response()->json($e->errorInfo ?? 'unknown error');
             }
 
