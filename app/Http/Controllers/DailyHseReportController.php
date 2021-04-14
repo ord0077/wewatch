@@ -164,6 +164,8 @@ class DailyHseReportController extends Controller
            $data = ['hse'=> $this->show($success->id)]; 
            $pdf = PDF::loadView('emails.dailyhsepdf', $data);
            $sendto = $request->emails;
+
+           return $sendto;
         //    $sendto = array((object)array("email"=>"ali@gmail.com"),(object)array("email"=>"john@gmail.com"));
            $cc = '';
            $bcc = '';
