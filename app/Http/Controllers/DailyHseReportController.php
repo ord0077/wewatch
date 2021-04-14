@@ -174,12 +174,14 @@ class DailyHseReportController extends Controller
            $view = 'emails.dailyhse';
            $pdf = PDF::loadView('emails.dailyhsepdf', $data);
            $pdfname = 'dailyhsereport.pdf';
-           $to = 'john@example.com';
+           //$to = 'john@example.com';
+           $sendto = array('john@example.com','abc@gmail.com');
            $cc = '';
            $bcc = '';
-           $this->send_email($to,$cc,$bcc,$subject,$data,$view,$pdf,$pdfname);
-           //Mail::to('john@example.com')->send(new sendmail($subject,$data,$view,$pdf,$pdfname));
-         
+           foreach($sendto as $to){
+            $this->send_email($to,$cc,$bcc,$subject,$data,$view,$pdf,$pdfname);
+           }
+           
 
             DB::commit();
 
@@ -202,16 +204,30 @@ class DailyHseReportController extends Controller
     public function show($id)
     {
 
-        return DHR::with([
-            'project',
-            'projectdetail',
-            'bulidactivity',
-            'projecthealthcompliance',
-            'hazardidentify',
-            'nearmissreporting',
-            'covidcompliance'
-            ])
-            ->find($id);
+        // return DHR::with([
+        //     'project',
+        //     'projectdetail',
+        //     'bulidactivity',
+        //     'projecthealthcompliance',
+        //     'hazardidentify',
+        //     'nearmissreporting',
+        //     'covidcompliance'
+        //     ])
+        //     ->find($id);
+        $data = DHR::with([
+                'project',
+                'projectdetail',
+                'bulidactivity',
+                'projecthealthcompliance',
+                'hazardidentify',
+                'nearmissreporting',
+                'covidcompliance'
+                ])
+                ->find($id);
+
+        //return view('emails.dailyhsepdf', ['hse'=>$data]);    
+        $pdf = PDF::loadView('emails.dailyhsepdf', ['hse'=>$data]);
+        return $pdf->download('dailyhsepdf.pdf');
     }
 
     public function destroy($id)
