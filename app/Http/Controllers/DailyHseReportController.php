@@ -161,15 +161,15 @@ class DailyHseReportController extends Controller
 
            
         
-        //    $data = ['hse'=> $this->show($success->id)]; 
-        //    $pdf = PDF::loadView('emails.dailyhsepdf', $data);
-        //    //$sendto = $request->emails;
+           $data = ['hse'=> $this->show($success->id)]; 
+           $pdf = PDF::loadView('emails.dailyhsepdf', $data);
+           $sendto = $request->emails;
         //    $sendto = array((object)array("email"=>"ali@gmail.com"),(object)array("email"=>"john@gmail.com"));
-        //    $cc = '';
-        //    $bcc = '';
-        //    foreach($sendto as $to){
-        //      $this->send_email($to->email,$cc,$bcc,$data,$pdf);
-        //    }
+           $cc = '';
+           $bcc = '';
+           foreach($sendto as $to){
+             $this->send_email($to->email,$cc,$bcc,$data,$pdf);
+           }
 
             DB::commit();
 
@@ -202,20 +202,6 @@ class DailyHseReportController extends Controller
             'covidcompliance'
             ])
             ->find($id);
-        // $data = DHR::with([
-        //         'project',
-        //         'projectdetail',
-        //         'bulidactivity',
-        //         'projecthealthcompliance',
-        //         'hazardidentify',
-        //         'nearmissreporting',
-        //         'covidcompliance'
-        //         ])
-        //         ->find($id);
-
-        // //return view('emails.dailyhsepdf', ['hse'=>$data]);    
-        // $pdf = PDF::loadView('emails.dailyhsepdf', ['hse'=>$data]);
-        // return $pdf->download('dailyhsepdf.pdf');
     }
 
     public function destroy($id)
@@ -229,7 +215,7 @@ class DailyHseReportController extends Controller
             $subject = 'Daily HSE Report';
             $view = 'emails.dailyhse';
             $pdfname = 'dailyhsereport.pdf';
-            return Mail::to($to)->send(new sendmail($subject,$data,$view,$pdf,$pdfname));
+            Mail::to($to)->send(new sendmail($subject,$data,$view,$pdf,$pdfname));
 
     }
 }
