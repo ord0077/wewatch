@@ -165,11 +165,13 @@ class DailyHseReportController extends Controller
            $pdf = PDF::loadView('emails.dailyhsepdf', $data);
            $sendto = $request->emails;
 
+        //    return $sendto;
+
         //    $sendto = array((object)array("email"=>"ali@gmail.com"),(object)array("email"=>"john@gmail.com"));
            $cc = '';
            $bcc = '';
            foreach($sendto as $to){
-             $this->send_email($to->email,$cc,$bcc,$data,$pdf);
+             $this->send_email($to['email'],$cc,$bcc,$data,$pdf);
            }
 
             DB::commit();
@@ -216,7 +218,7 @@ class DailyHseReportController extends Controller
             $subject = 'Daily HSE Report';
             $view = 'emails.dailyhse';
             $pdfname = 'dailyhsereport.pdf';
-            Mail::to($to)->send(new sendmail($subject,$data,$view,$pdf,$pdfname));
+            return Mail::to($to)->send(new sendmail($subject,$data,$view,$pdf,$pdfname));
 
     }
 }
