@@ -41,6 +41,14 @@ h3 {
 </style>
 <body>
     <div class="main">
+    <table style="width:100%;" colspan="0" rowspan="0">
+        <tr>
+            <td style="width:50%;"><img src="{{ url('/assets/wewatch_logo.png') }}" width="350px"></td>
+            <td><img src="{{ url('/assets/Logo1.jpg') }}" width="200px"></td>
+            <td><img src="{{ url('/assets/Logo2.jpg') }}" width="200px"></td>
+            <td><img src="{{ url('/assets/Logo3.jpg') }}" width="200px"></td>
+        </tr>
+    </table>
         <h1 style="text-align:center;">Daily HSE Report</h1>
         <h3 class="color-red">EVENT/PROJECT NAME</h3>
         <h4>02 FEBRUARY 2021</h4>
