@@ -50,16 +50,7 @@ class DailyHseReportController extends Controller
 
             if($validator->fails()){ 
                     return  ['success' => false, 'error' =>  $validator->errors()];
-            }
-
-  
-
-            // DB::table('bulid_activities')->insert($bafields);   
-            // DB::table('project_health_compliances')->insert($phcfields);    
-            // DB::table('project_details')->insert($pfields);   
-            // DB::table('hazard_identifies')->insert($hifields);   
-            // DB::table('near_miss_reportings')->insert($nmrfields);   
-            // DB::table('covid_compliances')->insert($ccfields);   
+            } 
 
 
             DB::beginTransaction();
@@ -169,19 +160,16 @@ class DailyHseReportController extends Controller
             }
 
            
-          
-
-           // $id = DB::table('d_h_r_s')->insertGetId($hsefields);   
         
-           $data = ['hse'=> $this->show($success->id)]; 
-           $pdf = PDF::loadView('emails.dailyhsepdf', $data);
-           $sendto = $request->emails;
-           //$sendto = array((object)array("email"=>"ali@gmail.com"),(object)array("email"=>"john@gmail.com"));
-           $cc = '';
-           $bcc = '';
-           foreach($sendto as $to){
-             $this->send_email($to->email,$cc,$bcc,$data,$pdf);
-           }
+        //    $data = ['hse'=> $this->show($success->id)]; 
+        //    $pdf = PDF::loadView('emails.dailyhsepdf', $data);
+        //    //$sendto = $request->emails;
+        //    $sendto = array((object)array("email"=>"ali@gmail.com"),(object)array("email"=>"john@gmail.com"));
+        //    $cc = '';
+        //    $bcc = '';
+        //    foreach($sendto as $to){
+        //      $this->send_email($to->email,$cc,$bcc,$data,$pdf);
+        //    }
 
             DB::commit();
 
