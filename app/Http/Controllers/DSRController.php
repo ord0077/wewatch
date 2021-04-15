@@ -141,8 +141,8 @@ class DSRController extends Controller
             'nearmissreporting',
             ])
             ->find($id);
-        //return $show;    
-        return view('emails.dailysecuritypdf',['security'=>$show]);
+        return $show;    
+        //return view('emails.dailysecuritypdf',['security'=>$show]);
     }
 
     public function destroy($id)
