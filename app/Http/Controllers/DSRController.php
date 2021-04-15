@@ -142,9 +142,9 @@ class DSRController extends Controller
             'nearmissreporting',
             ])
             ->find($id);
-        //return $show;    
+        return $show;    
         //return view('emails.dailysecuritypdf',['security'=>$show]);
-        Mail::to('aizazkalwar46@gmail.com')->send(new TestMail($data=''));
+        //Mail::to('aizazkalwar46@gmail.com')->send(new TestMail($data=''));
     }
 
     public function destroy($id)
