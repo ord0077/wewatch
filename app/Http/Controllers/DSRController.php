@@ -104,14 +104,14 @@ class DSRController extends Controller
 
 
            $data = ['security'=> $this->show($success->id)];
-           $subject = 'Daily Security Report';
-           $view = 'emails.dailysecurity';
            $pdf = PDF::loadView('emails.dailysecuritypdf', $data);
-           $pdfname = 'dailysecurityreport.pdf';
-           $to = 'john@example.com';
-           $cc = '';
+           $sendto = $request->emails;
+
+          $cc = '';
            $bcc = '';
-           $this->send_email($to,$cc,$bcc,$subject,$data,$view,$pdf,$pdfname);
+           foreach($sendto as $to){
+             $this->send_email($to['email'],$cc,$bcc,$data,$pdf);
+           }
             DB::commit();
             
             list($status,$data) = $success ? [true, $this->show($success->id)] : [false, ''];
@@ -135,12 +135,14 @@ class DSRController extends Controller
     public function show($id)
     {
 
-        return DSR::with([
+        $show = DSR::with([
             'project',
             'projectdetail',
             'nearmissreporting',
             ])
             ->find($id);
+        //return $show;    
+        return view('emails.dailysecuritypdf',['security'=>$show]);
     }
 
     public function destroy($id)
@@ -150,7 +152,12 @@ class DSRController extends Controller
        : ['response_status' => false, 'message' => "Record has been deleted" ];
     }
 
-    public function send_email($to=null,$cc=null,$bcc=null,$subject=null,$data=null,$view=null,$pdf=null,$pdfname=null){
-        Mail::to($to)->send(new sendmail($subject,$data,$view,$pdf,$pdfname));
-    }
+    public function send_email($to=null,$cc=null,$bcc=null,$data=null,$pdf=null){
+     
+        $subject = 'Daily Security Report';
+           $view = 'emails.dailysecurity';
+           $pdfname = 'dailysecurityreport.pdf';
+        return Mail::to($to)->send(new sendmail($subject,$data,$view,$pdf,$pdfname));
+
+}
 }

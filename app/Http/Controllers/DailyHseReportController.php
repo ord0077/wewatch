@@ -165,10 +165,7 @@ class DailyHseReportController extends Controller
            $pdf = PDF::loadView('emails.dailyhsepdf', $data);
            $sendto = $request->emails;
 
-        //    return $sendto;
-
-        //    $sendto = array((object)array("email"=>"ali@gmail.com"),(object)array("email"=>"john@gmail.com"));
-           $cc = '';
+          $cc = '';
            $bcc = '';
            foreach($sendto as $to){
              $this->send_email($to['email'],$cc,$bcc,$data,$pdf);
