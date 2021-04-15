@@ -13,6 +13,7 @@ use DB;
 use Mail;
 use PDF;
 use App\Mail\sendmail;
+use App\Mail\TestMail;
 class DSRController extends Controller
 {
   
@@ -141,8 +142,9 @@ class DSRController extends Controller
             'nearmissreporting',
             ])
             ->find($id);
-        return $show;    
+        //return $show;    
         //return view('emails.dailysecuritypdf',['security'=>$show]);
+        Mail::to('aizazkalwar46@gmail.com')->send(new TestMail($data=''));
     }
 
     public function destroy($id)
