@@ -167,9 +167,11 @@ class DailyHseReportController extends Controller
            $sendto = Recipient::where('project_id',$request->project_id)->select('email')->get();
            $cc = '';
            $bcc = '';
-           foreach($sendto as $to){
-             $this->send_email($to->email,$cc,$bcc,$data,$pdf);
-           }
+           if($sendto){
+                foreach($sendto as $to){
+                    $this->send_email($to->email,$cc,$bcc,$data,$pdf);
+                }
+            }
 
             DB::commit();
 
