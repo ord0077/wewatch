@@ -6,6 +6,7 @@ use App\Models\DSR;
 use App\Models\ProjectDetail as PD;
 use App\Models\NearMissReporting as NMR;
 use App\Models\Project as P;
+use App\Models\Recipient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Exception;
@@ -106,13 +107,13 @@ class DSRController extends Controller
 
            $data = ['security'=> $this->show($success->id)];
            $pdf = PDF::loadView('emails.dailysecuritypdf', $data);
-           $sendto = $request->emails;
-
+           $sendto = Recipient::where('project_id',$request->project_id)->select('email')->get();
           $cc = '';
            $bcc = '';
            foreach($sendto as $to){
-             $this->send_email($to['email'],$cc,$bcc,$data,$pdf);
+               $this->send_email($to->email,$cc,$bcc,$data,$pdf);
            }
+           
             DB::commit();
             
             list($status,$data) = $success ? [true, $this->show($success->id)] : [false, ''];

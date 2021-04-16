@@ -10,6 +10,7 @@ use App\Models\HazardIdentify as HI;
 use App\Models\NearMissReporting as NMR;
 use App\Models\CovidCompliance as CC;
 use App\Models\Project as P;
+use App\Models\Recipient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Exception;
@@ -163,12 +164,11 @@ class DailyHseReportController extends Controller
         
            $data = ['hse'=> $this->show($success->id)]; 
            $pdf = PDF::loadView('emails.dailyhsepdf', $data);
-           $sendto = $request->emails;
-
-          $cc = '';
+           $sendto = Recipient::where('project_id',$request->project_id)->select('email')->get();
+           $cc = '';
            $bcc = '';
            foreach($sendto as $to){
-             $this->send_email($to['email'],$cc,$bcc,$data,$pdf);
+             $this->send_email($to->email,$cc,$bcc,$data,$pdf);
            }
 
             DB::commit();
