@@ -28,19 +28,27 @@ class RecipientController extends Controller
                     'errors' => $validator->errors() 
                     ]); 
             }
+            $arr = array();
+            $save = null;
             $emails = $request->emails;
             foreach($emails as $email){
                 if($email['email'] != null){
-                    $fields = array(
-                        'project_id' => $request->project_id,
-                        'email'=> $email['email']
-                    );
-                    $save = Recipient::create($fields);
+                    $mailin = Recipient::where('project_id',$request->project_id)->where('email', $email['email'])->first();
+                    if($mailin){
+                        $arr[] = $email['email'];
+                    }
+                    else{
+                        $fields = array(
+                            'project_id' => $request->project_id,
+                            'email'=> $email['email']
+                        );
+                        $save = Recipient::create($fields);
+                    }
                 }
             }  
     
             list($status,$data) = $save ? [ true , $this->show($request->project_id) ] : [ false , ''];
-            return ['success' => $status,'data' => $data];
+            return ['success' => $status,'data' => $data, 'exists'=>$arr];
                    
     
             } catch (Exception $e) {
