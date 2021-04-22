@@ -43,7 +43,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::resource('/test', TestController::class);
-Route::post('/send_email_test', [TestController::class, 'send_email']);
+Route::get('/send_email_test', [DailyHseReportController::class, 'test_email']);
 
 Route::resource('/allocation', AllocationController::class);
 

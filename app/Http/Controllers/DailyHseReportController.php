@@ -18,6 +18,7 @@ use DB;
 use Mail;
 use PDF;
 use App\Mail\sendmail;
+use App\Mail\TestMail;
 class DailyHseReportController extends Controller
 {
   
@@ -221,5 +222,9 @@ class DailyHseReportController extends Controller
             $pdfname = 'dailyhsereport.pdf';
             return Mail::to($to)->send(new sendmail($subject,$data,$view,$pdf,$pdfname));
 
+    }
+
+    public function test_email(){
+        Mail::to('aizazkalwar46@gmail.com')->send(new TestMail($data = ''));
     }
 }
