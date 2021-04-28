@@ -1,1 +1,1 @@
-web : vender/bin/heroku-php-nginx public/
+web: vender/bin/heroku-php-nginx public/
