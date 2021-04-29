@@ -44,10 +44,11 @@ h3 {
     <div class="main">
     <table style="width:100%;" colspan="0" rowspan="0">
         <tr>
-            <td style="width:50%;"><img src="{{ url('/assets/wewatch_logo.png') }}" width="250px"></td>
-            <td style="width:16%;"><img src="{{ url('/assets/Logo1.jpg') }}" width="100px"></td>
-            <td style="width:16%;"><img src="{{ url('/assets/Logo2.jpg') }}" width="100px"></td>
-            <td style="width:16%;"><img src="{{ url('/assets/Logo3.jpg') }}" width="100px"></td>
+            <td style="width:50%;"><img src="{{ url('/assets/wewatch_logo.png') }}" width="150px"></td>
+            <td><img src="{{ url('/uploads/logos/'.$security->project->project_logo) }}" width="100px" height="45.3543307092px"></td>
+            <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo1.jpg') }}" width="100px" height="45.3543307092px"></td>
+            <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo2.jpg') }}" width="100px" height="45.3543307092px"></td>
+            <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo3.jpg') }}" width="100px" height="45.3543307092px"></td>
         </tr>
     </table>
         <h1 style="text-align:center;">Daily Security Report</h1>
@@ -56,7 +57,7 @@ h3 {
         <h4>{{ $security->date }}</h4>
         <br>
         <p>{{ $security->description_confidential }}</p>
-        <p class="color-red">Confidential</p>
+        {{-- <p class="color-red">Confidential</p> --}}
         <br>
         <h3><b>1. Daily Situation Summary</b></h3>
         <p>{{ $security->daily_situation_summary }}</p>
@@ -140,8 +141,8 @@ h3 {
         </table>
         <h3><b>3. Event / Project Key Meetings and Action Points</b></h3>
         <p>{{ $security->project_key_meeting }}</p>
-        <p class="color-red">Confidential</p>
-        <p>Prepared by WeWatch FZ LLC</p>
+        {{-- <p class="color-red">Confidential</p>
+        <p>Prepared by WeWatch FZ LLC</p> --}}
         <br>
         <h3><b>4. Toolbox Talk / HSE / Security Inductions</b></h3>
         <p>{{ $security->toolbox_talk }}</p>
@@ -161,8 +162,8 @@ h3 {
             </tr>
             @endforeach
         </table>
-        <p class="color-red">Confidential</p>
-        <p>Prepared by WeWatch FZ LLC</p>
+        {{-- <p class="color-red">Confidential</p>
+        <p>Prepared by WeWatch FZ LLC</p> --}}
 
         <br>
         <h3><b>6. Security Management Plan and Sub-Contractor Security</b></h3>
@@ -171,18 +172,16 @@ h3 {
         <h3><b>7. Country Travel Security</b></h3>
         <p>{{ $security->country_travel_security }}</p>
         <br>
-        <h3><b>8. Country Significant Acts of Terrorism/Crime (SIGACTS)</b></h3>
+        {{-- <h3><b>8. Country Significant Acts of Terrorism/Crime (SIGACTS)</b></h3>
         <p>{{ $security->significant_acts_terrorism }}</p>
-
-
-        <br>
-        <h3><b>9. Procurement Request</b></h3>
+        <br> --}}
+        <h3><b>8. Procurement Request</b></h3>
         <p>{{ $security->procurement_request }}</p>
         <br>
-        <h3><b>10. Red Flag</b></h3>
+        <h3><b>9. Red Flag</b></h3>
         <p>{{ $security->red_flag }}</p>
-        <p class="color-red">Confidential</p>
-        <p>Prepared by WeWatch FZ LLC</p>
+        {{-- <p class="color-red">Confidential</p>
+        <p>Prepared by WeWatch FZ LLC</p> --}}
         <br><br>
     </div>
 </body>
