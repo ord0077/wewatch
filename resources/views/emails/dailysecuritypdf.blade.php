@@ -44,8 +44,8 @@ h3 {
     <div class="main">
     <table style="width:100%;" colspan="0" rowspan="0">
         <tr>
-            <td style="width:50%;"><img src="{{ url('/assets/wewatch_logo.png') }}" width="150px"></td>
-            <td><img src="{{ url('/uploads/logos/'.$security->project->project_logo) }}" width="100px" height="45.3543307092px"></td>
+            <td style="width:34%;"><img src="{{ url('/assets/wewatch_logo.png') }}" width="150px"></td>
+            <td style="width:16%;"><img src="{{ url($security->project->project_logo) }}"width="100px" height="45.3543307092px"></td>
             <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo1.jpg') }}" width="100px" height="45.3543307092px"></td>
             <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo2.jpg') }}" width="100px" height="45.3543307092px"></td>
             <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo3.jpg') }}" width="100px" height="45.3543307092px"></td>
@@ -144,10 +144,10 @@ h3 {
         {{-- <p class="color-red">Confidential</p>
         <p>Prepared by WeWatch FZ LLC</p> --}}
         <br>
-        <h3><b>4. Toolbox Talk / HSE / Security Inductions</b></h3>
+        <h3><b>4. Security Inductions and Briefings </b></h3>
         <p>{{ $security->toolbox_talk }}</p>
         <br>
-        <h3><b>5. Incident / Accident or Near Miss Reporting</b></h3>
+        <h3><b>5. Security Incident / Accident or Near Miss Reporting</b></h3>
         <table class="primary-table" colspan="0" rowspan="0">
             <tr>
                 <th>Occurence</th>
@@ -169,7 +169,7 @@ h3 {
         <h3><b>6. Security Management Plan and Sub-Contractor Security</b></h3>
         <p>{{ $security->security_management_plan }}</p>
         <br>
-        <h3><b>7. Country Travel Security</b></h3>
+        <h3><b>7. Country Travel Security Assessment</b></h3>
         <p>{{ $security->country_travel_security }}</p>
         <br>
         {{-- <h3><b>8. Country Significant Acts of Terrorism/Crime (SIGACTS)</b></h3>

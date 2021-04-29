@@ -44,8 +44,8 @@ h3 {
     <div class="main">
     <table style="width:100%;" colspan="0" rowspan="0">
         <tr>
-            <td style="width:50%;"><img src="{{ url('/assets/wewatch_logo.png') }}" width="200px"></td>
-            <td><img src="{{ url('/uploads/logos/'.$hse->project->project_logo) }}" width="100px" height="45.3543307092px"></td>
+            <td style="width:34%;"><img src="{{ url('/assets/wewatch_logo.png') }}" width="200px"></td>
+            <td style="width:16%;"><img src="{{ url($hse->project->project_logo) }}" width="100px" height="45.3543307092px"></td>
             <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo1.jpg') }}" width="100px" height="45.3543307092px"></td>
             <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo2.jpg') }}" width="100px" height="45.3543307092px"></td>
             <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo3.jpg') }}" width="100px" height="45.3543307092px"></td>
@@ -159,7 +159,7 @@ h3 {
             </tr>
             @endforeach
         </table>
-        <h3><b>5. Toolbox Talk / HSE / Security Inductions</b></h3>
+        <h3><b>5. Security Inductions and Briefings </b></h3>
         <p>{{ $hse->toolbox_talk }}</p>
         <br>
         <h3><b>6. Event/Project Health, Safety and Environmental Compliance</b></h3>
@@ -192,7 +192,7 @@ h3 {
             </tr>
             @endforeach
         </table>
-        <h3><b>8. Incident / Accident or Near Miss Reporting</b></h3>
+        <h3><b>8. Security Incident / Accident or Near Miss Reporting</b></h3>
         <table class="primary-table" colspan="0" rowspan="0">
             <tr>
                 <th>Occurence</th>
