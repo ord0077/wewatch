@@ -17,11 +17,12 @@ class AllocationController extends Controller
      */
     public function index()
     {
-        $allocations = Allocation::orderby('id','desc')->select('id','project_id','user_ids','manager_ids','created_at')->get();
+        $allocations = Allocation::orderby('id','desc')->select('id','project_id','user_ids','manager_ids','guard_ids','created_at')->get();
         foreach($allocations as $aa){
 
             $aa->users =  $aa->user_ids ? User::whereIn('id', $aa->user_ids)->pluck('name') : [];
             $aa->managers =  $aa->manager_ids ? User::whereIn('id', $aa->manager_ids)->pluck('name') : [];
+            $aa->guards =  $aa->guard_ids ? User::whereIn('id', $aa->guard_ids)->pluck('name') : [];
             
         }
 
@@ -59,7 +60,7 @@ class AllocationController extends Controller
         $allocation = Allocation::where('id',$created->id)->select('id','project_id','user_ids','manager_ids','guard_ids','created_at')->first();
         $allocation->users =  $allocation->user_ids ? User::whereIn('id', $request->user_ids)->pluck('name') : [];
         $allocation->managers =  $allocation->manager_ids ? User::whereIn('id', $request->manager_ids)->pluck('name') : [];
-        $allocation->guard_ids = $allocation->guard_ids ? User::whereIn('id', $request->guard_ids)->pluck('name') : [];     
+        $allocation->guards = $allocation->guard_ids ? User::whereIn('id', $request->guard_ids)->pluck('name') : [];     
         list($status,$data) = $created ? [ true , $allocation ] : [ false , ''];
         return ['success' => $status,'data' => $allocation];
 
