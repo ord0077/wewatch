@@ -40,12 +40,13 @@ h3 {
 }
 </style>
 <body>
+    <h1>{{ url($security->project->project_logo) }} </h1>
 
     <div class="main">
     <table style="width:100%;" colspan="0" rowspan="0">
         <tr>
             <td style="width:34%;"><img src="{{ url('/assets/wewatch_logo.png') }}" width="150px"></td>
-            <td style="width:16%;"><img src="{{ url($security->project->project_logo) }}"width="100px" height="45.3543307092px"></td>
+            <td style="width:16%;"><img src="{{ url($security->project->project_logo) }}" width="100px" height="45.3543307092px"></td>
             <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo1.jpg') }}" width="100px" height="45.3543307092px"></td>
             <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo2.jpg') }}" width="100px" height="45.3543307092px"></td>
             <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo3.jpg') }}" width="100px" height="45.3543307092px"></td>

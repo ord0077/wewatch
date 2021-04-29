@@ -41,8 +41,6 @@ h3 {
 </style>
 <body>
 
-    <h1>{{ url($hse->project->project_logo) }} </h1>
-
     <div class="main">
     <table style="width:100%;" colspan="0" rowspan="0">
         <tr>
