@@ -25,6 +25,7 @@ class AllocationController extends Controller
             $aa->guards =  $aa->guard_ids ? User::whereIn('id', $aa->guard_ids)->pluck('name') : [];
             $aa->users =  $aa->user_ids ? User::whereIn('id', $aa->user_ids)->pluck('name') : [];
             $aa->managers =  $aa->manager_ids ? User::whereIn('id', $aa->manager_ids)->pluck('name') : [];
+            $aa->guards =  $aa->guard_ids ? User::whereIn('id', $aa->guard_ids)->pluck('name') : [];
             
         }
 

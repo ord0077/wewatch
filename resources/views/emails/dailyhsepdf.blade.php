@@ -44,10 +44,11 @@ h3 {
     <div class="main">
     <table style="width:100%;" colspan="0" rowspan="0">
         <tr>
-            <td style="width:50%;"><img src="{{ url('/assets/wewatch_logo.png') }}" width="250px"></td>
-            <td style="width:16%;"><img src="{{ url('/assets/Logo1.jpg') }}" width="100px"></td>
-            <td style="width:16%;"><img src="{{ url('/assets/Logo2.jpg') }}" width="100px"></td>
-            <td style="width:16%;"><img src="{{ url('/assets/Logo3.jpg') }}" width="100px"></td>
+            <td style="width:34%;"><img src="{{ url('/assets/wewatch_logo.png') }}" width="200px"></td>
+            <td style="width:16%;"><img src="{{ url($hse->project->project_logo) }}" width="100px" height="45.3543307092px"></td>
+            <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo1.jpg') }}" width="100px" height="45.3543307092px"></td>
+            <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo2.jpg') }}" width="100px" height="45.3543307092px"></td>
+            <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo3.jpg') }}" width="100px" height="45.3543307092px"></td>
         </tr>
     </table>
         <h1 style="text-align:center;">Daily HSE Report</h1>
@@ -56,7 +57,7 @@ h3 {
         <h4>{{ $hse->date }}</h4>
         <br>
         <p>{{ $hse->description_confidential }}</p>
-        <p class="color-red">Confidential</p>
+        {{-- <p class="color-red">Confidential</p> --}}
         <br>
         <h3><b>1. Daily Situation Summary</b></h3>
         <p>{{ $hse->daily_situation_summary }}</p>
@@ -140,8 +141,8 @@ h3 {
         </table>
         <h3><b>3. Event / Project Key Meetings and Action Points</b></h3>
         <p>{{ $hse->project_key_meeting }}</p>
-        <p class="color-red">Confidential</p>
-        <p>Prepared by WeWatch FZ LLC</p>
+        {{-- <p class="color-red">Confidential</p> --}}
+        {{-- <p>Prepared by WeWatch FZ LLC</p> --}}
         <br>
         <h3><b>4. Design/Build Activities in Progress</span></b></h3>
         <table class="primary-table" colspan="0" rowspan="0">
@@ -158,7 +159,7 @@ h3 {
             </tr>
             @endforeach
         </table>
-        <h3><b>5. Toolbox Talk / HSE / Security Inductions</b></h3>
+        <h3><b>5. Security Inductions and Briefings </b></h3>
         <p>{{ $hse->toolbox_talk }}</p>
         <br>
         <h3><b>6. Event/Project Health, Safety and Environmental Compliance</b></h3>
@@ -191,7 +192,7 @@ h3 {
             </tr>
             @endforeach
         </table>
-        <h3><b>8. Incident / Accident or Near Miss Reporting</b></h3>
+        <h3><b>8. Security Incident / Accident or Near Miss Reporting</b></h3>
         <table class="primary-table" colspan="0" rowspan="0">
             <tr>
                 <th>Occurence</th>
@@ -206,8 +207,8 @@ h3 {
             </tr>
             @endforeach
         </table>
-        <p class="color-red">Confidential</p>
-        <p>Prepared by WeWatch FZ LLC</p>
+        {{-- <p class="color-red">Confidential</p>
+        <p>Prepared by WeWatch FZ LLC</p> --}}
         <br>
         <h3><b>9. COVID-19 Mitigation Compliance</b></h3>
         <table class="primary-table" colspan="0" rowspan="0">
@@ -229,8 +230,8 @@ h3 {
         <br>
         <h3><b>11. Red Flag</b></h3>
         <p>{{ $hse->red_flag }}</p>
-        <p class="color-red">Confidential</p>
-        <p>Prepared by WeWatch FZ LLC</p>
+        {{-- <p class="color-red">Confidential</p>
+        <p>Prepared by WeWatch FZ LLC</p> --}}
         <br><br>
     </div>
 </body>
