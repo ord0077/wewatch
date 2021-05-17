@@ -16,24 +16,8 @@
         <!-- Scripts -->
         @routes
         <script src="{{ mix('js/app.js') }}" defer></script>
-
-        <Style>
-        @font-face {
-    font-family: 'AR';
-    /* src: url('./fonts/AR.otf'); */
-    src: local('AR'), url('./fonts/AR.otf') format('otf'), url('./fonts/AR.otf') format('truetype');
-    /* src: url('./SansationLight.eot');
-	src: local('SansationLight'), url('./SansationLight.woff') format('woff'), url('./SansationLight.ttf') format('truetype'); */
-}
-* {
-    font-family:AR;
-}
-        </style>
     </head>
-    <body class=" antialiased" >
-
-        {{-- {{ url('./fonts/AR.otf') }} --}}
-
+    <body class="font-sans antialiased">
         @inertia
     </body>
 </html>
