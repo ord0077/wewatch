@@ -16,8 +16,23 @@
         <!-- Scripts -->
         @routes
         <script src="{{ mix('js/app.js') }}" defer></script>
+
+        <style>
+
+@font-face {
+    font-family: AR;
+    src: url('./fonts/AR.otf');
+    src: local('AR'), url('./fonts/AR.otf') format('otf'), url('./fonts/AR.otf') format('truetype');
+    /* src: url('./SansationLight.eot');
+	src: local('SansationLight'), url('./SansationLight.woff') format('woff'), url('./SansationLight.ttf') format('truetype'); */
+}
+        </style>
     </head>
-    <body class="font-sans antialiased">
+    <body style="text-align:center; font-family:AR;">
+
+      
+
+            <h1>Daily Security Report</h1>
         @inertia
     </body>
 </html>

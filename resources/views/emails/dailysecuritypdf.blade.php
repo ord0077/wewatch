@@ -9,6 +9,16 @@
 	<title>Daily HSE Report</title>
 </head>
 <style>
+
+
+@font-face {
+    font-family: 'ar';
+    src: url('./fonts/AR.otf');
+    src: local('ar'), url('./fonts/AR.otf') format('otf'), url('./fonts/AR.otf') format('truetype');
+    /* src: url('./SansationLight.eot');
+	src: local('SansationLight'), url('./SansationLight.woff') format('woff'), url('./SansationLight.ttf') format('truetype'); */
+}
+
 div.main{
     max-width:100%;
     width:100%;
@@ -41,7 +51,7 @@ h3 {
 </style>
 <body>
     <div class="main">
-    <table style="width:100%;" colspan="0" rowspan="0">
+    <table style="width:100%; " colspan="0" rowspan="0">
         <tr>
             <td style="width:34%;"><img src="{{ url('/assets/wewatch_logo.png') }}" width="150px"></td>
             <td style="width:16%;"><img src="{{ url($security->project->project_logo) }}" width="100px" height="45.3543307092px"></td>
@@ -50,7 +60,7 @@ h3 {
             <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo3.jpg') }}" width="100px" height="45.3543307092px"></td>
         </tr>
     </table>
-        <h1 style="text-align:center;">Daily Security Report</h1>
+        <h1 style="text-align:center; font-family:ar;">Daily Security Report</h1>
         <h3 class="color-red">EVENT/PROJECT NAME</h3>
         <h3>{{ $security->project->project_name }}</h3>
         <h4>{{ $security->date }}</h4>

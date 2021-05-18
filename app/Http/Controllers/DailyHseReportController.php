@@ -225,6 +225,6 @@ class DailyHseReportController extends Controller
     }
 
     public function test_email(){
-        Mail::to('aizazkalwar46@gmail.com')->send(new TestMail($data = ''));
+        Mail::to('ord0077@gmail.com')->send(new TestMail($data = ''));
     }
 }
