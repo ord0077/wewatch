@@ -12,15 +12,18 @@
 
 
 
+
+
+
 @font-face {
     font-family: AR;
+    src: url('./fonts/AR.otf');
+    src: local('AR'), url('./fonts/AR.otf') format('otf'), url('.') format('truetype');
+}
 
-
-    src: url("{{ asset(''./fonts/AR.otf') }}");
-
-    }
-
-
+*{
+     font-family: AR;
+}
 
 div.main{
     max-width:100%;
@@ -65,10 +68,10 @@ h3 {
     </table>
         <h1  >Daily Security Report</h1>
         <h3  class="color-red">EVENT/PROJECT NAME</h3>
-        <h3 style="font-family: AR;" >{{ $security->project->project_name }}</h3>
-        <h4 style="font-family: AR;" >{{ $security->date }}</h4>
+        <h3   >{{ $security->project->project_name }}</h3>
+        <h4  >{{ $security->date }}</h4>
         <br>
-        <p style="font-family: AR;" >{{ $security->description_confidential }}</p>
+        <p  >{{ $security->description_confidential }}</p>
         {{-- <p class="color-red">Confidential</p> --}}
         <br>
         <h3><b>1. Daily Situation Summary</b></h3>
