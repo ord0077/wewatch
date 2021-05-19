@@ -19,13 +19,7 @@
 
         <style>
 
-@font-face {
-    font-family: AR;
-    src: url('./fonts/AR.otf');
-    src: local('AR'), url('./fonts/AR.otf') format('otf'), url('.') format('truetype');
-    /* src: url('./SansationLight.eot');
-	src: local('SansationLight'), url('./SansationLight.woff') format('woff'), url('./SansationLight.ttf') format('truetype'); */
-}
+
 
 
   </style>
@@ -34,7 +28,7 @@
 
 
 
-            <h1 style="text-align:center; font-family:AR;">Daily Security Report</h1>
+            <h1>Daily Security Report</h1>
         @inertia
     </body>
 </html>
