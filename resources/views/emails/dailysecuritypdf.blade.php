@@ -22,7 +22,7 @@
 @font-face {
     font-family: AR;
     src: url('./fonts/AR.otf');
-    src: local('AR'), url('./fonts/AR.otf') format('otf'), url('.') format('truetype'); */
+    src: local('AR'), url('./fonts/AR.otf') format('otf'), url('.') format('truetype');
     /* src: url('./SansationLight.eot');
 	src: local('SansationLight'), url('./SansationLight.woff') format('woff'), url('./SansationLight.ttf') format('truetype'); */
 }
@@ -30,7 +30,7 @@
 
   </style>
     </head>
-    <body>
+    <body style="text-align:center; font-family:AR;">
 
 
 
