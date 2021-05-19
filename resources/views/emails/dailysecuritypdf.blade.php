@@ -13,9 +13,14 @@
 
 
 
+
+
 @font-face {
     font-family: AR;
-    src: url('{{ public_path("/fonts/AR.otf") }}');
+    src: url('./fonts/AR.otf');
+    src: local('AR'), url('./fonts/AR.otf') format('otf'), url('.') format('truetype'); */
+    /* src: url('./SansationLight.eot');
+	src: local('SansationLight'), url('./SansationLight.woff') format('woff'), url('./SansationLight.ttf') format('truetype'); */
 }
 
 *{
