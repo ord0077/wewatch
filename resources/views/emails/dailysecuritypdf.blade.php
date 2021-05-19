@@ -14,13 +14,9 @@
 
 
 
-
 @font-face {
     font-family: AR;
-    src: url('./fonts/AR.otf');
-    src: local('AR'), url('./fonts/AR.otf') format('otf'), url('.') format('truetype'); */
-    /* src: url('./SansationLight.eot');
-	src: local('SansationLight'), url('./SansationLight.woff') format('woff'), url('./SansationLight.ttf') format('truetype'); */
+    src: url('{{ public_path("/fonts/AR.otf") }}');
 }
 
 *{
@@ -61,6 +57,7 @@ h3 {
     <div class="main">
 
         <h1> test font </h1>
+        <p>second test</p>
   </div>
 </body>
 </html>
