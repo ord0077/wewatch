@@ -106,8 +106,7 @@ class DSRController extends Controller
 
 
 
-           $data = ['security'=> $this->show($success->id),
-                 'path' => public_path().'/fonts'
+           $data = ['security'=> $this->show($success->id)
              ];
            $pdf = PDF::loadView('emails.dailysecuritypdf', $data);
            $sendto = Recipient::where('project_id',$request->project_id)->select('email')->get();
