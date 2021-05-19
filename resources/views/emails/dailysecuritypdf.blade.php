@@ -13,12 +13,14 @@
 
 
 
-/* @font-face {
+@font-face {
     font-family: AR;
-    src: url('{{ public_path('/fonts/AR.otf') }}');
-} */
+    src: url('{{ public_path("/fonts/AR.otf") }}');
+}
 
-
+*{
+     font-family: AR;
+}
 
 div.main{
     max-width:100%;
