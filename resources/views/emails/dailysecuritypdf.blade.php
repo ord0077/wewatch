@@ -50,7 +50,7 @@ h3 {
     margin-top: 30px;
 }
 </style>
-<body>
+<body style="text-align:center; font-family:AR;">
     <div class="main">
     <table style="width:100%; " colspan="0" rowspan="0">
         <tr>
