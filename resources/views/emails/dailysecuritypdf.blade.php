@@ -13,10 +13,10 @@
 
 
 
-@font-face {
+/* @font-face {
     font-family: AR;
     src: url('{{ public_path('/fonts/AR.otf') }}');
-}
+} */
 
 
 
@@ -50,7 +50,7 @@ h3 {
     margin-top: 30px;
 }
 </style>
-<body style="text-align:center; font-family:AR;">
+<body >
     <div class="main">
     <table style="width:100%; " colspan="0" rowspan="0">
         <tr>
@@ -61,16 +61,16 @@ h3 {
             <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo3.jpg') }}" width="100px" height="45.3543307092px"></td>
         </tr>
     </table>
-        <h1  style="text-align:center; font-family: AR;">Daily Security Report</h1>
-        <h3 style="font-family: AR;" class="color-red">EVENT/PROJECT NAME</h3>
-        <h3  style="font-family: AR; ">{{ $security->project->project_name }}</h3>
-        <h4  style="font-family: AR; ">{{ $security->date }}</h4>
+        <h1  >Daily Security Report</h1>
+        <h3  class="color-red">EVENT/PROJECT NAME</h3>
+        <h3   >{{ $security->project->project_name }}</h3>
+        <h4  >{{ $security->date }}</h4>
         <br>
-        <p  style="font-family: AR; ">{{ $security->description_confidential }}</p>
+        <p  >{{ $security->description_confidential }}</p>
         {{-- <p class="color-red">Confidential</p> --}}
         <br>
         <h3><b>1. Daily Situation Summary</b></h3>
-        <p  style="font-family: AR; ">{{ $security->daily_situation_summary }}</p>
+        <p  >{{ $security->daily_situation_summary }}</p>
         <br>
         <h3><b>2. Event / Project Details</b></h3>
         <table class="primary-table" colspan="0" rowspan="0">
