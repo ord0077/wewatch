@@ -15,8 +15,11 @@
 
 
 @font-face {
+
     font-family: AR;
-    src: url('{{ public_path("/fonts/AR.otf") }}');
+    src: url('./fonts/AR.otf');
+
+
 }
 
 *{
