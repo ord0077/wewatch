@@ -17,22 +17,22 @@ use App\Mail\sendmail;
 use App\Mail\TestMail;
 class DSRController extends Controller
 {
-  
+
     public function index()
     {
-         return DSR::orderBy('id', 'DESC')  
+         return DSR::orderBy('id', 'DESC')
             ->with([
                 'project',
                 'projectdetail',
                 'nearmissreporting'
                 ])
-            ->get();     
+            ->get();
 
     }
 
     public function store(Request $request)
     {
-      
+
             $validator = Validator::make($request->all(),[
 
                 'project_id' => 'required',
@@ -41,7 +41,7 @@ class DSRController extends Controller
 
             ]);
 
-            if($validator->fails()){ 
+            if($validator->fails()){
                     return  ['success' => false, 'error' =>  $validator->errors()];
             }
 
@@ -63,18 +63,18 @@ class DSRController extends Controller
                 'security_management_plan' => $request->security_management_plan,
                 'country_travel_security' => $request->country_travel_security,
                 'significant_acts_terrorism' => $request->significant_acts_terrorism
-            
+
                 );
 
         $success = DSR::create($hsefields);
 
-          
-            
+
+
                         $pfields = array(
                                 'd_s_r_id' => $success->id,
                                 'weather' => $request->weather,
                                 'wind_strength' => $request->wind_strength,
-                                'weather_wind_remarks' => $request->weather_wind_remarks,  
+                                'weather_wind_remarks' => $request->weather_wind_remarks,
                                 'design_build_time' => $request->design_build_time,
                                 'daily_operation_man_hour' => $request->daily_operation_man_hour,
                                 'design_time_hour_remarks' => $request->design_time_hour_remarks,
@@ -84,8 +84,8 @@ class DSRController extends Controller
                                 'total_man_hours' => $request->total_man_hours,
                                 'total_lost_work_hours' => $request->total_lost_work_hours
 
-                                );            
-                        DB::table('project_details')->insert($pfields); 
+                                );
+                        DB::table('project_details')->insert($pfields);
 
                         $near_miss_activities = $request->near_miss_activities;
                         foreach($near_miss_activities as $near_miss_activity){
@@ -96,12 +96,12 @@ class DSRController extends Controller
                                 'near_miss_remarks' => $near_miss_activity["near_miss_remarks"]
                                  );
 
-                        DB::table('near_miss_reportings')->insert($nmrfields);  
+                        DB::table('near_miss_reportings')->insert($nmrfields);
                         }
-        
-               
 
-          
+
+
+
 
 
 
@@ -115,9 +115,9 @@ class DSRController extends Controller
                     $this->send_email($to->email,$cc,$bcc,$data,$pdf);
                 }
             }
-           
+
             DB::commit();
-            
+
             list($status,$data) = $success ? [true, $this->show($success->id)] : [false, ''];
             return ['success' => $status,'data' => $data];
 
@@ -125,14 +125,15 @@ class DSRController extends Controller
             } catch (Exception $e) {
               DB::rollback();
             // something went wrong
-         
-            return response()->json($e->errorInfo ?? 'unknown error');
+
+            // return response()->json($e->errorInfo ?? 'unknown error');
+            return response()->json($e);
             }
 
 
         // }
-      
-       
+
+
 
     }
 
@@ -145,20 +146,20 @@ class DSRController extends Controller
             'nearmissreporting',
             ])
             ->find($id);
-        return $show;    
+        return $show;
         //return view('emails.dailysecuritypdf',['security'=>$show]);
         //Mail::to('aizazkalwar46@gmail.com')->send(new TestMail($data=''));
     }
 
     public function destroy($id)
     {
-        return DSR::find($id)->delete() 
-       ? ['response_status' => true, 'message' => "Record has been deleted"] 
+        return DSR::find($id)->delete()
+       ? ['response_status' => true, 'message' => "Record has been deleted"]
        : ['response_status' => false, 'message' => "Record has been deleted" ];
     }
 
     public function send_email($to=null,$cc=null,$bcc=null,$data=null,$pdf=null){
-     
+
         $subject = 'Daily Security Report';
            $view = 'emails.dailysecurity';
            $pdfname = 'dailysecurityreport.pdf';
