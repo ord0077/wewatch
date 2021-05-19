@@ -32,6 +32,7 @@ class DSRController extends Controller
 
     public function store(Request $request)
     {
+        // return (public_path().'/fonts/AR.ttf');
 
             $validator = Validator::make($request->all(),[
 
@@ -105,7 +106,9 @@ class DSRController extends Controller
 
 
 
-           $data = ['security'=> $this->show($success->id)];
+           $data = ['security'=> $this->show($success->id),
+                 'path' => public_path().'/fonts'
+             ];
            $pdf = PDF::loadView('emails.dailysecuritypdf', $data);
            $sendto = Recipient::where('project_id',$request->project_id)->select('email')->get();
           $cc = '';
