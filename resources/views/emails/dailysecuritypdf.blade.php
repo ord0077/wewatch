@@ -17,7 +17,8 @@
 @font-face {
 
     font-family: AR;
-    src: url('./fonts/AR.otf');
+
+    src: url('./fonts/AR.otf') format('otf'), url('.') format('truetype');
 
 
 }
