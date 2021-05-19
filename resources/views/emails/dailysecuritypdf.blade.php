@@ -18,7 +18,7 @@
 @font-face {
     font-family: 'AR';
     src: url($path .'/AR.ttf');
-    src: local('AR'), url($path .'/AR.ttf') format('ttf'), format('truetype');
+    src: local('AR'), url('./fonts/AR.ttf') format('ttf'), format('truetype');
 
 }
 
