@@ -14,18 +14,7 @@
 
 
 
-@font-face {
 
-    font-family: AR;
-
-    src: url('./fonts/AR.otf') format('otf'), url('.') format('truetype');
-
-
-}
-
-*{
-     font-family: AR;
-}
 
 div.main{
     max-width:100%;
