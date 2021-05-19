@@ -30,7 +30,7 @@
 
   </style>
     </head>
-    <body style="text-align:center; font-family:AR;">
+    <body>
 
 
 
