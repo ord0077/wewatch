@@ -15,17 +15,13 @@
 
 
 
-/* @font-face {
+@font-face {
     font-family: 'AR';
     src: url($path .'/AR.ttf');
-    src: local('AR'), url($path .'/AR.ttf') format('ttf'), url('.') format('truetype');
+    src: local('AR'), url($path .'/AR.ttf') format('ttf'), format('truetype');
 
-} */
-@font-face {
-            font-family: 'AR';
-            src: url({{ storage_path('fonts/AR.ttf') }}) format('truetype');
+}
 
-         }
 
 *{
      font-family: "AR";
