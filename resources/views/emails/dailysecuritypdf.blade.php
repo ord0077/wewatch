@@ -8,25 +8,17 @@
         <meta name="author" content="" />
 	<title>Daily HSE Report</title>
 </head>
-<style>
+<style type="text/css">
 
 
-/* @font-face {
-    font-family: 'ar';
-    src: url('./fonts/AR.otf');
-    src: local('ar'), url('./fonts/AR.otf') format('otf'), url('./fonts/AR.otf') format('truetype');
-    /* src: url('./SansationLight.eot');
-	src: local('SansationLight'), url('./SansationLight.woff') format('woff'), url('./SansationLight.ttf') format('truetype'); */
-} */
 
 
 @font-face {
     font-family: AR;
-    src: url('./fonts/AR.otf');
-    src: local('AR'), url('./fonts/AR.otf') format('otf'), url('./fonts/AR.otf') format('truetype');
-    /* src: url('./SansationLight.eot');
-	src: local('SansationLight'), url('./SansationLight.woff') format('woff'), url('./SansationLight.ttf') format('truetype'); */
+    src: url('{{ public_path('/fonts/AR.otf') }}');
 }
+
+
 
 div.main{
     max-width:100%;
@@ -69,16 +61,16 @@ h3 {
             <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo3.jpg') }}" width="100px" height="45.3543307092px"></td>
         </tr>
     </table>
-        <h1  style="text-align:center; font-family:AR; font-style: italic;">Daily Security Report</h1>
-        <h3 class="color-red">EVENT/PROJECT NAME</h3>
-        <h3  style="font-family:AR; font-style: italic;">{{ $security->project->project_name }}</h3>
-        <h4  style="font-family:AR; font-style: italic;">{{ $security->date }}</h4>
+        <h1  style="text-align:center; font-family: AR;">Daily Security Report</h1>
+        <h3 style="font-family: AR;" class="color-red">EVENT/PROJECT NAME</h3>
+        <h3  style="font-family: AR; ">{{ $security->project->project_name }}</h3>
+        <h4  style="font-family: AR; ">{{ $security->date }}</h4>
         <br>
-        <p  style="font-family:AR; font-style: italic;">{{ $security->description_confidential }}</p>
+        <p  style="font-family: AR; ">{{ $security->description_confidential }}</p>
         {{-- <p class="color-red">Confidential</p> --}}
         <br>
         <h3><b>1. Daily Situation Summary</b></h3>
-        <p  style="font-family:AR; font-style: italic;">{{ $security->daily_situation_summary }}</p>
+        <p  style="font-family: AR; ">{{ $security->daily_situation_summary }}</p>
         <br>
         <h3><b>2. Event / Project Details</b></h3>
         <table class="primary-table" colspan="0" rowspan="0">
