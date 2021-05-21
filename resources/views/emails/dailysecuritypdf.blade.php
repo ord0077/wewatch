@@ -58,7 +58,7 @@ h3 {
 }
 
 .watermark {
-  opacity: 0.1;
+  opacity: 0.15;
   position:fixed;
   display: block;
   padding-top: 50%;
