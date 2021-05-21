@@ -58,11 +58,8 @@ h3 {
 }
 
 .watermark {
-  position: fixed;
-  bottom: 5px;
-  right: 5px;
   opacity: 0.2;
-  text-align: center;
+
   display: block;
   margin-left: auto;
   margin-right: auto;
