@@ -61,8 +61,9 @@ h3 {
   opacity: 0.2;
   position:fixed;
   display: block;
-  padding: 20%;
-  width: 80%;
+  padding-top: 50%;
+  padding-left:10%;
+  width: 75%;
 }
 </style>
 <body >
