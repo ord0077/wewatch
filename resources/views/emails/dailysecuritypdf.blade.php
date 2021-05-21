@@ -57,7 +57,7 @@ h3 {
     margin-top: 30px;
 }
 
-#watermark {
+.watermark {
   position: fixed;
   bottom: 5px;
   right: 5px;
@@ -67,7 +67,7 @@ h3 {
 }
 </style>
 <body >
-    <img id="watermark" src="{{ url('/assets/wewatch_logo.jpg') }}" width="100%">
+    <img class="watermark" src="{{ url('/assets/wewatch_logo.png') }}"  width="100%">
     <div class="main">
     <table style="width:100%; " colspan="0" rowspan="0">
         <tr>
