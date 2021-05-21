@@ -78,7 +78,7 @@ h3 {
             <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo3.jpg') }}" width="100px" height="45.3543307092px"></td>
         </tr>
     </table>
-        <h1  >Daily Security Report</h1>
+        <h1 style="text-align:center;">Daily Security Report</h1>
         <h3  class="color-red">EVENT/PROJECT NAME</h3>
         <h3   >{{ $security->project->project_name }}</h3>
         <h4  >{{ $security->date }}</h4>
