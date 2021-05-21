@@ -58,6 +58,7 @@ h3 {
 }
 </style>
 <body >
+    <img style="Position:absoulte;" src="{{ url('/assets/Logo1.jpg') }}" width="100%">
     <div class="main">
     <table style="width:100%; " colspan="0" rowspan="0">
         <tr>
