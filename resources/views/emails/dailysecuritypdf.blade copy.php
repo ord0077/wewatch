@@ -16,15 +16,15 @@
 
 
 @font-face {
-    font-family: 'AR';
-    src: url($path .'/AR.ttf');
-    src: local('AR'), url('./fonts/AR.ttf') format('ttf'), format('truetype');
-
+    font-family: AR;
+    src: url('./fonts/AR.otf');
+    src: local('AR'), url('./fonts/AR.otf') format('otf'), url('.') format('truetype'); */
+    /* src: url('./SansationLight.eot');
+	src: local('SansationLight'), url('./SansationLight.woff') format('woff'), url('./SansationLight.ttf') format('truetype'); */
 }
 
-
 *{
-     font-family: "AR";
+     font-family: AR;
 }
 
 div.main{
@@ -56,18 +56,10 @@ h3 {
     line-height: 0.4;
     margin-top: 30px;
 }
-
-#watermark {
-  position: fixed;
-  bottom: 5px;
-  right: 5px;
-  opacity: 0.5;
-  text-align: right;
-  color: red;
-}
 </style>
 <body >
-    <img id="watermark" src="{{ url('/assets/wewatch_logo.jpg') }}" width="100%">
+
+<img style="Position:absoulte;" src="{{ url('/assets/Logo1.jpg') }}" width="100%">
     <div class="main">
     <table style="width:100%; " colspan="0" rowspan="0">
         <tr>
