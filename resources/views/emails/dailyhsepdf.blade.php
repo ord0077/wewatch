@@ -38,8 +38,21 @@ h3 {
     line-height: 0.4;
     margin-top: 30px;
 }
+
+
+.watermark {
+  opacity: 0.15;
+  position:fixed;
+  display: block;
+  padding-top: 50%;
+  padding-left:10%;
+  width: 75%;
+}
+
 </style>
 <body>
+
+    <img class="watermark" src="{{ url('/assets/wewatch_logo.png') }}">
 
     <div class="main">
     <table style="width:100%;" colspan="0" rowspan="0">
@@ -72,7 +85,7 @@ h3 {
             <tr>
                 <td>{{ $hse->projectdetail[0]->weather }}</td>
                 <td>{{ $hse->projectdetail[0]->wind_strength }}</td>
-                <td>{{ $hse->projectdetail[0]->weather_wind_remarks }}</td>   
+                <td>{{ $hse->projectdetail[0]->weather_wind_remarks }}</td>
             </tr>
         </table>
 
@@ -85,7 +98,7 @@ h3 {
             <tr>
                 <td>{{ $hse->projectdetail[0]->design_build_time }}</td>
                 <td>{{ $hse->projectdetail[0]->daily_operation_man_hour }}</td>
-                <td>{{ $hse->projectdetail[0]->design_time_hour_remarks }}</td>   
+                <td>{{ $hse->projectdetail[0]->design_time_hour_remarks }}</td>
             </tr>
         </table>
 
@@ -102,7 +115,7 @@ h3 {
                 <td>{{ $cnotr['contractors'] }}</td>
                 <td>{{ $cnotr['staff_numbers'] }}</td>
                 <td>{{ $cnotr['shift_pattern'] }}</td>
-                <td>{{ $cnotr['daily_man_hours'] }}</td>   
+                <td>{{ $cnotr['daily_man_hours'] }}</td>
             </tr>
             @endforeach
             @endisset
@@ -119,24 +132,24 @@ h3 {
             <tr>
                 <td>{{ $typecnotr['type_contractors'] }}</td>
                 <td>{{ $typecnotr['staff_numbers'] }}</td>
-                <td>{{ $typecnotr['shift_pattern'] }}</td>   
+                <td>{{ $typecnotr['shift_pattern'] }}</td>
             </tr>
             @endforeach
             @endisset
             <tr>
                 <td></td>
                 <td>TOTAL man-days</td>
-                <td>{{ $hse->projectdetail[0]->total_man_days }}</td>   
+                <td>{{ $hse->projectdetail[0]->total_man_days }}</td>
             </tr>
             <tr>
                 <td></td>
                 <td>Total man-hours</td>
-                <td>{{ $hse->projectdetail[0]->total_man_hours }}</td>   
+                <td>{{ $hse->projectdetail[0]->total_man_hours }}</td>
             </tr>
             <tr>
                 <td></td>
                 <td>Total lost work hours</td>
-                <td>{{ $hse->projectdetail[0]->total_lost_work_hours }}</td>   
+                <td>{{ $hse->projectdetail[0]->total_lost_work_hours }}</td>
             </tr>
         </table>
         <h3><b>3. Event / Project Key Meetings and Action Points</b></h3>
@@ -155,7 +168,7 @@ h3 {
             <tr>
                 <td>{{ $build->activites }}</td>
                 <td>{{ $build->occurrence }}</td>
-                <td>{{ $build->remarks }}</td>   
+                <td>{{ $build->remarks }}</td>
             </tr>
             @endforeach
         </table>
@@ -173,7 +186,7 @@ h3 {
             <tr>
                 <td>{{ $health->project_health_activites }}</td>
                 <td>{{ $health->project_health_occurrence }}</td>
-                <td>{{ $health->project_health_remarks }}</td>   
+                <td>{{ $health->project_health_remarks }}</td>
             </tr>
             @endforeach
         </table>
@@ -188,7 +201,7 @@ h3 {
             <tr>
                 <td>{{ $hazard->hazard_identify_activites }}</td>
                 <td>{{ $hazard->hazard_identify_occurrence }}</td>
-                <td>{{ $hazard->hazard_identify_remarks }}</td>   
+                <td>{{ $hazard->hazard_identify_remarks }}</td>
             </tr>
             @endforeach
         </table>
@@ -203,7 +216,7 @@ h3 {
             <tr>
                 <td>{{ $nearmiss->near_miss_activites }}</td>
                 <td>{{ $nearmiss->near_miss_occurrence }}</td>
-                <td>{{ $nearmiss->near_miss_remarks }}</td>   
+                <td>{{ $nearmiss->near_miss_remarks }}</td>
             </tr>
             @endforeach
         </table>
@@ -221,7 +234,7 @@ h3 {
             <tr>
                 <td>{{ $covid->covid_compliance_activites }}</td>
                 <td>{{ $covid->covid_compliance_occurrence }}</td>
-                <td>{{ $covid->covid_compliance_remarks }}</td>   
+                <td>{{ $covid->covid_compliance_remarks }}</td>
             </tr>
             @endforeach
         </table>

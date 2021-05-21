@@ -67,7 +67,7 @@ h3 {
 }
 </style>
 <body >
-    <img class="watermark" src="{{ url('/assets/wewatch_logo.png') }}" >
+    <img class="watermark" src="{{ url('/assets/wewatch_logo.png') }}">
     <div class="main">
     <table style="width:100%; " colspan="0" rowspan="0">
         <tr>
