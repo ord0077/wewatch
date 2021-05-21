@@ -61,13 +61,16 @@ h3 {
   position: fixed;
   bottom: 5px;
   right: 5px;
-  opacity: 0.5;
-  text-align: right;
-  color: red;
+  opacity: 0.2;
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
 </style>
 <body >
-    <img class="watermark" src="{{ url('/assets/wewatch_logo.png') }}"  width="100%">
+    <img class="watermark" src="{{ url('/assets/wewatch_logo.png') }}" >
     <div class="main">
     <table style="width:100%; " colspan="0" rowspan="0">
         <tr>
