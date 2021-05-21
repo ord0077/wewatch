@@ -61,9 +61,8 @@ h3 {
   opacity: 0.2;
 
   display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
+  margin: 50%;
+  width: 80%;
 }
 </style>
 <body >
