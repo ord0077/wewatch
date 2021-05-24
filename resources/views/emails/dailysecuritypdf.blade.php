@@ -16,12 +16,12 @@
 
 
 @font-face {
-    font-family: 'AR';
-    src: url($path .'/AR.ttf');
-    src: local('AR'), url('./fonts/AR.ttf') format('ttf'), format('truetype');
+    font-family: AR;
+    src: url('./fonts/AR.ttf');
+    src: local('AR'), url('./fonts/AR.ttf') format('ttf'), url('.') format('truetype');
+    src: url("{{ asset(''./fonts/AR.ttf') }}");
 
-}
-
+    }
 
 *{
      font-family: "AR";
