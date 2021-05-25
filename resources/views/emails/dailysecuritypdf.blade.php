@@ -16,9 +16,11 @@
 
 @font-face {
     font-family: AR;
-    src: url('./fonts/AR.ttf');
-    src: local('AR'), url('./fonts/AR.ttf') format('ttf'), url('.') format('truetype');
+    src: url('/public/fonts/AR.ttf');
+    font-weight: bold;
+    font-style: italic;
 }
+
 
 *{
      font-family: "AR";
@@ -62,6 +64,7 @@ h3 {
   padding-left:10%;
   width: 75%;
 }
+
 </style>
 <body >
     <img class="watermark" src="{{ url('/assets/wewatch_logo.png') }}">
