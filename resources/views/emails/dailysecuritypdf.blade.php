@@ -16,7 +16,7 @@
 
 @font-face {
     font-family: AR;
-    src: url('/public/fonts/AR.ttf');
+    src: url('public/fonts/AR.ttf');
     font-weight: bold;
     font-style: italic;
 }
