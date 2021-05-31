@@ -32,7 +32,6 @@ class DSRController extends Controller
 
     public function store(Request $request)
     {
-        // return (public_path().'/fonts/AR.ttf');
 
             $validator = Validator::make($request->all(),[
 
@@ -67,47 +66,42 @@ class DSRController extends Controller
 
                 );
 
-        $success = DSR::create($hsefields);
+                $success = DSR::create($hsefields);
 
 
 
-                        $pfields = array(
-                                'd_s_r_id' => $success->id,
-                                'weather' => $request->weather,
-                                'wind_strength' => $request->wind_strength,
-                                'weather_wind_remarks' => $request->weather_wind_remarks,
-                                'design_build_time' => $request->design_build_time,
-                                'daily_operation_man_hour' => $request->daily_operation_man_hour,
-                                'design_time_hour_remarks' => $request->design_time_hour_remarks,
-                                'contractors' => json_encode($request->contractors),
-                                'type_contractors' => json_encode($request->type_contractors),
-                                'total_man_days' => $request->total_man_days,
-                                'total_man_hours' => $request->total_man_hours,
-                                'total_lost_work_hours' => $request->total_lost_work_hours
+                $pfields = array(
+                        'd_s_r_id' => $success->id,
+                        'weather' => $request->weather,
+                        'wind_strength' => $request->wind_strength,
+                        'weather_wind_remarks' => $request->weather_wind_remarks,
+                        'design_build_time' => $request->design_build_time,
+                        'daily_operation_man_hour' => $request->daily_operation_man_hour,
+                        'design_time_hour_remarks' => $request->design_time_hour_remarks,
+                        'contractors' => json_encode($request->contractors),
+                        'type_contractors' => json_encode($request->type_contractors),
+                        'total_man_days' => $request->total_man_days,
+                        'total_man_hours' => $request->total_man_hours,
+                        'total_lost_work_hours' => $request->total_lost_work_hours
 
-                                );
-                        DB::table('project_details')->insert($pfields);
+                        );
+                DB::table('project_details')->insert($pfields);
 
-                        $near_miss_activities = $request->near_miss_activities;
-                        foreach($near_miss_activities as $near_miss_activity){
-                        $nmrfields =array(
-                                'd_s_r_id' => $success->id,
-                                'near_miss_activites' => $near_miss_activity["near_miss_activites"],
-                                'near_miss_occurrence' => $near_miss_activity["near_miss_occurrence"],
-                                'near_miss_remarks' => $near_miss_activity["near_miss_remarks"]
-                                 );
+                        // $near_miss_activities = $request->near_miss_activities;
+                        // foreach($near_miss_activities as $near_miss_activity){
+                        // $nmrfields =array(
+                        //         'd_s_r_id' => $success->id,
+                        //         'near_miss_activites' => $near_miss_activity["near_miss_activites"],
+                        //         'near_miss_occurrence' => $near_miss_activity["near_miss_occurrence"],
+                        //         'near_miss_remarks' => $near_miss_activity["near_miss_remarks"]
+                        //          );
 
-                        DB::table('near_miss_reportings')->insert($nmrfields);
-                        }
+                        // DB::table('near_miss_reportings')->insert($nmrfields);
+                        // }
 
+                        DB::table('near_miss_reportings')->insert($request->near_miss_activities);
+           $data = ['security'=> $this->show($success->id) ];
 
-
-
-
-
-
-           $data = ['security'=> $this->show($success->id)
-             ];
            $pdf = PDF::loadView('emails.dailysecuritypdf', $data);
            $sendto = Recipient::where('project_id',$request->project_id)->select('email')->get();
           $cc = '';
@@ -142,13 +136,13 @@ class DSRController extends Controller
     public function show($id)
     {
 
-        $show = DSR::with([
+        return DSR::with([
             'project',
             'projectdetail',
             'nearmissreporting',
             ])
             ->find($id);
-        return $show;
+
         //return view('emails.dailysecuritypdf',['security'=>$show]);
         //Mail::to('aizazkalwar46@gmail.com')->send(new TestMail($data=''));
     }
