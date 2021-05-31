@@ -87,19 +87,19 @@ class DSRController extends Controller
                         );
                 DB::table('project_details')->insert($pfields);
 
-                        // $near_miss_activities = $request->near_miss_activities;
-                        // foreach($near_miss_activities as $near_miss_activity){
-                        // $nmrfields =array(
-                        //         'd_s_r_id' => $success->id,
-                        //         'near_miss_activites' => $near_miss_activity["near_miss_activites"],
-                        //         'near_miss_occurrence' => $near_miss_activity["near_miss_occurrence"],
-                        //         'near_miss_remarks' => $near_miss_activity["near_miss_remarks"]
-                        //          );
+                        $near_miss_activities = $request->near_miss_activities;
+                        foreach($near_miss_activities as $near_miss_activity){
+                        $nmrfields =array(
+                                'd_s_r_id' => $success->id,
+                                'near_miss_activites' => $near_miss_activity["near_miss_activites"],
+                                'near_miss_occurrence' => $near_miss_activity["near_miss_occurrence"],
+                                'near_miss_remarks' => $near_miss_activity["near_miss_remarks"]
+                                 );
 
-                        // DB::table('near_miss_reportings')->insert($nmrfields);
-                        // }
+                        DB::table('near_miss_reportings')->insert($nmrfields);
+                        }
 
-                        DB::table('near_miss_reportings')->insert($request->near_miss_activities);
+                        // DB::table('near_miss_reportings')->insert($request->near_miss_activities);
            $data = ['security'=> $this->show($success->id) ];
 
            $pdf = PDF::loadView('emails.dailysecuritypdf', $data);
