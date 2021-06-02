@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-	<title>Daily HSE Report</title>
+	<title>Daily Security Report</title>
 </head>
 <style type="text/css">
 
