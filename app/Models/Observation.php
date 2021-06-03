@@ -9,14 +9,15 @@ class Observation extends Model
 {
     use HasFactory;
 
-    public $fillable =[ 
+    public $fillable =[
 
         'user_id',
         'project_id',
         'observation_description',
         'action',
         'location',
-        'attachments'
+        'attachments',
+        'report'
     ];
 
     protected $with = [
