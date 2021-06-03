@@ -17,7 +17,7 @@ class AuthController extends Controller
 	{
 		$this->middleware('auth:sanctum',['only' => 'me']);
     }
-    
+
     public function register(Request $request)
     {
         // $array = [
@@ -29,24 +29,24 @@ class AuthController extends Controller
 
         // $registered = User::create($array);
 
-        // return $registered 
-        
-        // ? ['user' => $registered , 'success' => true] 
-        
+        // return $registered
+
+        // ? ['user' => $registered , 'success' => true]
+
         // : ['succes' => false,'error' => 'not registered'];
     }
 
-    public function login(Request $request){ 
+    public function login(Request $request){
 
         $user = User::where('email', $request->email)->first();
         $allocations = [];
         $project = '';
 
         $project_id = 0;
-      
+
         if($user && $user->role_id == 4) {
             $allocations = Allocation::orderBy('id','desc')->select('id','manager_ids as member_ids','project_id')->get();
-            
+
         }
         else if ($user && $user->role_id == 5){
 
@@ -72,26 +72,26 @@ class AuthController extends Controller
 
             if($is){
                 $isAssigned = $is;
-                $project[] = Project::where('id',$allocation->project->id)->select('id as project_id','project_name')->first();
+                $project[] = Project::where('id',$allocation->project->id)->select('id as project_id','project_name,location')->first();
             }
 
         }
 
-        
-            
+
+
         // echo "<pre>";
 
-    
+
         if (! $user || ! Hash::check($request->password, $user->password)) {
-            
-            return response()->json(['error'=>'email or password is incorrect'], 422); 
+
+            return response()->json(['error'=>'email or password is incorrect'], 422);
         }
         else if (!$isAssigned && ($user->role_id == 4 || $user->role_id == 5 || $user->role_id == 7)){
-            return response()->json(['error'=>'You are not assigned to any project by the Admin'], 422); 
+            return response()->json(['error'=>'You are not assigned to any project by the Admin'], 422);
         }
 
         else if (!$user->isactive){
-            return response()->json(['error'=>'Admin has blocked you. Please contact to your admin.'], 422); 
+            return response()->json(['error'=>'Admin has blocked you. Please contact to your admin.'], 422);
         }
 
          $user->user_type = $user->role->role ?? '';
@@ -102,16 +102,16 @@ class AuthController extends Controller
                 'project' => $project,
                 'user_id' => $user->id
                 ]);
-        
+
     }
 
-    public function master_login(Request $request){ 
+    public function master_login(Request $request){
 
         $user = User::where('email', $request->email)->whereIn('role_id',[1,2,4])->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
-            
-            return response()->json(['error' => 'email or password is incorrect'], 422); 
+
+            return response()->json(['error' => 'email or password is incorrect'], 422);
         }
 
             return response()->json([
@@ -119,7 +119,7 @@ class AuthController extends Controller
                 'user'=> $user,
                 'user_type' => 'master'
                 ]);
-        
+
     }
 
 
@@ -127,7 +127,7 @@ class AuthController extends Controller
     public function me(Request $request){
         $user = Auth::user();
         $user->user_type = $user->role->role ?? '';
-        return response()->json([ 'user' => Auth::user() ],200); 
+        return response()->json([ 'user' => Auth::user() ],200);
 
     }
 }
