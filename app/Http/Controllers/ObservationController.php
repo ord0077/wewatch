@@ -37,17 +37,18 @@ class ObservationController extends Controller
         try {
 
        $validator = Validator::make($request->all(),[
-                    
+
             'user_id' => 'required',
             'project_id' => 'required',
             'action' => 'required',
             'location' => 'required',
+            'report' => 'required',
         ]);
 
         if($validator->fails()){
 
            return response()->json([
-               'success' => false, 
+               'success' => false,
            'error' => $validator->errors()]);
         }
 
@@ -58,8 +59,9 @@ class ObservationController extends Controller
             'observation_description' => $request->observation_description,
             'location' => $request->location,
             'action' => $request->action,
-            'attachments' => $request->attachments
-            
+            'attachments' => $request->attachments,
+            'report' => $request->report
+
         );
 
         if(!empty($request->attachments))
@@ -69,7 +71,7 @@ class ObservationController extends Controller
                 if (!file_exists(public_path('uploads/observations/'))) {
                     mkdir(public_path('uploads/observations/'), 0777, true);
                 }
-                $ifp = fopen( public_path('uploads/observations/'.$filename), 'wb' ); 
+                $ifp = fopen( public_path('uploads/observations/'.$filename), 'wb' );
                 fwrite( $ifp, base64_decode($type[1]));
                 fclose( $ifp );
                 $fields['attachments'] = asset('uploads/observations/'.$filename);
@@ -80,7 +82,7 @@ class ObservationController extends Controller
 
          return ['success' => $status, 'data' => $data];
 
-         
+
 
          } catch (Exception $e)
 
@@ -102,7 +104,7 @@ class ObservationController extends Controller
          return Observation::find($id);
     }
 
-   
+
 
     public function update(Request $request, $id)
     {
@@ -110,17 +112,18 @@ class ObservationController extends Controller
         try {
 
        $validator = Validator::make($request->all(),[
-                    
+
             'user_id' => 'required',
             'project_id' => 'required',
             'action' => 'required',
             'location' => 'required',
+            'report' => 'required',
         ]);
 
         if($validator->fails()){
 
            return response()->json([
-               'success' => false, 
+               'success' => false,
            'error' => $validator->errors()]);
         }
 
@@ -130,8 +133,9 @@ class ObservationController extends Controller
             'project_id' => $request->project_id,
             'observation_description' => $request->observation_description,
             'location' => $request->location,
-            'action' => $request->action
-            
+            'action' => $request->action,
+            'report' => $request->report
+
         );
 
         if(!empty($request->attachments))
@@ -141,7 +145,7 @@ class ObservationController extends Controller
                 if (!file_exists(public_path('uploads/observations/'))) {
                     mkdir(public_path('uploads/observations/'), 0777, true);
                 }
-                $ifp = fopen( public_path('uploads/observations/'.$filename), 'wb' ); 
+                $ifp = fopen( public_path('uploads/observations/'.$filename), 'wb' );
                 fwrite( $ifp, base64_decode($type[1]));
                 fclose( $ifp );
                 $fields['attachments'] = asset('uploads/observations/'.$filename);
@@ -152,7 +156,7 @@ class ObservationController extends Controller
 
          return ['success' => $status, 'data' => $data];
 
-         
+
 
          } catch (Exception $e)
 
@@ -173,8 +177,8 @@ class ObservationController extends Controller
     public function destroy($id)
     {
         $find=Observation::find($id);
-       return  $find->delete()
-        ? ['response_status' => true, 'message' => "Record has been deleted"]
-        : ['response_status' => false, 'message' => "Record has not been deleted"];
+            return  $find->delete()
+                ? ['response_status' => true, 'message' => "Record has been deleted"]
+                : ['response_status' => false, 'message' => "Record has not been deleted"];
     }
 }
