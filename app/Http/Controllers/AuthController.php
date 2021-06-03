@@ -72,7 +72,7 @@ class AuthController extends Controller
 
             if($is){
                 $isAssigned = $is;
-                $project[] = Project::where('id',$allocation->project->id)->select('id as project_id','project_name,location')->first();
+                $project[] = Project::where('id',$allocation->project->id)->select('id as project_id','project_name','location')->first();
             }
 
         }
