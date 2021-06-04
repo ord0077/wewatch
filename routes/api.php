@@ -49,15 +49,25 @@ Route::resource('/allocation', AllocationController::class);
 
 
 Route::resource('/role', RoleController::class);
+
 Route::resource('/covid', CovidController::class);
 Route::get('/covid/project/{id}', [CovidController::class, 'covid_by_project']);
 
 Route::resource('/traininginduction', TrainingInductionController::class);
+Route::get('/traininginduction/project/{id}', [TrainingInductionController::class, 'traininginduction_by_project']);
+
 Route::resource('/hsereport', HSEController::class);
 Route::apiResource('/dailysecurityreport', DailySecurityReportController::class);
+
 Route::apiResource('/dailyvisitorsregister', DailyVisitorsRegisterController::class);
+Route::get('/dailyvisitorsregister/project/{id}', [DailyVisitorsRegisterController::class, 'dailyvisitorsregister_by_project']);
+
 Route::apiResource('/observation', ObservationController::class);
+Route::get('/observation/project/{id}', [ObservationController::class, 'observation_by_project']);
+
 Route::apiResource('/accidentincident', AccidentIncidentController::class);
+Route::get('/accidentincident/project/{id}', [CovidController::class, 'accidentincident_by_project']);
+
 Route::apiResource('/dhr', DailyHseReportController::class);
 Route::apiResource('/dsr', DSRController::class);
 Route::apiResource('/recipient', RecipientController::class);

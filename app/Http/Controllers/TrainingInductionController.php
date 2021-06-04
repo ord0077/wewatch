@@ -20,7 +20,7 @@ class TrainingInductionController extends Controller
         $this->middleware('auth:sanctum');
     }
 
-     
+
 
     public function index()
     {
@@ -44,14 +44,14 @@ class TrainingInductionController extends Controller
             'no_attendees' => 'required',
             'attachments' => 'required',
 
-            
-            
+
+
         ]);
         if ($validator->fails()) {
-            return response()->json([ 
-                'success' => false, 
-                'errors' => $validator->errors() 
-                ]); 
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+                ]);
         }
 
         $fields = array(
@@ -61,7 +61,7 @@ class TrainingInductionController extends Controller
             'subject'=>$request->subject,
             'no_attendees'=>$request->no_attendees,
             'attachments'=>$request->attachments,
-            
+
         );
 
         if(!empty($request->attachments))
@@ -71,11 +71,11 @@ class TrainingInductionController extends Controller
                 if (!file_exists(public_path('uploads/traininginduction/'))) {
                     mkdir(public_path('uploads/traininginduction/'), 0777, true);
                 }
-                $ifp = fopen( public_path('uploads/traininginduction/'.$filename), 'wb' ); 
+                $ifp = fopen( public_path('uploads/traininginduction/'.$filename), 'wb' );
                 fwrite( $ifp, base64_decode($type[1]));
                 fclose( $ifp );
                 $fields['attachments'] = asset('uploads/traininginduction/'.$filename);
-            }    
+            }
         $ti = TrainingInduction::create($fields);
 
         list($status,$data) = $ti ? [ true , TrainingInduction::find($ti->id) ] : [ false , ''];
@@ -95,7 +95,11 @@ class TrainingInductionController extends Controller
         return TrainingInduction::find($id);
     }
 
-    
+
+    public function traininginduction_by_project($id)
+    {
+          return TrainingInduction::where('project_id', $id)->get();
+    }
 
     public function update(Request $request, $id)
     {
@@ -107,10 +111,10 @@ class TrainingInductionController extends Controller
             'no_attendees' => 'required'
         ]);
         if ($validator->fails()) {
-            return response()->json([ 
-                'success' => false, 
-                'errors' => $validator->errors() 
-                ]); 
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+                ]);
         }
 
         $fields = array(
@@ -119,7 +123,7 @@ class TrainingInductionController extends Controller
             'session_type'=>$request->session_type,
             'subject'=>$request->subject,
             'no_attendees'=>$request->no_attendees
-            
+
         );
 
         if(!empty($request->attachments))
@@ -129,11 +133,11 @@ class TrainingInductionController extends Controller
                 if (!file_exists(public_path('uploads/traininginduction/'))) {
                     mkdir(public_path('uploads/traininginduction/'), 0777, true);
                 }
-                $ifp = fopen( public_path('uploads/traininginduction/'.$filename), 'wb' ); 
+                $ifp = fopen( public_path('uploads/traininginduction/'.$filename), 'wb' );
                 fwrite( $ifp, base64_decode($type[1]));
                 fclose( $ifp );
                 $fields['attachments'] = asset('uploads/traininginduction/'.$filename);
-            }    
+            }
         $ti = TrainingInduction::where('id', $id)->update($fields);
 
         list($status,$data) = $ti ? [ true , TrainingInduction::find($id) ] : [ false , ''];
@@ -149,6 +153,6 @@ class TrainingInductionController extends Controller
     public function destroy($id)
     {
         $find = TrainingInduction::find($id);
-        return $find->delete() ? ['response_status' => true, 'message'=> 'Recod has been deleted'] : ['response_status' => false, 'message' => 'Recod has not been deleted']; 
+        return $find->delete() ? ['response_status' => true, 'message'=> 'Recod has been deleted'] : ['response_status' => false, 'message' => 'Recod has not been deleted'];
     }
 }

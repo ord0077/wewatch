@@ -15,13 +15,13 @@ class DailyVisitorsRegisterController extends Controller
 
     }
 
-  
+
     public function index()
     {
         return DVR::orderBy('id', 'DESC')->get();
     }
 
-  
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
@@ -50,37 +50,37 @@ class DailyVisitorsRegisterController extends Controller
             'id_attachment' =>$request->id_attachment
 
             // 'car_attachment' => $this->save_attachments($request,'car_attachment'),
-            // 'id_attachment' => $this->save_attachments($request,'id_attachment') 
+            // 'id_attachment' => $this->save_attachments($request,'id_attachment')
 
         );
 
-        
+
 
         if($request->hasFile('car_attachment')){
             $attach = $request->car_attachment;
 
             $type = explode(",", $attach);
             $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
-            
-            $ifp = fopen( public_path('uploads/dailyvisitorsregister/'.$filename), 'wb' ); 
+
+            $ifp = fopen( public_path('uploads/dailyvisitorsregister/'.$filename), 'wb' );
             fwrite( $ifp, base64_decode($type[1]));
             fclose( $ifp );
-            $fields['car_attachment'] = asset('uploads/dailyvisitorsregister/'.$filename); 
+            $fields['car_attachment'] = asset('uploads/dailyvisitorsregister/'.$filename);
 
-        }   
-        
+        }
+
         if($request->hasFile('id_attachment')){
             $attach = $request->car_attachment;
 
             $type = explode(",", $attach);
             $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
-            
-            $ifp = fopen( public_path('uploads/dailyvisitorsregister/'.$filename), 'wb' ); 
+
+            $ifp = fopen( public_path('uploads/dailyvisitorsregister/'.$filename), 'wb' );
             fwrite( $ifp, base64_decode($type[1]));
             fclose( $ifp );
-            $fields['id_attachment'] = asset('uploads/dailyvisitorsregister/'.$filename); 
+            $fields['id_attachment'] = asset('uploads/dailyvisitorsregister/'.$filename);
 
-        }   
+        }
         // dd($fields);
 
 
@@ -90,13 +90,16 @@ class DailyVisitorsRegisterController extends Controller
 
         }
 
-  
+
     public function show($id)
     {
         return DVR::find($id);
     }
+    public function dailyvisitorsregister_by_project($id)
+    {
+          return DVR::where('project_id', $id)->get();
+    }
 
-   
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(),[
@@ -121,32 +124,32 @@ class DailyVisitorsRegisterController extends Controller
             'visit_reason' => $request->visit_reason
         );
 
-        
+
         if($request->hasFile('car_attachment')){
             $attach = $request->car_attachment;
 
             $type = explode(",", $attach);
             $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
-            
-            $ifp = fopen( public_path('uploads/dailyvisitorsregister/'.$filename), 'wb' ); 
+
+            $ifp = fopen( public_path('uploads/dailyvisitorsregister/'.$filename), 'wb' );
             fwrite( $ifp, base64_decode($type[1]));
             fclose( $ifp );
-            $fields['car_attachment'] = asset('uploads/dailyvisitorsregister/'.$filename); 
+            $fields['car_attachment'] = asset('uploads/dailyvisitorsregister/'.$filename);
 
-        }   
-        
+        }
+
         if($request->hasFile('id_attachment')){
             $attach = $request->car_attachment;
 
             $type = explode(",", $attach);
             $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
-            
-            $ifp = fopen( public_path('uploads/dailyvisitorsregister/'.$filename), 'wb' ); 
+
+            $ifp = fopen( public_path('uploads/dailyvisitorsregister/'.$filename), 'wb' );
             fwrite( $ifp, base64_decode($type[1]));
             fclose( $ifp );
-            $fields['id_attachment'] = asset('uploads/dailyvisitorsregister/'.$filename); 
+            $fields['id_attachment'] = asset('uploads/dailyvisitorsregister/'.$filename);
 
-        }   
+        }
         // dd($fields);
 
 
@@ -159,9 +162,9 @@ class DailyVisitorsRegisterController extends Controller
 
     public function destroy($id)
     {
-       
-       return DVR::find($id)->delete() 
-       ? ['response_status' => true, 'message' => "Record has been deleted"] 
+
+       return DVR::find($id)->delete()
+       ? ['response_status' => true, 'message' => "Record has been deleted"]
        : ['response_status' => false, 'message' => "Record has been deleted" ];
     }
 
@@ -170,21 +173,21 @@ class DailyVisitorsRegisterController extends Controller
     public function save_attachments($request,$file)
     {
 
-         
+
         if($request->hasFile($file))
         {
-            
+
 
            $attach= $request->$file;
-          
+
 
            $type = explode(",", $attach);
            $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
-           
-           $ifp = fopen( public_path('uploads/dailyvisitorsregister/'.$filename), 'wb' ); 
+
+           $ifp = fopen( public_path('uploads/dailyvisitorsregister/'.$filename), 'wb' );
            fwrite( $ifp, base64_decode($type[1]));
            fclose( $ifp );
-        //    $fields['image'] = asset('uploads/covid/'.$filename); 
+        //    $fields['image'] = asset('uploads/covid/'.$filename);
            $fields[$file] = asset('uploads/dailyvisitorsregister/'.$filename);
 
            return $img;
@@ -192,5 +195,5 @@ class DailyVisitorsRegisterController extends Controller
         }
     }
 
-  
+
 }

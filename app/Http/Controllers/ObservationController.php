@@ -104,6 +104,10 @@ class ObservationController extends Controller
          return Observation::find($id);
     }
 
+    public function observation_by_project($id)
+    {
+          return Observation::where('project_id', $id)->get();
+    }
 
 
     public function update(Request $request, $id)

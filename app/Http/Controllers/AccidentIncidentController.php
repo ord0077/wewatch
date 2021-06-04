@@ -36,8 +36,8 @@ class AccidentIncidentController extends Controller
     public function store(Request $request)
     {
         try {
-           
-       
+
+
 
             $validator = Validator::make($request->all(),[
 
@@ -49,8 +49,8 @@ class AccidentIncidentController extends Controller
         'category_incident' => 'required',
         'type_injury' => 'required',
         'type_incident' => 'required'
-        
-        
+
+
         ]);
 
         if($validator->fails()){
@@ -74,11 +74,11 @@ class AccidentIncidentController extends Controller
         'fatality' => $request->fatality,
         'describe_incident' => $request->describe_incident,
         'immediate_action' => $request->immediate_action,
-        'attachment' => ''            
+        'attachment' => ''
     );
 
-        
-           
+
+
 
             if(!empty($request->attachment))
             {
@@ -87,19 +87,19 @@ class AccidentIncidentController extends Controller
                 if (!file_exists(public_path('uploads/accidentincident/'))) {
                     mkdir(public_path('uploads/accidentincident/'), 0777, true);
                 }
-                $ifp = fopen( public_path('uploads/accidentincident/'.$filename), 'wb' ); 
+                $ifp = fopen( public_path('uploads/accidentincident/'.$filename), 'wb' );
                 fwrite( $ifp, base64_decode($type[1]));
                 fclose( $ifp );
                 $fields['attachment'] = asset('uploads/accidentincident/'.$filename);
             }
-            
+
              $success= AI::create($fields);
-          
+
            list($status,$data) = $success ? [true, AI::find($success->id)] : [false, ''];
            return ['success' => $status,'data' => $data];
 
          } catch (Exception $e) {
-             
+
             return response()->json($e->errorInfo ?? 'unknown error');
         }
     }
@@ -115,12 +115,16 @@ class AccidentIncidentController extends Controller
        return AI::find($id);
     }
 
-    
+    public function accidentincident_by_project($id)
+    {
+          return AI::where('project_id', $id)->get();
+    }
+
     public function update(Request $request, $id)
     {
         try {
-           
-       
+
+
 
             $validator = Validator::make($request->all(),[
 
@@ -132,8 +136,8 @@ class AccidentIncidentController extends Controller
         'category_incident' => 'required',
         'type_injury' => 'required',
         'type_incident' => 'required'
-        
-        
+
+
         ]);
 
         if($validator->fails()){
@@ -156,11 +160,11 @@ class AccidentIncidentController extends Controller
         'other' => $request->other,
         'fatality' => $request->fatality,
         'describe_incident' => $request->describe_incident,
-        'immediate_action' => $request->immediate_action,            
+        'immediate_action' => $request->immediate_action,
     );
 
-        
-           
+
+
 
             if(!empty($request->attachment))
             {
@@ -169,19 +173,19 @@ class AccidentIncidentController extends Controller
                 if (!file_exists(public_path('uploads/accidentincident/'))) {
                     mkdir(public_path('uploads/accidentincident/'), 0777, true);
                 }
-                $ifp = fopen( public_path('uploads/accidentincident/'.$filename), 'wb' ); 
+                $ifp = fopen( public_path('uploads/accidentincident/'.$filename), 'wb' );
                 fwrite( $ifp, base64_decode($type[1]));
                 fclose( $ifp );
                 $fields['attachment'] = asset('uploads/accidentincident/'.$filename);
             }
-            
+
              $success= AI::where('id', $id)->update($fields);
-          
+
            list($status,$data) = $success ? [true, AI::find($id)] : [false, ''];
            return ['success' => $status,'data' => $data];
 
          } catch (Exception $e) {
-             
+
             return response()->json($e->errorInfo ?? 'unknown error');
         }
     }
