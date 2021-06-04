@@ -66,7 +66,7 @@ Route::apiResource('/observation', ObservationController::class);
 Route::get('/observation/project/{id}', [ObservationController::class, 'observation_by_project']);
 
 Route::apiResource('/accidentincident', AccidentIncidentController::class);
-Route::get('/accidentincident/project/{id}', [CovidController::class, 'accidentincident_by_project']);
+Route::get('/accidentincident/project/{id}', [AccidentIncidentController::class, 'accidentincident_by_project']);
 
 Route::apiResource('/dhr', DailyHseReportController::class);
 Route::apiResource('/dsr', DSRController::class);
