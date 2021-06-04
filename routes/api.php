@@ -50,6 +50,8 @@ Route::resource('/allocation', AllocationController::class);
 
 Route::resource('/role', RoleController::class);
 Route::resource('/covid', CovidController::class);
+Route::get('/covid/project/{id}', [CovidController::class, 'covid_by_project']);
+
 Route::resource('/traininginduction', TrainingInductionController::class);
 Route::resource('/hsereport', HSEController::class);
 Route::apiResource('/dailysecurityreport', DailySecurityReportController::class);
@@ -82,6 +84,7 @@ Route::get('/me', [AuthController::class, 'me']);
 // Report Stats
 
 Route::get('all',[ReportController::class,'all']);
+
 Route::get('GetCovidCount',[ReportController::class,'GetCovidCount']);
 Route::get('GetAccidentIncidentCount',[ReportController::class,'GetAccidentIncidentCount']);
 Route::get('GetObservationCount',[ReportController::class,'GetObservationCount']);
@@ -89,8 +92,7 @@ Route::get('GetTrainingInductionCount',[ReportController::class,'GetTrainingIndu
 Route::get('GetDailyHSEReportCount',[ReportController::class,'GetDailyHSEReportCount']);
 Route::get('GetDailySecurityReportCount',[ReportController::class,'GetDailySecurityReportCount']);
 Route::get('GetSiteVisiterRecordCount',[ReportController::class,'GetSiteVisiterRecordCount']);
-Route::get('GetDailyManHoursCount',[ReportController::class,'GetDailyManHoursCount']);
-Route::get('GetLostWorkHoursCount',[ReportController::class,'GetLostWorkHoursCount']);
+
 Route::get('ProjectAdminCount',[ReportController::class,'ProjectAdminCount']);
 Route::get('WewatchManagerCount',[ReportController::class,'WewatchManagerCount']);
 Route::get('UserCount',[ReportController::class,'UserCount']);

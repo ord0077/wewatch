@@ -25,7 +25,7 @@ class CovidController extends Controller
         return Covid::orderBy('id', 'DESC')->get();
     }
 
-   
+
 
     /**
      * Store a newly created resource in storage.
@@ -36,7 +36,7 @@ class CovidController extends Controller
     public function store(Request $request)
     {
         try {
-    
+
         $validator = Validator::make($request->all(), [
                 'user_id' => 'required',
                 'project_id' => 'required',
@@ -46,10 +46,10 @@ class CovidController extends Controller
                 'image' => 'required',
         ]);
         if ($validator->fails()) {
-            return response()->json([ 
-                'success' => false, 
-                'errors' => $validator->errors() 
-                ]); 
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+                ]);
         }
 
         $fields = array(
@@ -61,30 +61,30 @@ class CovidController extends Controller
             'remarks'=>$request->remarks,
             'image'=>   ''
         );
-            
+
             $type = explode(",", $request->image);
             $filename = 'attach_'.uniqid().'.'.$type[0] ?? '';
             if (!file_exists(public_path('uploads/covid/'))) {
                 mkdir(public_path('uploads/covid/'), 0777, true);
             }
-            $ifp = fopen( public_path('uploads/covid/'.$filename), 'wb' ); 
+            $ifp = fopen( public_path('uploads/covid/'.$filename), 'wb' );
             fwrite( $ifp, base64_decode($type[1]));
             fclose( $ifp );
             $fields['image'] = asset('uploads/covid/'.$filename);
-                       
-      
+
+
         $covid = Covid::create($fields);
 
         list($status,$data) = $covid ? [ true , Covid::find($covid->id) ] : [ false , ''];
         return ['success' => $status,'data' => $data];
-               
+
 
         } catch (Exception $e) {
 
              return response()->json($e->errorInfo[2] ?? 'unknown error');
         }
 
-   
+
     }
 
     /**
@@ -98,11 +98,16 @@ class CovidController extends Controller
         return Covid::find($id);
     }
 
+    public function covid_by_project($id)
+    {
+        return Covid::where('project_id', $id)->get();
+    }
+
 
     public function update(Request $request, $id)
     {
         try {
-    
+
         $validator = Validator::make($request->all(), [
                 'user_id' => 'required',
                 'project_id' => 'required',
@@ -111,10 +116,10 @@ class CovidController extends Controller
                 'company' => 'required'
         ]);
         if ($validator->fails()) {
-            return response()->json([ 
-                'success' => false, 
-                'errors' => $validator->errors() 
-                ]); 
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+                ]);
         }
 
         $fields = array(
@@ -132,24 +137,24 @@ class CovidController extends Controller
             if (!file_exists(public_path('uploads/covid/'))) {
                 mkdir(public_path('uploads/covid/'), 0777, true);
             }
-            $ifp = fopen( public_path('uploads/covid/'.$filename), 'wb' ); 
+            $ifp = fopen( public_path('uploads/covid/'.$filename), 'wb' );
             fwrite( $ifp, base64_decode($type[1]));
             fclose( $ifp );
             $fields['image'] = asset('uploads/covid/'.$filename);
-        }              
-      
+        }
+
         $covid = Covid::where('id', $id)->update($fields);
 
         list($status,$data) = $covid ? [ true , Covid::find($id) ] : [ false , ''];
         return ['success' => $status,'data' => $data];
-               
+
 
         } catch (Exception $e) {
 
              return response()->json($e->errorInfo[2] ?? 'unknown error');
         }
 
-   
+
     }
     /**
      * Remove the specified resource from storage.
