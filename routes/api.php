@@ -87,6 +87,8 @@ Route::get('/projectbyuserid/{id}', [ProjectController::class, 'projectbyuserid'
 Route::get('/projectbymanagerid/{id}', [ProjectController::class, 'projectbymanagerid']);
 
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/getAssignedProjects/{id}', [AuthController::class, 'getAssignedProjects']);
+Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/master/login', [AuthController::class, 'master_login']);
 Route::get('/me', [AuthController::class, 'me']);
 

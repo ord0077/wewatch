@@ -15,7 +15,7 @@ class AuthController extends Controller
 {
     public function __construct()
 	{
-		$this->middleware('auth:sanctum',['only' => 'me']);
+		$this->middleware('auth:sanctum',['only' => ['me','getAssignedProjects']]);
     }
 
     public function register(Request $request)
@@ -41,8 +41,6 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
         $allocations = [];
         $project = '';
-
-        $project_id = 0;
 
         if($user && $user->role_id == 4) {
             $allocations = Allocation::orderBy('id','desc')->select('id','manager_ids as member_ids','project_id')->get();
@@ -129,5 +127,59 @@ class AuthController extends Controller
         $user->user_type = $user->role->role ?? '';
         return response()->json([ 'user' => Auth::user() ],200);
 
+    }
+
+
+    public function getAssignedProjects($id){
+
+
+        $user = User::findOrFail($id);
+
+        $allocations = [];
+
+        if($user && $user->role_id == 4) {
+            $allocations = Allocation::orderBy('id','desc')->select('id','manager_ids as member_ids','project_id')->get();
+
+        }
+        else if ($user && $user->role_id == 5){
+
+            $allocations = Allocation::orderBy('id','desc')->select('id','user_ids as member_ids','project_id')
+            ->take(1)->get();
+
+        }
+
+        else if ($user && $user->role_id == 7){
+
+            $allocations = Allocation::orderBy('id','desc')->select('id','guard_ids as member_ids','project_id')
+            ->take(1)->get();
+
+        }
+
+
+        $project = [];
+
+        foreach ($allocations as $allocation) {
+
+            if(in_array($user->id,json_decode($allocation->member_ids)) ? true : false){
+
+                $project[] = Project::withOut(['zones','user'])->where('id',$allocation->project->id)->select('id as project_id','project_name','location')->first();
+            }
+
+        }
+
+        return $project;
+    }
+
+    public function logout(){
+
+        return Auth::user();
+        Auth::user()->tokens->each(function($token, $key) {
+            $token->delete();
+        });
+
+        return response()->json([
+            'logout' => true,
+            'message' => 'logout successfully'
+            ]);
     }
 }
