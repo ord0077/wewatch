@@ -167,7 +167,9 @@ class AuthController extends Controller
 
         }
 
-        return $project;
+        return [ 'project' => $project ];
+
+
     }
 
     public function logout(){
