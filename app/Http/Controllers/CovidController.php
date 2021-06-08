@@ -9,30 +9,12 @@ use Exception;
 
 class CovidController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     public function __construct()
 	{
-		// $this->middleware('auth:sanctum');
+	    $this->middleware('auth:sanctum');
     }
 
-    public function index()
-    {
-        return Covid::orderBy('id', 'DESC')->get();
-    }
-
-
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         try {
@@ -98,9 +80,9 @@ class CovidController extends Controller
         return Covid::find($id);
     }
 
-    public function covid_by_project($id)
+    public function covid_by_project($id,Request $req)
     {
-        return Covid::where('project_id', $id)->get();
+          return Covid::where('project_id', $id)->paginate($req->per_page);
     }
 
 

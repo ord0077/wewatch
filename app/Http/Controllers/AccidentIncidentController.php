@@ -16,23 +16,6 @@ class AccidentIncidentController extends Controller
         $this->middleware('auth:sanctum');
     }
 
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return AI::orderBy('id', 'DESC')->get();
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         try {
@@ -115,9 +98,10 @@ class AccidentIncidentController extends Controller
        return AI::find($id);
     }
 
-    public function accidentincident_by_project($id)
+
+    public function accidentincident_by_project($id,Request $req)
     {
-          return AI::where('project_id', $id)->get();
+          return AI::where('project_id', $id)->paginate($req->per_page);
     }
 
     public function update(Request $request, $id)

@@ -15,22 +15,6 @@ class ObservationController extends Controller
             $this->middleware('auth:sanctum');
         }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-         return Observation::orderBy('id', 'DESC')->get();
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 
@@ -93,20 +77,14 @@ class ObservationController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Observation  $observation
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
          return Observation::find($id);
     }
 
-    public function observation_by_project($id)
+    public function observation_by_project($id,Request $req)
     {
-          return Observation::where('project_id', $id)->get();
+          return Observation::where('project_id', $id)->paginate($req->per_page);
     }
 
 
@@ -171,13 +149,6 @@ class ObservationController extends Controller
 
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Observation  $observation
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $find=Observation::find($id);
