@@ -19,10 +19,17 @@ class ProjectController extends Controller
 
 
 
-    public function index(Request $req)
+    public function index()
     {
-          return Project::orderBy('id','desc')->paginate($req->per_page);
+          return Project::orderBy('id','desc')->get();
+          
     }
+
+    // public function index(Request $req)
+    // {
+    //       return Project::orderBy('id','desc')->paginate($req->per_page);
+          
+    // }
 
     public function projectbyuserid($id,Request $req)
     {
