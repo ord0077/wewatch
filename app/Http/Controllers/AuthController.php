@@ -38,59 +38,40 @@ class AuthController extends Controller
 
     public function login(Request $request){
 
-        $user = User::where('email', $request->email)->first();
-        $allocations = [];
-        $project = '';
 
-        if($user && $user->role_id == 4) {
-            $allocations = Allocation::orderBy('id','desc')->select('id','manager_ids as member_ids','project_id')->get();
-
-        }
-        else if ($user && $user->role_id == 5){
-
-            $allocations = Allocation::orderBy('id','desc')->select('id','user_ids as member_ids','project_id')
-            ->take(1)->get();
-
-        }
-
-        else if ($user && $user->role_id == 7){
-
-            $allocations = Allocation::orderBy('id','desc')->select('id','guard_ids as member_ids','project_id')
-            ->take(1)->get();
-
-        }
-
-        $project = [];
-        $isAssigned = false;
-        foreach ($allocations as $allocation) {
-
-            $mid = json_decode($allocation->member_ids);
-
-            $is = in_array($user->id,$mid) ? true : false;
-
-            if($is){
-                $isAssigned = $is;
-                $project[] = Project::where('id',$allocation->project->id)->select('id as project_id','project_name','location')->first();
-            }
-
-        }
-
-
-
-        // echo "<pre>";
-
+        $user = User::where('email', $request->email)->whereIn('role_id',[4,5,7])->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
 
             return response()->json(['error'=>'email or password is incorrect'], 422);
         }
-        else if (!$isAssigned && ($user->role_id == 4 || $user->role_id == 5 || $user->role_id == 7)){
+
+        else if (!$user->isactive){
+
+            return response()->json(['error'=>'Admin has blocked you. Please contact to your admin.'], 422);
+        }
+
+        $allocations = Allocation::orderBy('id','desc')->select('id','manager_ids','user_ids','guard_ids','project_id')->get();
+
+        $ids = [];
+
+        foreach ($allocations as $allocation) {
+
+                if(in_array($user->id,$allocation->manager_ids) || in_array($user->id,$allocation->guard_ids) || in_array($user->id,$allocation->user_ids)){
+
+                    $ids[] =  $allocation->project->id;
+                }
+
+            }
+
+
+        if (count($ids) == 0){
             return response()->json(['error'=>'You are not assigned to any project by the Admin'], 422);
         }
 
-        else if (!$user->isactive){
-            return response()->json(['error'=>'Admin has blocked you. Please contact to your admin.'], 422);
-        }
+        $project = Project::withOut(['zones','user']);
+
+        $project = $user->role_id == 4 ?  $project->whereIn('id',$ids)->get() : $project->take(1)->get();
 
          $user->user_type = $user->role->role ?? '';
 
@@ -106,11 +87,40 @@ class AuthController extends Controller
     public function master_login(Request $request){
 
         $user = User::where('email', $request->email)->whereIn('role_id',[1,2,4])->first();
+        $allocations = [];
+
+        if($user && $user->role_id == 4) {
+            $allocations = Allocation::orderBy('id','desc')->select('id','manager_ids as member_ids','project_id')->get();
+
+        }
+
+        $ids = [];
+
+        foreach ($allocations as $allocation) {
+
+            $mid = json_decode($allocation->member_ids);
+
+            if(in_array($user->id,$mid)){
+
+                $ids[] =  $allocation->project->id;
+            }
+
+        }
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
 
             return response()->json(['error' => 'email or password is incorrect'], 422);
         }
+
+        else if (count($ids) == 0 && $user->role_id == 4 ){
+            return response()->json(['error'=>'You are not assigned to any project by the Admin'], 422);
+        }
+
+        else if (!$user->isactive){
+            return response()->json(['error'=>'Admin has blocked you. Please contact to your admin.'], 422);
+        }
+
+         $user->user_type = $user->role->role ?? '';
 
             return response()->json([
                 'token' => $user->createToken('myApp')->plainTextToken,

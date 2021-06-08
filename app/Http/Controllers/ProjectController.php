@@ -16,36 +16,38 @@ class ProjectController extends Controller
 	{
 		$this->middleware('auth:sanctum');
     }
-    
-    public function index()
+
+
+
+    public function index(Request $req)
     {
-         return Project::orderBy('id','desc')->get();
+          return Project::orderBy('id','desc')->paginate($req->per_page);
     }
 
-    public function projectbyuserid($id)
+    public function projectbyuserid($id,Request $req)
     {
-         return Project::where('user_id',$id)->orderBy('id','desc')->get();
+         return Project::where('user_id',$id)->orderBy('id','desc')->paginate($req->per_page);
     }
 
-    public function projectbymanagerid($id)
+
+
+    public function projectbymanagerid($id, Request $req)
     {
         $allocations = Allocation::orderBy('id','desc')->select('id','manager_ids as member_ids','project_id')->get();
 
-        $project = [];
-        $isAssigned = false;
+        $ids = [];
+
         foreach ($allocations as $allocation) {
 
+            if(in_array($id,json_decode($allocation->member_ids))){
 
-            $is = in_array($id,json_decode($allocation->member_ids)) ? true : false;
+                $ids[] =  $allocation->project->id;
 
-            if($is){
-                $isAssigned = $is;
-                $project[] = Project::where('id',$allocation->project->id)->first();
             }
 
         }
 
-         return $project;
+        return Project::whereIn('id',$ids)->paginate($req->per_page);
     }
 
     public function CheckProjectWithAllocation()
@@ -57,27 +59,27 @@ class ProjectController extends Controller
                     ->get();
 
     }
-    
+
 
     public function store(Request $request)
     {
-       
+
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
             'project_name' => 'required|unique:projects|max:100|min:3',
             'location' => 'required|max:100|min:3',
-            'zones' => 'required|numeric|min:1|max:50'   
+            'zones' => 'required|numeric|min:1|max:50'
         ]);
 
         if(!$request->hasFile('project_logo')){
             return [
                 'errors' => $validator->errors()->add('project_logo', 'project logo field is required')
-            ]; 
-            
+            ];
+
         }
             if ($validator->fails()) {
-                return [ 'success' => false, 'errors' => $validator->errors() 
-                ]; 
+                return [ 'success' => false, 'errors' => $validator->errors()
+                ];
             }
 
         $fields = [
@@ -90,13 +92,13 @@ class ProjectController extends Controller
 
 
         if($request->hasFile('project_logo')){
-            
+
             $img =  $request->project_logo->getClientOriginalName();
-            
+
             $request->project_logo->move(public_path('uploads/logos/'),$img);
-            
+
             $fields['project_logo'] = asset('uploads/logos/' . $img);
-        }        
+        }
         $project = Project::create($fields);
         $zones = $request->zones;
         for($i = 1; $i<=$zones; $i++){
@@ -110,23 +112,23 @@ class ProjectController extends Controller
     public function update_project_logo(Request $request,$id)
     {
         if(!$request->hasFile('project_logo')){
-            
+
             return [
-                    'success' => false, 
+                    'success' => false,
                     'errors' => [ 'project_logo' => [ 'project logo field is required' ] ]
                 ];
-        }     
+        }
         if($request->hasFile('project_logo')){
-            
+
             $img =  $request->project_logo->getClientOriginalName();
-            
+
             $request->project_logo->move(public_path('uploads/logos/'),$img);
-            
+
             $project = Project::where('id',$id)->update([ 'project_logo'=>asset('uploads/logos/' . $img) ]);
             list($status,$data) = $project ? [ true , Project::find($id) ] : [ false , ''];
             return ['success' => $status,'data' => $data];
 
-        } 
+        }
 
     }
 
@@ -147,16 +149,16 @@ class ProjectController extends Controller
                         'project_name' => 'required|unique:projects|max:100|min:3',
                     ];
             }
-      
+
             $validator = Validator::make($request->all(), $val_arr);
-            
+
             if ($validator->fails()) {
-                return response()->json([ 
-                    'success' => false, 
+                return response()->json([
+                    'success' => false,
                     'errors' => $validator->errors()
-                    ]); 
+                    ]);
             }
-    
+
             $fields = array(
                 'user_id'=>$request->user_id,
                 'project_name'=>$request->project_name,
@@ -166,14 +168,14 @@ class ProjectController extends Controller
             );
             // return ['success' => true,'data' => $request->all()];
 
-            
-           
+
+
             $project = Project::where('id',$id)->update($fields);
-            
+
             Zone::where('project_id',$id)->delete();
 
             for($i = 1; $i<= $request->zones; $i++){
-                
+
                 Zone::where('project_id' ,$id)->create([
                 'project_id'=>$id, 'zone_name'=>'Zone '.$i
                 ]);
@@ -181,7 +183,7 @@ class ProjectController extends Controller
             }
             list($status,$data) = $project ? [ true , Project::find($id) ] : [ false , ''];
             return ['success' => $status,'data' => $data];
-        
+
     }
 
 
@@ -189,7 +191,7 @@ class ProjectController extends Controller
     {
         $find = Project::find($id);
         Zone::where('project_id',$id)->delete();
-        
+
         return $find->delete() ? [ 'response_status' => true, 'message' => 'Project has been deleted' ] : [ 'response_status' => false, 'message' => 'Project cannot delete' ];
     }
 }
