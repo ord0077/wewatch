@@ -15,7 +15,11 @@ class AuthController extends Controller
 {
     public function __construct()
 	{
-		$this->middleware('auth:sanctum',['only' => ['me','getAssignedProjects']]);
+		$this->middleware('auth:sanctum',['only' => [
+            'me',
+            // 'getAssignedProjects'
+            ]
+        ]);
     }
 
     public function register(Request $request)
@@ -160,40 +164,43 @@ class AuthController extends Controller
 
     public function getAssignedProjects($id){
 
-
         $user = User::findOrFail($id);
 
-        $allocations = [];
+        if (!$user->isactive){
 
-        if($user && $user->role_id == 4) {
-            $allocations = Allocation::orderBy('id','desc')->select('id','manager_ids as member_ids','project_id')->get();
-
-        }
-        else if ($user && $user->role_id == 5){
-
-            $allocations = Allocation::orderBy('id','desc')->select('id','user_ids as member_ids','project_id')
-            ->take(1)->get();
-
+            return response()->json(['error'=>'Admin has blocked you. Please contact to your admin.'], 422);
         }
 
-        else if ($user && $user->role_id == 7){
+        $allocations = Allocation::orderBy('id','desc')->select('id','manager_ids','user_ids','guard_ids','project_id')->get();
 
-            $allocations = Allocation::orderBy('id','desc')->select('id','guard_ids as member_ids','project_id')
-            ->take(1)->get();
-
-        }
-
-
-        $project = [];
-
+        $ids = [];
+ 
         foreach ($allocations as $allocation) {
 
-            if(in_array($user->id,json_decode($allocation->member_ids)) ? true : false){
+                if(in_array($user->id,$allocation->manager_ids) || in_array($user->id,$allocation->guard_ids) || in_array($user->id,$allocation->user_ids)){
 
-                $project[] = Project::withOut(['zones','user'])->where('id',$allocation->project->id)->select('id as project_id','project_name','location')->first();
+
+                    if($allocation->project){
+
+                        // print_r($allocation->project);
+
+                        $ids[] =  $allocation->project->id;
+
+                    }
+
+                }
+
             }
-
+            // dd($ids);
+        if (count($ids) == 0){
+            return response()->json(['error'=>'You are not assigned to any project by the Admin'], 422);
         }
+
+        $project = Project::withOut(['zones','user']);
+
+        $project = $user->role_id == 4 ?  $project->whereIn('id',$ids)->get() : $project->take(1)->get();
+
+        $user->user_type = $user->role->role ?? '';
 
         return [ 'project' => $project ];
 
