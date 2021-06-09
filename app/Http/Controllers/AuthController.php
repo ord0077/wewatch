@@ -83,18 +83,21 @@ class AuthController extends Controller
             return response()->json(['error'=>'You are not assigned to any project by the Admin'], 422);
         }
 
-        $project = Project::withOut(['zones','user']);
-
-        $project = $user->role_id == 4 ?  $project->whereIn('id',$ids)->get() : $project->take(1)->get();
+        
+        $project = Project::withOut(['zones','user'])
+                            ->whereIn('id',$ids)
+                            ->orderBy('id','desc')  
+                            ->get();
 
          $user->user_type = $user->role->role ?? '';
 
             return response()->json([
                 'token' => $user->createToken('myApp')->plainTextToken,
                 'user'=> $user,
-                'project' => $project,
+                'project' => $user->role_id == 4 ? $project : [ $project[0] ],
                 'user_id' => $user->id
                 ]);
+
 
     }
 
@@ -197,12 +200,12 @@ class AuthController extends Controller
         }
 
         $project = Project::withOut(['zones','user'])
-                        ->whereIn('id',$ids)->get();
+                            ->whereIn('id',$ids)
+                            ->orderBy('id','desc')  
+                            ->get();
 
-        // $project = $user->role_id == 4 ?  $project->whereIn('id',$ids)->get() : $project->whereIn('id',$ids)->get();
 
-
-        return [ 'project' => $project ];
+        return [ 'project' =>  $user->role_id == 4 ? $project : [ $project[0] ] ];
 
 
     }
