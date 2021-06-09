@@ -17,7 +17,7 @@ class AuthController extends Controller
 	{
 		$this->middleware('auth:sanctum',['only' => [
             'me',
-            // 'getAssignedProjects'
+            'getAssignedProjects'
             ]
         ]);
     }
@@ -196,11 +196,11 @@ class AuthController extends Controller
             return response()->json(['error'=>'You are not assigned to any project by the Admin'], 422);
         }
 
-        $project = Project::withOut(['zones','user']);
+        $project = Project::withOut(['zones','user'])
+                        ->whereIn('id',$ids)->get();
 
-        $project = $user->role_id == 4 ?  $project->whereIn('id',$ids)->get() : $project->take(1)->get();
+        // $project = $user->role_id == 4 ?  $project->whereIn('id',$ids)->get() : $project->whereIn('id',$ids)->get();
 
-        $user->user_type = $user->role->role ?? '';
 
         return [ 'project' => $project ];
 
