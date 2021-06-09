@@ -33,7 +33,7 @@ class ProjectController extends Controller
 
     public function projectbyuserid($id,Request $req)
     {
-         return Project::where('user_id',$id)->orderBy('id','desc')->paginate($req->per_page);
+         return Project::where('user_id',$id)->orderBy('id','desc')->get();
     }
 
 
