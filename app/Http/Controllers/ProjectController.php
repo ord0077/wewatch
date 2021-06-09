@@ -22,13 +22,13 @@ class ProjectController extends Controller
     public function index()
     {
           return Project::orderBy('id','desc')->get();
-          
+
     }
 
     // public function index(Request $req)
     // {
     //       return Project::orderBy('id','desc')->paginate($req->per_page);
-          
+
     // }
 
     public function projectbyuserid($id,Request $req)
@@ -48,13 +48,17 @@ class ProjectController extends Controller
 
             if(in_array($id,json_decode($allocation->member_ids))){
 
-                $ids[] =  $allocation->project->id;
+                if($allocation->project){
+
+                    $ids[] =  $allocation->project->id;
+
+                }
 
             }
 
         }
 
-        return Project::whereIn('id',$ids)->paginate($req->per_page);
+        return Project::whereIn('id',$ids)->get();
     }
 
     public function CheckProjectWithAllocation()

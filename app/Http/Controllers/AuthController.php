@@ -53,18 +53,28 @@ class AuthController extends Controller
 
         $allocations = Allocation::orderBy('id','desc')->select('id','manager_ids','user_ids','guard_ids','project_id')->get();
 
+
+
         $ids = [];
+        // echo '<pre>';
 
         foreach ($allocations as $allocation) {
 
                 if(in_array($user->id,$allocation->manager_ids) || in_array($user->id,$allocation->guard_ids) || in_array($user->id,$allocation->user_ids)){
 
-                    $ids[] =  $allocation->project->id;
+
+                    if($allocation->project){
+
+                        // print_r($allocation->project);
+
+                        $ids[] =  $allocation->project->id;
+
+                    }
+
                 }
 
             }
-
-
+            // dd($ids);
         if (count($ids) == 0){
             return response()->json(['error'=>'You are not assigned to any project by the Admin'], 422);
         }
@@ -102,8 +112,16 @@ class AuthController extends Controller
 
             if(in_array($user->id,$mid)){
 
-                $ids[] =  $allocation->project->id;
+                if($allocation->project){
+
+                    // print_r($allocation->project);
+
+                    $ids[] =  $allocation->project->id;
+
+                }
             }
+
+
 
         }
 
