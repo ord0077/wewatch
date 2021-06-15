@@ -17,7 +17,7 @@ class AuthController extends Controller
 	{
 		$this->middleware('auth:sanctum',['only' => [
             'me',
-            'getAssignedProjects'
+            // 'getAssignedProjects'
             ]
         ]);
     }
@@ -138,7 +138,6 @@ class AuthController extends Controller
 
 
         $allocations = Allocation::orderBy('id','desc')
-        ->where('manager_ids',$id)
         ->select('id','manager_ids','user_ids','guard_ids','project_id')
         ->get();
 
@@ -160,9 +159,6 @@ class AuthController extends Controller
 
             }
 
-        if (count($ids) == 0){
-            return response()->json(['error'=>'You are not assigned to any project by the Admin'], 422);
-        }
 
         $project = Project::withOut(['zones','user'])
                             ->whereIn('id',$ids)
