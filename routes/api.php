@@ -25,20 +25,6 @@ use App\Http\Controllers\DSRController;
 use App\Http\Controllers\ReportController;
 
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
-
-
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -46,7 +32,7 @@ Route::resource('/test', TestController::class);
 Route::get('/send_email_test', [DailyHseReportController::class, 'test_email']);
 
 Route::resource('/allocation', AllocationController::class);
-
+Route::get('/getAssignedMembers/{id?}', [AllocationController::class, 'getAssignedMembers']);
 
 Route::resource('/role', RoleController::class);
 
@@ -88,6 +74,7 @@ Route::get('/projectbymanagerid/{id}', [ProjectController::class, 'projectbymana
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/getAssignedProjects/{id}', [AuthController::class, 'getAssignedProjects']);
+Route::get('/getAssignedProjects/{id}', [AuthController::class, 'getAssignedProjects']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/master/login', [AuthController::class, 'master_login']);
 Route::get('/me', [AuthController::class, 'me']);

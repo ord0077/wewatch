@@ -69,8 +69,6 @@ class AuthController extends Controller
 
                     if($allocation->project){
 
-                        // print_r($allocation->project);
-
                         $ids[] =  $allocation->project->id;
 
                     }
@@ -104,48 +102,19 @@ class AuthController extends Controller
     public function master_login(Request $request){
 
         $user = User::where('email', $request->email)->whereIn('role_id',[1,2,4])->first();
-        $allocations = [];
 
-        if($user && $user->role_id == 4) {
-            $allocations = Allocation::orderBy('id','desc')->select('id','manager_ids as member_ids','project_id')->get();
-
-        }
-
-        $ids = [];
-
-        foreach ($allocations as $allocation) {
-
-            $mid = json_decode($allocation->member_ids);
-
-            if(in_array($user->id,$mid)){
-
-                if($allocation->project){
-
-                    // print_r($allocation->project);
-
-                    $ids[] =  $allocation->project->id;
-
-                }
-            }
-
-
-
-        }
-
+        
         if (! $user || ! Hash::check($request->password, $user->password)) {
 
             return response()->json(['error' => 'email or password is incorrect'], 422);
-        }
-
-        else if (count($ids) == 0 && $user->role_id == 4 ){
-            return response()->json(['error'=>'You are not assigned to any project by the Admin'], 422);
         }
 
         else if (!$user->isactive){
             return response()->json(['error'=>'Admin has blocked you. Please contact to your admin.'], 422);
         }
 
-         $user->user_type = $user->role->role ?? '';
+
+        $user->user_type = $user->role->role ?? '';
 
             return response()->json([
                 'token' => $user->createToken('myApp')->plainTextToken,
@@ -167,34 +136,30 @@ class AuthController extends Controller
 
     public function getAssignedProjects($id){
 
-        $user = User::findOrFail($id);
 
-        if (!$user->isactive){
+        $allocations = Allocation::orderBy('id','desc')
+        ->where('manager_ids',$id)
+        ->select('id','manager_ids','user_ids','guard_ids','project_id')
+        ->get();
 
-            return response()->json(['error'=>'Admin has blocked you. Please contact to your admin.'], 422);
-        }
-
-        $allocations = Allocation::orderBy('id','desc')->select('id','manager_ids','user_ids','guard_ids','project_id')->get();
 
         $ids = [];
  
         foreach ($allocations as $allocation) {
 
-                if(in_array($user->id,$allocation->manager_ids) || in_array($user->id,$allocation->guard_ids) || in_array($user->id,$allocation->user_ids)){
+                if(in_array($id,$allocation->manager_ids) || in_array($id,$allocation->guard_ids) || in_array($id,$allocation->user_ids)){
 
 
                     if($allocation->project){
 
-                        // print_r($allocation->project);
-
                         $ids[] =  $allocation->project->id;
-
+                        
                     }
 
                 }
 
             }
-            // dd($ids);
+
         if (count($ids) == 0){
             return response()->json(['error'=>'You are not assigned to any project by the Admin'], 422);
         }
@@ -204,8 +169,7 @@ class AuthController extends Controller
                             ->orderBy('id','desc')  
                             ->get();
 
-
-        return [ 'project' =>  $user->role_id == 4 ? $project : [ $project[0] ] ];
+        return [ 'project' =>  User::find($id)->role_id == 4 ? $project :  array( $project[0]  ?? [] ) ];
 
 
     }
