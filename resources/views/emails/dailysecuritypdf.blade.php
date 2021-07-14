@@ -66,7 +66,7 @@ h3 {
 }
 
 .logo {
-  width: 214px;
+  width: 215px;
   height: 42px;
   margin: 0 11.7px 18.6px 2.6px;
 }
