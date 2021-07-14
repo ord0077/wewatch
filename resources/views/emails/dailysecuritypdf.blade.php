@@ -65,13 +65,19 @@ h3 {
   width: 75%;
 }
 
+.logo {
+  width: 214px;
+  height: 42px;
+  margin: 0 11.7px 18.6px 2.6px;
+}
+
 </style>
 <body >
     <img class="watermark" src="{{ url('/assets/wewatch_logo.png') }}">
     <div class="main">
     <table style="width:100%; " colspan="0" rowspan="0">
         <tr>
-            <td style="width:34%;"><img src="{{ url('/assets/wewatch_logo.png') }}" width="150px"></td>
+            <td class="logo" style="width:34%;"><img src="{{ url('/assets/wewatch_logo.png') }}" width="150px"></td>
             <td style="width:16%;"><img src="{{ url($security->project->project_logo) }}" width="100px" height="45.3543307092px"></td>
             <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo1.jpg') }}" width="100px" height="45.3543307092px"></td>
             <td style="width:16%; height:45.3543307092px;"><img src="{{ url('/assets/Logo2.jpg') }}" width="100px" height="45.3543307092px"></td>
