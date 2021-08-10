@@ -43,7 +43,7 @@ class AuthController extends Controller
     public function login(Request $request){
 
 
-        $user = User::where('email', $request->email)->whereIn('role_id',[4,5,7])->first();
+        $user = User::where('email', $request->email)->whereIn('role_id',[4,5,7,2])->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
 
@@ -83,10 +83,10 @@ class AuthController extends Controller
             return response()->json(['error'=>'You are not assigned to any project by the Admin'], 422);
         }
 
-        
+
         $project = Project::withOut(['zones','user'])
                             ->whereIn('id',$ids)
-                            ->orderBy('id','desc')  
+                            ->orderBy('id','desc')
                             ->get();
 
          $user->user_type = $user->role->role ?? '';
@@ -177,7 +177,7 @@ class AuthController extends Controller
         $allocations = Allocation::orderBy('id','desc')->select('id','manager_ids','user_ids','guard_ids','project_id')->get();
 
         $ids = [];
- 
+
         foreach ($allocations as $allocation) {
 
                 if(in_array($user->id,$allocation->manager_ids) || in_array($user->id,$allocation->guard_ids) || in_array($user->id,$allocation->user_ids)){
@@ -201,7 +201,7 @@ class AuthController extends Controller
 
         $project = Project::withOut(['zones','user'])
                             ->whereIn('id',$ids)
-                            ->orderBy('id','desc')  
+                            ->orderBy('id','desc')
                             ->get();
 
 
