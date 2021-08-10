@@ -41,11 +41,68 @@ class AuthController extends Controller
     }
 
     public function login(Request $request){
+        $user = User::where('email', $request->email)->whereIn('role_id',[2,4,5,7])->first();
+
+if ($user->role_id == 2) {
+
+    // $user = User::where('email', $request->email)->whereIn('role_id',[1,2,4])->first();
+    $allocations = [];
+
+    if($user && $user->role_id == 4) {
+        $allocations = Allocation::orderBy('id','desc')->select('id','manager_ids as member_ids','project_id')->get();
+
+    }
+
+    $ids = [];
+
+    foreach ($allocations as $allocation) {
+
+        $mid = json_decode($allocation->member_ids);
+
+        if(in_array($user->id,$mid)){
+
+            if($allocation->project){
+
+                // print_r($allocation->project);
+
+                $ids[] =  $allocation->project->id;
+
+            }
+        }
 
 
-        $user = User::where('email', $request->email)->whereIn('role_id',[4,5,7,2])->first();
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
+    }
+
+    if (! $user || ! Hash::check($request->password, $user->password)) {
+
+        return response()->json(['error' => 'email or password is incorrect'], 422);
+    }
+
+    else if (count($ids) == 0 && $user->role_id == 4 ){
+        return response()->json(['error'=>'You are not assigned to any project by the Admin'], 422);
+    }
+
+    else if (!$user->isactive){
+        return response()->json(['error'=>'Admin has blocked you. Please contact to your admin.'], 422);
+    }
+
+     $user->user_type = $user->role->role ?? '';
+
+        return response()->json([
+            'token' => $user->createToken('myApp')->plainTextToken,
+            'user'=> $user,
+            'user_type' => 'master'
+            ]);
+}
+ else {
+    # code..
+
+
+
+        // $user = User::where('email', $request->email)->whereIn('role_id',[4,5,7])->first();
+
+        if (! $user  || ! Hash::check($request->password, $user->password)) {
 
             return response()->json(['error'=>'email or password is incorrect'], 422);
         }
@@ -98,7 +155,7 @@ class AuthController extends Controller
                 'user_id' => $user->id
                 ]);
 
-
+            }
     }
 
     public function master_login(Request $request){
