@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Role;
 use App\Models\User;
@@ -16,8 +17,25 @@ class UserController extends Controller
 {
     public function __construct()
 	{
-		$this->middleware('auth:sanctum')->except('test');
+		$this->middleware('auth:sanctum')->except('test','register');
 	}
+    public function register(Request $request)
+    {
+        $array = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role_id' => $request->user_type
+        ];
+
+        $registered = User::create($array);
+
+        return $registered
+
+        ? ['user' => $registered , 'success' => true]
+
+        : ['succes' => false,'error' => 'not registered'];
+    }
     public function test($id)
     {
 
