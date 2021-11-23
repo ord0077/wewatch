@@ -41,7 +41,7 @@ class AuthController extends Controller
     }
 
     public function login(Request $request){
-        $user = User::where('email', $request->email)->whereIn('role_id',[2,4,5,7])->first();
+        $user = User::where('email', $request->email)->whereIn('role_id',[2,4,5,7,8])->first();
 
 if ($user->role_id == 2) {
 
