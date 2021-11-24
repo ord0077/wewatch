@@ -42,7 +42,13 @@ class AuthController extends Controller
 
     public function login(Request $request){
         $user = User::where('email', $request->email)->whereIn('role_id',[2,4,5,7,8])->first();
-
+        if ($user->role_id == 8) {
+            return response()->json([
+                'token' => $user->createToken('myApp')->plainTextToken,
+                'user'=> $user,
+                'user_id' => $user->id
+                ]);
+        }
 if ($user->role_id == 2) {
 
     // $user = User::where('email', $request->email)->whereIn('role_id',[1,2,4])->first();
