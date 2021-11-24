@@ -42,11 +42,11 @@ class AuthController extends Controller
 
     public function login(Request $request){
         $user = User::where('email', $request->email)->whereIn('role_id',[2,4,5,7,8])->first();
+        $user->user_type = $user->role->role ?? '';
         if ($user->role_id == 8) {
             return response()->json([
                 'token' => $user->createToken('myApp')->plainTextToken,
-                'user'=> $user,
-                'user_id' => $user->id
+                'user'=> $user
                 ]);
         }
 if ($user->role_id == 2) {
