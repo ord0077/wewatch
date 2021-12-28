@@ -81,6 +81,9 @@ Route::get('/test_by_id/{role_id}', [UserController::class,'test']);
 
 Route::post('change_password/{id}', [UserController::class, 'change_password']);
 Route::resource('/project', ProjectController::class);
+Route::get('/archive_projects', [ProjectController::class, 'archive_projects']);
+Route::get('/do_archive/{id}', [ProjectController::class, 'do_archive']);
+Route::get('/do_active/{id}', [ProjectController::class, 'do_active']);
 Route::get('/CheckProjectWithAllocation', [ProjectController::class, 'CheckProjectWithAllocation']);
 Route::post('/update_project_logo/{id}', [ProjectController::class, 'update_project_logo']);
 Route::get('/projectbyuserid/{id}', [ProjectController::class, 'projectbyuserid']);

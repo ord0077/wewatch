@@ -23,6 +23,10 @@ class Project extends Model
     {
         return $this->hasMany(Zone::class);
     }
+    public function dhr()
+    {
+        return $this->hasMany(DHR::class);
+    }
     protected $casts = [
         // 'start_date' => 'datetime:d-M-y',
         // 'end_date' => 'datetime:d-M-y',

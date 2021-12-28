@@ -21,10 +21,24 @@ class ProjectController extends Controller
 
     public function index()
     {
-          return Project::orderBy('id','desc')->get();
-
+        return Project::where('is_active',1)->orderBy('id','desc')->get();
     }
-
+    public function archive_projects()
+    {
+        return Project::where('is_active',0)->orderBy('id','desc')->get();
+    }
+    public function do_archive($id)
+    {
+        $project = Project::where('id',$id)->update(['is_active'=>0]);
+        list($status,$data) = $project ? [ true , Project::find($id) ] : [ false , ''];
+        return ['success' => $status,'data' => $data];
+    }
+    public function do_active($id)
+    {
+        $project = Project::where('id',$id)->update(['is_active'=>1]);
+        list($status,$data) = $project ? [ true , Project::find($id) ] : [ false , ''];
+        return ['success' => $status,'data' => $data];
+    }
     // public function index(Request $req)
     // {
     //       return Project::orderBy('id','desc')->paginate($req->per_page);
@@ -142,7 +156,9 @@ class ProjectController extends Controller
         }
 
     }
-
+    public function show($id){
+        return Project::with(['dhr'])->find($id);
+    }
         public function update(Request $request,$id)
         {
 
