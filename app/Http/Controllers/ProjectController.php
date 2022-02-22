@@ -202,7 +202,7 @@ class ProjectController extends Controller
                     'nearmissreporting',
                     'covidcompliance'])->get();
             $filename = str_replace(" ", "-", $project->project_name);
-            return $project;
+            // return $project;
             return response(json_encode($project))
                             ->withHeaders([
                                 'Content-Type' => 'text/plain',
