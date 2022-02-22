@@ -88,6 +88,7 @@ Route::get('/CheckProjectWithAllocation', [ProjectController::class, 'CheckProje
 Route::post('/update_project_logo/{id}', [ProjectController::class, 'update_project_logo']);
 Route::get('/projectbyuserid/{id}', [ProjectController::class, 'projectbyuserid']);
 Route::get('/projectbymanagerid/{id}', [ProjectController::class, 'projectbymanagerid']);
+Route::post('/import_project', [ProjectController::class, 'import_project']);
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/getAssignedProjects/{id}', [AuthController::class, 'getAssignedProjects']);
